@@ -7,8 +7,8 @@ Feature: Database Update
         Given that I am logged in as an administrator
 
     Scenario: Successfully update database with SIGAA data
-        Given that I am on the database update page
-        When I click on "Update Database"
+        Given that I am on the Gerenciamento page
+        When I click on "Importar Database"
         And the system connects to SIGAA successfully
         Then I should see "Database update started"
         And the system should synchronize data from SIGAA
@@ -24,8 +24,8 @@ Feature: Database Update
         And the data should match the current SIGAA data
 
     Scenario: Update database with connection error to SIGAA
-        Given that I am on the database update page
-        When I click on "Update Database"
+        Given that I am on the Gerenciamento page
+        When I click on "Importar Dados"
         And the system cannot connect to SIGAA
         Then I should see "Error connecting to SIGAA"
         And the database should remain unchanged
@@ -34,7 +34,7 @@ Feature: Database Update
     Scenario: Update database when already up to date
         Given that the database was recently updated
         And the database is already synchronized with SIGAA
-        When I click on "Update Database"
+        When I click on "Importar Dados"
         Then I should see "Database is already up to date"
         And no data should be modified
 
