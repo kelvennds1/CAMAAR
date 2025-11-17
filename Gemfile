@@ -65,6 +65,7 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "cucumber-rails", "~> 4.0", :group => :test
-
-gem "database_cleaner-active_record", "~> 2.2", :group => :test
+group :test do
+  gem "cucumber-rails", "~> 4.0", require: false
+  gem "database_cleaner-active_record", "~> 2.2"
+end
