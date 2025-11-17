@@ -7,19 +7,19 @@ Feature: Login System
     Given that I am on the login page
     When I fill in the "email" field with "usuario@example.com"
     And I fill in the "password" field with "senha123"
-    And I click on "Enter"
+    And I click on "Entrar"
     Then I should be on the evaluations page
 
     Scenario: Login with invalid email
     Given that I am on the login page
     When I fill in the "email" field with "invalido@example.com"
     And I fill in the "password" field with "senha123"
-    And I click on "Enter"
+    And I click on "Entrar"
     Then I should see "Invalid email or password"
 
     Scenario: Login with invalid password
     Given that I am on the login page
     When I fill in the "email" field with "usuario@example.com"
     And I fill in the "password" field with "senhainvalida123"
-    And I click on "Enter"
+    And I click on "Entrar"
     Then I should see "Invalid email or password"
