@@ -22,7 +22,7 @@ Dado('existe o formulário {string} disponível para minha turma') do |titulo|
   @q2 = FactoryBot.create(:pergunta, formulario: @form, tipo: :texto, obrigatoria: true, titulo: 'Comentário')
 
   # Alternativas para a pergunta de radio
-  %w[Muito\ bom Bom Satisfatório Ruim Péssimo].each do |op|
+  %w[ Muito\ bom Bom Satisfatório Ruim Péssimo ].each do |op|
     FactoryBot.create(:alternativa, pergunta: @q1, texto: op)
   end
 end
@@ -66,9 +66,9 @@ end
 
 Quando('clico no botão {string}') do |rotulo|
   testid = case rotulo
-           when /enviar/i then 'botao-enviar'
-           else "botao-#{rotulo.downcase.tr(' ', '-')}"
-           end
+  when /enviar/i then 'botao-enviar'
+  else "botao-#{rotulo.downcase.tr(' ', '-')}"
+  end
   find("[data-testid='#{testid}']").click
 end
 

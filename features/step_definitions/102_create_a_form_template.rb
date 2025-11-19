@@ -55,9 +55,9 @@ end
 
 Quando('clico em {string}') do |rotulo|
   testid = case rotulo.downcase
-           when 'criar' then 'botao-criar-template'
-           else "botao-#{rotulo.downcase.tr(' ', '-')}"
-           end
+  when 'criar' then 'botao-criar-template'
+  else "botao-#{rotulo.downcase.tr(' ', '-')}"
+  end
   find("[data-testid='#{testid}']").click
 end
 
@@ -69,7 +69,7 @@ Dado('que preenchi o modal com três questões em ordem') do
   step %(eu abro o modal "Novo template")
   step %(preencho o nome do template com "Template Ordenado")
   step %(adiciono a questão 1 do tipo "numérica (1-5)" com o texto "Q1")
-  step %(adiciono a questão 2 do tipo "múltipla escolha" com o texto "Q2" e as opções:), Cucumber::MultilineArgument::DataTable.from([['A'], ['B']])
+  step %(adiciono a questão 2 do tipo "múltipla escolha" com o texto "Q2" e as opções:), Cucumber::MultilineArgument::DataTable.from([ [ 'A' ], [ 'B' ] ])
   step %(adiciono a questão 3 do tipo "texto" com o texto "Q3")
 end
 
@@ -84,7 +84,7 @@ end
 Então('ao abrir o template salvo devo ver as questões na mesma ordem') do
   find("[data-testid='template-card']", text: 'Template Ordenado').click
   textos = all("[data-testid='bloco-questao'] [data-testid='input-texto-questao']").map(&:value)
-  expect(textos).to eq(['Q1', 'Q2', 'Q3'])
+  expect(textos).to eq([ 'Q1', 'Q2', 'Q3' ])
 end
 
 Então('o template não é criado') do
