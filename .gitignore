@@ -40,7 +40,8 @@
 
 # Ignore CI service files.
 /.github
-
+/figma
+/docs/sprint2-plan.md
 # Ignore development database files
 *.sqlite3
 *.sqlite3-journal
