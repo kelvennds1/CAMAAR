@@ -5,12 +5,6 @@
 # - Ajuste os nomes dos models (Turma, Materia, Participante) conforme o projeto.
 # - Ajuste caminhos dos arquivos JSON e os identificadores de campos/botões da view.
 
-Dado('que estou autenticado como administrador') do
-  # Se esse step já existir em outro arquivo, remova esta definição para evitar duplicação.
-  @admin = FactoryBot.create(:user, :admin)
-  login_as(@admin, scope: :user)
-end
-
 Dado('estou na página "importacao/sigaa" do sistema') do
   visit('/importacao/sigaa')
 end

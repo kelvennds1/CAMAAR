@@ -32,7 +32,10 @@ class TemplatesController < ApplicationController
 
   def load_dependencies
     @docentes = Docente.order(:nome)
-    @templates = Template.includes(:template_questions, :docente).order(created_at: :desc)
+    @current_admin_id = params[:admin_id].presence
+    scope = Template.includes(:template_questions, :docente).order(created_at: :desc)
+    scope = scope.where(docente_id: @current_admin_id) if @current_admin_id
+    @templates = scope
   end
 
   def build_placeholder_question

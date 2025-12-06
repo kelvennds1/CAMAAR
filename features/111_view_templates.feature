@@ -23,3 +23,17 @@ Funcionalidade: Visualização dos templates criados (#111)
     Quando eu visualizo a listagem de templates
     Então devo ver a mensagem "Nenhum template cadastrado ainda"
     E a listagem de templates fica vazia
+
+  Cenário: Administrador atual sem templates mas existem templates de outros administradores
+    Dado que existem templates cadastrados apenas por outros administradores
+    Quando eu visualizo a listagem de templates
+    Então devo ver a mensagem "Nenhum template cadastrado ainda"
+    E a listagem de templates fica vazia
+
+  Cenário: Tentativa de acessar a listagem com identificador de administrador inexistente
+    Dado que existem templates cadastrados para o administrador atual:
+      | nome                 |
+      | Template Restrito    |
+    Quando eu tento visualizar a listagem de templates de um administrador inexistente
+    Então devo ver a mensagem "Nenhum template cadastrado ainda"
+    E a listagem de templates fica vazia
