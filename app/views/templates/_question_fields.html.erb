@@ -1,0 +1,57 @@
+<% question_type_options = [
+  ["Escala 1-5 (Likert)", TemplateQuestion::QUESTION_TYPES[:likert]],
+  ["Múltipla escolha", TemplateQuestion::QUESTION_TYPES[:multiple_choice]],
+  ["Resposta aberta", TemplateQuestion::QUESTION_TYPES[:text]]
+] %>
+
+<% question = f.object %>
+<div class="question-card" data-testid="question-block" data-question-type="<%= question.question_type %>">
+  <div class="question-card__header">
+    <span>Pergunta <span data-testid="question-index"><%= question.position || 1 %></span></span>
+    <button type="button" class="button button--ghost" data-action="remove-question" data-testid="remove-question">
+      Remover
+    </button>
+  </div>
+
+  <div class="field">
+    <%= f.label :prompt, "Enunciado", class: "field__label" %>
+    <%= f.text_field :prompt, class: "field__input", data: { testid: "question-prompt" } %>
+  </div>
+
+  <div class="field">
+    <%= f.label :question_type, "Tipo da questão", class: "field__label" %>
+    <%= f.select :question_type, question_type_options, {}, class: "field__input", data: { testid: "question-type", behavior: "question-type" } %>
+  </div>
+
+  <div class="field field--inline" data-question-extra="likert">
+    <div>
+      <%= f.label :min_value, "Valor mínimo", class: "field__label" %>
+      <%= f.number_field :min_value, min: 1, max: 5, step: 1, class: "field__input", data: { testid: "question-min" } %>
+    </div>
+    <div>
+      <%= f.label :max_value, "Valor máximo", class: "field__label" %>
+      <%= f.number_field :max_value, min: 1, max: 5, step: 1, class: "field__input", data: { testid: "question-max" } %>
+    </div>
+  </div>
+
+  <div class="field" data-question-extra="multiple_choice">
+    <%= f.label :options_text, "Opções (uma por linha)", class: "field__label" %>
+    <%= f.text_area :options_text, rows: 3, class: "field__input", data: { testid: "question-options" } %>
+  </div>
+
+  <div class="field field--inline">
+    <label class="checkbox">
+      <%= f.check_box :required, data: { testid: "question-required" } %>
+      Obrigatória
+    </label>
+  </div>
+
+  <div class="field field--inline field--remove">
+    <label class="checkbox checkbox--danger">
+      <%= f.check_box :_destroy, data: { testid: "question-remove-checkbox" } %>
+      Remover pergunta
+    </label>
+  </div>
+
+  <%= f.hidden_field :position, data: { testid: "question-position" } %>
+</div>

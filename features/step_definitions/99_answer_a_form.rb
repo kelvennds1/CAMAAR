@@ -80,11 +80,6 @@ end
 # Verificações / Then
 # ------------------------------------------------------------
 
-Então('devo ver a mensagem {string}') do |texto|
-  # mensagens podem aparecer em toasts/alerts
-  expect(page).to have_content(texto)
-end
-
 Então('o sistema registra minhas respostas no banco de dados') do
   # Ajuste o modelo conforme seu domínio (ex.: Submissao, RespostaFormulario, etc.)
   # Exemplo genérico:

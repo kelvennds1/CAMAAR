@@ -85,10 +85,6 @@ Então('vejo o resumo consolidado com gráficos e estatísticas') do
   expect(page).to have_selector("[data-testid='grafico-resultados']")
 end
 
-Então('devo ver a mensagem {string}') do |texto|
-  expect(page).to have_content(texto)
-end
-
 Então('o botão {string} deve estar desabilitado') do |rotulo|
   # mapeia "Exportar resultados" -> botao-exportar-resultados
   testid = "botao-#{rotulo.downcase.tr(' ', '-')}"

@@ -2,7 +2,7 @@ class Matricula < ApplicationRecord
   belongs_to :dicente
   belongs_to :turma
 
-  enum status: {
+  enum :status, {
     ativo: "ativo",
     trancado: "trancado",
     concluido: "concluido"

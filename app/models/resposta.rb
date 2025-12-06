@@ -1,7 +1,7 @@
 class Resposta < ApplicationRecord
   self.table_name = "respostas"
 
-  enum status: {
+  enum :status, {
     pending: "pending",
     submitted: "submitted",
     reviewed: "reviewed"

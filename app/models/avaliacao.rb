@@ -1,7 +1,7 @@
 class Avaliacao < ApplicationRecord
   self.table_name = "avaliacoes"
 
-  enum status: {
+  enum :status, {
     draft: "draft",
     published: "published",
     closed: "closed"

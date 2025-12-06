@@ -1,0 +1,138 @@
+<% content_for :title, "Templates" %>
+
+<section class="templates-page">
+  <div class="templates-page__intro">
+    <div>
+      <h1>Templates de formulário</h1>
+      <p>Estruture perguntas padronizadas para reutilizar nas avaliações das turmas.</p>
+    </div>
+    <div class="templates-page__meta">
+      <span class="meta-pill" data-testid="template-count">Total: <%= @templates.size %></span>
+    </div>
+  </div>
+
+  <div class="templates-page__grid">
+    <section class="templates-form" data-testid="template-form-wrapper">
+      <h2>Novo template</h2>
+
+      <% if @docentes.empty? %>
+        <div class="blank-state" data-testid="no-docentes">
+          Cadastre pelo menos um docente para criar templates.
+        </div>
+      <% else %>
+        <%= form_with model: @template,
+                      url: templates_path,
+                      data: { testid: "template-form", template_form: "container" },
+                      class: "template-form__form" do |form| %>
+          <% if @template.errors.any? || @template.template_questions.any? { |question| question.errors.any? } %>
+            <% error_messages = @template.errors.full_messages.dup %>
+            <% @template.template_questions.each do |question| %>
+              <% error_messages.concat(question.errors.full_messages) %>
+            <% end %>
+            <div class="form-errors" data-testid="template-errors">
+              <p>Corrija os erros abaixo:</p>
+              <ul>
+                <% error_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class="field">
+            <%= form.label :name, "Nome", class: "field__label" %>
+            <%= form.text_field :name, class: "field__input", required: true, data: { testid: "template-name" } %>
+          </div>
+
+          <div class="field">
+            <%= form.label :description, "Descrição", class: "field__label" %>
+            <%= form.text_area :description, rows: 3, class: "field__input", data: { testid: "template-description" } %>
+          </div>
+
+          <div class="field">
+            <%= form.label :docente_id, "Responsável", class: "field__label" %>
+            <%= form.collection_select :docente_id, @docentes, :id, :nome,
+                                       { prompt: "Selecione um docente" },
+                                       { class: "field__input", data: { testid: "template-docente" } } %>
+          </div>
+
+          <div class="questions-header">
+            <div>
+              <h3>Perguntas</h3>
+              <p class="helper-text">Adicione pelo menos uma questão para salvar o template.</p>
+            </div>
+            <button type="button" class="button button--ghost" data-action="add-question" data-testid="add-question">
+              + Adicionar questão
+            </button>
+          </div>
+
+          <div class="questions-list" data-template-form-target="questions" data-testid="questions-container">
+            <%= form.fields_for :template_questions do |question_form| %>
+              <%= render "question_fields", f: question_form %>
+            <% end %>
+          </div>
+
+          <template id="question-fields-template">
+            <% default_question = TemplateQuestion.new(
+              question_type: TemplateQuestion::QUESTION_TYPES[:likert],
+              required: true,
+              min_value: 1,
+              max_value: 5
+            ) %>
+            <%= form.fields_for :template_questions, default_question, child_index: "NEW_RECORD" do |question_form| %>
+              <%= render "question_fields", f: question_form %>
+            <% end %>
+          </template>
+
+          <div class="form-actions">
+            <%= form.submit "Criar template", class: "button button--primary", data: { testid: "submit-template" } %>
+          </div>
+        <% end %>
+      <% end %>
+    </section>
+
+    <section class="templates-list">
+      <h2>Templates cadastrados</h2>
+      <% if @templates.any? %>
+        <div class="templates-list__grid">
+          <% @templates.each do |template| %>
+            <article class="template-card" data-testid="template-card">
+              <header>
+                <p class="template-card__docente"><%= template.docente.nome %></p>
+                <h3><%= template.name %></h3>
+                <% if template.description.present? %>
+                  <p class="template-card__description"><%= template.description %></p>
+                <% end %>
+              </header>
+
+              <dl class="template-card__stats">
+                <div>
+                  <dt>Status</dt>
+                  <dd><%= template.status.humanize %></dd>
+                </div>
+                <div>
+                  <dt>Perguntas</dt>
+                  <dd><%= template.template_questions.count %></dd>
+                </div>
+              </dl>
+
+              <details data-testid="template-details">
+                <summary>Ver perguntas</summary>
+                <ol class="template-card__questions" data-testid="template-questions-order">
+                  <% template.template_questions.sort_by(&:position).each do |question| %>
+                    <li>
+                      <span class="question-prompt"><%= question.prompt %></span>
+                      <span class="question-type"><%= question.question_type.humanize %></span>
+                    </li>
+                  <% end %>
+                </ol>
+              </details>
+            </article>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="blank-state" data-testid="template-empty-state">Nenhum template cadastrado ainda.</p>
+      <% end %>
+    </section>
+  </div>
+</section>

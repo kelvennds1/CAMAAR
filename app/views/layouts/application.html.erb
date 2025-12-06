@@ -24,6 +24,15 @@
   </head>
 
   <body>
-    <%= yield %>
+    <header class="app-header">
+      <div class="app-header__content">
+        <span class="app-logo">CAMAAR</span>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <%= render "shared/flash" %>
+      <%= yield %>
+    </main>
   </body>
 </html>

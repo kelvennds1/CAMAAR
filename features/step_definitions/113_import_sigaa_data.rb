@@ -57,10 +57,6 @@ Então('os participantes do SIGAA que não existiam são cadastrados na base de 
   expect(Participante.count).to be > @participantes_antes
 end
 
-Então('devo ver a mensagem {string}') do |mensagem|
-  expect(page).to have_content(mensagem)
-end
-
 Dado('que algumas turmas, matérias e participantes dos arquivos JSON já existem na base de dados') do
   Turma.delete_all
   Materia.delete_all

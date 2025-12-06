@@ -1,93 +1,129 @@
-# frozen_string_literal: true
+require "securerandom"
 
-Dado('que estou autenticado como administrador') do
-  @admin = FactoryBot.create(:user, :admin)
-  login_as(@admin)
+QUESTION_TYPE_LABELS = {
+  "Escala 1-5" => TemplateQuestion::QUESTION_TYPES[:likert],
+  "Múltipla escolha" => TemplateQuestion::QUESTION_TYPES[:multiple_choice],
+  "Texto" => TemplateQuestion::QUESTION_TYPES[:text]
+}.freeze
+
+Before do
+  @template_count_before_submit = Template.count
 end
 
-Dado('estou na página {string} do sistema') do |path|
-  visit("/#{path}")
+Dado('que existe um docente chamado {string}') do |nome|
+  email = "#{nome.parameterize}@example.com"
+  @docente = Docente.find_or_create_by!(nome:) do |doc|
+    doc.identifier = SecureRandom.uuid
+    doc.email = email
+    doc.departamento = "Departamento"
+    doc.titulacao = "Mestre"
+    doc.password = "12345678"
+  end
 end
 
-Quando('eu abro o modal {string}') do |_titulo|
-  find("[data-testid='botao-novo-template']").click
-  expect(page).to have_selector("[data-testid='modal-template']", visible: true)
+Dado('acesso a página de templates') do
+  visit templates_path
 end
 
 Quando('preencho o nome do template com {string}') do |nome|
-  find("[data-testid='input-nome-template']").set(nome)
+  fill_in("Nome", with: nome)
+end
+
+Quando('seleciono o docente {string}') do |nome|
+  select(nome, from: "Responsável")
 end
 
 Quando('adiciono a questão {int} do tipo {string} com o texto {string}') do |ordem, tipo, texto|
-  within("[data-testid='modal-template']") do
-    find("[data-testid='botao-adicionar-questao']").click
-    bloco = all("[data-testid='bloco-questao']").last
-    bloco.find("[data-testid='select-tipo-questao']").select(tipo)
-    bloco.find("[data-testid='input-texto-questao']").set(texto)
-    bloco.find("[data-testid='input-ordem']").set(ordem) if bloco.has_selector?("[data-testid='input-ordem']")
-  end
+  ensure_question_blocks(ordem)
+  bloco = question_block(ordem)
+  bloco.find("[data-testid='question-prompt']").set(texto)
+  selecionar_tipo(bloco, tipo)
 end
 
 Quando('adiciono a questão {int} do tipo {string} com o texto {string} e as opções:') do |ordem, tipo, texto, table|
   step %(adiciono a questão #{ordem} do tipo "#{tipo}" com o texto "#{texto}")
-  bloco = all("[data-testid='bloco-questao']").last
-  table.raw.flatten.each do |opcao|
-    bloco.find("[data-testid='input-opcao']").set(opcao)
-    bloco.find("[data-testid='botao-adicionar-opcao']").click
-  end
+  bloco = question_block(ordem)
+  bloco.find("[data-testid='question-options']").set(table.raw.flatten.join("\n"))
 end
 
 Quando('adiciono a questão {int} do tipo {string} com o texto {string} e nenhuma opção') do |ordem, tipo, texto|
   step %(adiciono a questão #{ordem} do tipo "#{tipo}" com o texto "#{texto}")
-  # intencionalmente não adiciona opções
 end
 
-Quando('tento configurar a questão {int} do tipo {string} com escala fora de 1 a 5') do |_ordem, _tipo|
-  # se a UI permitir range, tenta setar valores inválidos
-  if page.has_selector?("[data-testid='input-escala-min']") && page.has_selector?("[data-testid='input-escala-max']")
-    find("[data-testid='input-escala-min']").set('0')
-    find("[data-testid='input-escala-max']").set('6')
-  else
-    # se a escala for fixa 1-5 e não editável, apenas marca o tipo e segue
-    # (a validação ficará no backend; mantemos o step por consistência)
+Quando('adiciono a questão {int} do tipo {string} com o texto {string} e escala inválida') do |ordem, tipo, texto|
+  step %(adiciono a questão #{ordem} do tipo "#{tipo}" com o texto "#{texto}")
+  bloco = question_block(ordem)
+  bloco.find("[data-testid='question-min']").set(0)
+  bloco.find("[data-testid='question-max']").set(6)
+end
+
+Quando('removo todas as questões') do
+  question_blocks.each do |block|
+    checkbox = block.find("[data-testid='question-remove-checkbox']", visible: :all)
+    checkbox.set(true)
   end
 end
 
 Quando('clico em {string}') do |rotulo|
-  testid = case rotulo.downcase
-  when 'criar' then 'botao-criar-template'
-  else "botao-#{rotulo.downcase.tr(' ', '-')}"
+  case rotulo
+  when 'Criar template'
+    @template_count_before_submit = Template.count
+    find("[data-testid='submit-template']").click
+  else
+    click_button(rotulo)
   end
-  find("[data-testid='#{testid}']").click
 end
 
-Dado('já existe um template chamado {string} no semestre {string}') do |nome, semestre|
-  FactoryBot.create(:template, nome:, semestre:)
-end
-
-Dado('que preenchi o modal com três questões em ordem') do
-  step %(eu abro o modal "Novo template")
-  step %(preencho o nome do template com "Template Ordenado")
-  step %(adiciono a questão 1 do tipo "numérica (1-5)" com o texto "Q1")
-  step %(adiciono a questão 2 do tipo "múltipla escolha" com o texto "Q2" e as opções:), Cucumber::MultilineArgument::DataTable.from([ [ 'A' ], [ 'B' ] ])
-  step %(adiciono a questão 3 do tipo "texto" com o texto "Q3")
-end
-
-Então('devo ver a mensagem {string}') do |mensagem|
-  expect(page).to have_content(mensagem)
+Dado('que já existe um template chamado {string} para o docente {string}') do |nome, docente_nome|
+  docente = Docente.find_by(nome: docente_nome)
+  unless docente
+    step %(que existe um docente chamado "#{docente_nome}")
+    docente = Docente.find_by!(nome: docente_nome)
+  end
+  Template.create!(name: nome, description: "Existente", docente:, status: Template::STATUS[:draft], template_questions_attributes: [
+    { prompt: "Questão", question_type: TemplateQuestion::QUESTION_TYPES[:text], position: 1 }
+  ])
 end
 
 Então('devo ver o card do template {string} na listagem') do |nome|
-  expect(page).to have_selector("[data-testid='template-card']", text: nome)
+  expect(page).to have_selector("[data-testid='template-card'] h3", text: nome)
 end
 
-Então('ao abrir o template salvo devo ver as questões na mesma ordem') do
-  find("[data-testid='template-card']", text: 'Template Ordenado').click
-  textos = all("[data-testid='bloco-questao'] [data-testid='input-texto-questao']").map(&:value)
-  expect(textos).to eq([ 'Q1', 'Q2', 'Q3' ])
+Então('ao visualizar o template {string} devo ver as perguntas na ordem:') do |nome, table|
+  card = find("[data-testid='template-card']", text: nome)
+  within(card) do
+    find('summary').click
+    perguntas = all("[data-testid='template-questions-order'] li .question-prompt").map(&:text)
+    expect(perguntas).to eq(table.raw.flatten)
+  end
 end
 
-Então('o template não é criado') do
-  # continua com modal aberto ou não aparece novo card
-  expect(page).not_to have_selector("[data-testid='template-card']", text: /Template/i)
+Então('o template {string} não é criado') do |_nome|
+  expect(Template.count).to eq(@template_count_before_submit)
+  expect(page).to have_content("Corrija os erros")
+end
+
+def ensure_question_blocks(count)
+  attempts = 0
+  while question_blocks.count < count && attempts < 5
+    find("[data-testid='add-question']").click
+    attempts += 1
+  end
+  raise "Não foi possível adicionar novas questões" if question_blocks.count < count
+end
+
+def question_blocks
+  all("[data-testid='question-block']", visible: :all).reject { |node| node["data-removed"] == "true" }
+end
+
+def question_block(position)
+  blocks = question_blocks
+  raise "Bloco de questão #{position} não encontrado" if blocks.size < position
+  blocks[position - 1]
+end
+
+def selecionar_tipo(bloco, tipo)
+  value = QUESTION_TYPE_LABELS.fetch(tipo)
+  select_box = bloco.find("[data-testid='question-type']")
+  select_box.find("option[value='#{value}']").select_option
 end
