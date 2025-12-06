@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  template: one
+  prompt: MyText
+  question_type: MyString
+  required: false
+  default_value: MyString
+  position: 1
+  options: MyText
+  min_value: 1
+  max_value: 1
+
+two:
+  template: two
+  prompt: MyText
+  question_type: MyString
+  required: false
+  default_value: MyString
+  position: 1
+  options: MyText
+  min_value: 1
+  max_value: 1

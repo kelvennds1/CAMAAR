@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  materia: one
+  docente: one
+  class_code: MyString
+  semester: MyString
+  time_slot: MyString
+
+two:
+  materia: two
+  docente: two
+  class_code: MyString
+  semester: MyString
+  time_slot: MyString
