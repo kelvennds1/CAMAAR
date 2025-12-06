@@ -16,8 +16,9 @@ class ResultadosController < ApplicationController
   def export
     exporter = EvaluationResultsExporter.new(@avaliacao)
     send_data exporter.call,
-              type: "text/csv",
-              filename: exporter.filename
+          type: "text/csv",
+          disposition: "attachment",
+          filename: exporter.filename
   rescue EvaluationResultsExporter::ExportError => e
     redirect_to resultado_path(@avaliacao), alert: export_error_message(e)
   rescue StandardError

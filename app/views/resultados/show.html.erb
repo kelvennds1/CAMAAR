@@ -24,9 +24,8 @@
         <strong><%= @summary[:completion_rate] %>%</strong>
       </div>
       <%= button_to "Exportar resultados", export_resultado_path(@avaliacao), method: :get,
-                    class: "button button--primary",
-                    data: { testid: "botao-exportar" },
-                    disabled: @summary[:total_responses].zero? %>
+            class: "button button--primary",
+            data: { testid: "botao-exportar" } %>
     </div>
   </header>
 
