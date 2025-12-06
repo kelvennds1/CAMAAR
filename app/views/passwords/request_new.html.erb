@@ -1,0 +1,86 @@
+<% content_for :title, "Request New Password Setup Link" %>
+
+<div class="password-request-page">
+  <div class="password-request-container">
+    <h1>Request New Link</h1>
+    <p class="password-request-subtitle">Contact your administrator to receive a new password setup link</p>
+
+    <div class="info-box">
+      <p>Your password setup link has expired or is invalid.</p>
+      <p>Please contact your course coordinator or system administrator to request a new invitation.</p>
+    </div>
+
+    <div class="form-actions">
+      <%= link_to "Back to Login", login_path, class: "button button--secondary" %>
+    </div>
+  </div>
+</div>
+
+<style>
+  .password-request-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .password-request-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    max-width: 450px;
+    width: 100%;
+  }
+
+  .password-request-container h1 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-size: 1.75rem;
+  }
+
+  .password-request-subtitle {
+    margin: 0 0 1.5rem 0;
+    color: #666;
+    font-size: 0.9rem;
+  }
+
+  .info-box {
+    background: #f0f4ff;
+    border: 1px solid #d0e0ff;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .info-box p {
+    margin: 0.5rem 0;
+    color: #333;
+    font-size: 0.95rem;
+  }
+
+  .form-actions {
+    text-align: center;
+  }
+
+  .button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .button--secondary {
+    background: #6c757d;
+    color: white;
+  }
+
+  .button--secondary:hover {
+    background: #5a6268;
+  }
+</style>

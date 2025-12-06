@@ -6,6 +6,11 @@ Rails.application.routes.draw do
   post "login", to: "sessions#create"
   delete "logout", to: "sessions#destroy", as: :logout
 
+  # Password setup routes
+  get "password/setup", to: "passwords#new", as: :password_setup
+  post "password/setup", to: "passwords#create"
+  get "password/request_new", to: "passwords#request_new", as: :request_new_password
+
   resources :templates, only: %i[index create edit update destroy]
   get "gerenciamento/templates", to: "templates#index", as: :management_templates
   resources :avaliacoes, only: %i[index create]
