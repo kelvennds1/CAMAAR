@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_06_181209) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_06_211431) do
   create_table "avaliacoes", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -145,6 +145,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_06_181209) do
     t.string "nome", null: false
     t.string "ocupacao"
     t.string "password_digest"
+    t.boolean "pending_activation", default: false, null: false
     t.string "titulacao"
     t.string "type", null: false
     t.datetime "updated_at", null: false
