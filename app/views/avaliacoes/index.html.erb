@@ -1,0 +1,116 @@
+<% content_for :title, "Avaliações" %>
+<% selected_turma_ids = Array(@avaliacao_batch&.turma_ids).map(&:to_s) %>
+<% selected_count = selected_turma_ids.count %>
+<% selected_label = if selected_count.zero?
+                      'Nenhuma turma selecionada'
+                    elsif selected_count == 1
+                      '1 turma selecionada'
+                    else
+                      "#{selected_count} turmas selecionadas"
+                    end %>
+<% due_date_value = begin
+                      value = @avaliacao_batch&.due_date
+                      value.present? ? value.to_date : Time.zone.today.end_of_month
+                    rescue StandardError
+                      Time.zone.today.end_of_month
+                    end %>
+
+<section class="evaluations-page">
+  <div class="evaluations-page__intro">
+    <div>
+      <h1>Formulários de avaliação</h1>
+      <p>Gere formulários para as turmas do semestre <strong><%= @current_semester %></strong> a partir dos templates cadastrados.</p>
+    </div>
+    <span class="meta-pill" data-testid="evaluation-count">Total de formulários: <%= @avaliacoes.size %></span>
+  </div>
+
+  <div class="evaluations-grid">
+    <section class="evaluations-form" data-testid="evaluation-form">
+      <h2>Criar formulários</h2>
+      <%= form_with url: avaliacoes_path, scope: :avaliacao_batch, data: { controller: "evaluations" } do |form| %>
+        <div class="field">
+          <%= form.label :template_id, "Template", class: "field__label" %>
+          <%= form.collection_select :template_id, @templates, :id, :name,
+                                     { prompt: "Selecione um template" },
+                                     { class: "field__input", data: { testid: "evaluation-template" }, required: true } %>
+        </div>
+
+        <div class="field">
+          <%= form.label :due_date, "Data limite", class: "field__label" %>
+          <%= form.date_field :due_date, value: due_date_value, class: "field__input", data: { testid: "evaluation-due-date" } %>
+        </div>
+
+        <div class="questions-header">
+          <div>
+            <h3>Turmas disponíveis</h3>
+            <p class="helper-text">
+              <span data-evaluations-target="counter"><%= selected_label %></span>
+            </p>
+          </div>
+          <div class="evaluations-actions">
+            <button type="button" class="button button--ghost" data-action="evaluations#selectAll" data-testid="select-all">Selecionar todas</button>
+            <button type="button" class="button button--ghost" data-action="evaluations#clearAll" data-testid="clear-all">Limpar</button>
+          </div>
+        </div>
+
+        <% if @turmas.any? %>
+          <div class="turma-list" data-evaluations-target="container">
+            <% @turmas.each do |turma| %>
+              <label class="turma-card" data-testid="turma-option">
+                <%= check_box_tag "avaliacao_batch[turma_ids][]", turma.id, selected_turma_ids.include?(turma.id.to_s),
+                                  class: "turma-card__checkbox",
+                                  data: { testid: "turma-checkbox" } %>
+                <div>
+                  <p class="turma-card__title"><%= turma.materia.name %> — <%= turma.class_code %></p>
+                  <p class="turma-card__meta">Docente: <%= turma.docente.nome %> · Horário: <%= turma.time_slot.presence || "a definir" %></p>
+                </div>
+              </label>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="blank-state" data-testid="no-turmas">Nenhuma turma cadastrada para o semestre atual.</p>
+        <% end %>
+
+        <div class="form-actions">
+          <%= form.submit "Criar formulários", class: "button button--primary", data: { testid: "create-evaluations" } %>
+        </div>
+      <% end %>
+    </section>
+
+    <section class="evaluations-list">
+      <h2>Formulários existentes</h2>
+      <% if @avaliacoes.any? %>
+        <div class="evaluations-list__grid">
+          <% @avaliacoes.each do |avaliacao| %>
+            <article class="evaluation-card" data-testid="evaluation-card">
+              <header>
+                <p class="evaluation-card__template"><%= avaliacao.template&.name || "Sem template" %></p>
+                <h3><%= avaliacao.title %></h3>
+              </header>
+              <dl class="evaluation-card__stats">
+                <div>
+                  <dt>Turma</dt>
+                  <dd><%= avaliacao.turma.class_code %> · <%= avaliacao.turma.semester %></dd>
+                </div>
+                <div>
+                  <dt>Docente</dt>
+                  <dd><%= avaliacao.docente.nome %></dd>
+                </div>
+                <div>
+                  <dt>Prazo</dt>
+                  <dd><%= l(avaliacao.due_date.to_date, format: :long) rescue avaliacao.due_date %></dd>
+                </div>
+                <div>
+                  <dt>Perguntas</dt>
+                  <dd><%= avaliacao.questoes.count %></dd>
+                </div>
+              </dl>
+            </article>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="blank-state" data-testid="evaluation-empty-state">Nenhum formulário criado ainda.</p>
+      <% end %>
+    </section>
+  </div>
+</section>

@@ -2,6 +2,12 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   resources :templates, only: %i[index create]
+  resources :avaliacoes, only: %i[index create]
+  resources :resultados, only: %i[index show] do
+    member do
+      get :export
+    end
+  end
   root "templates#index"
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

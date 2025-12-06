@@ -1,0 +1,57 @@
+<% content_for :title, @avaliacao.title %>
+<section class="results-show">
+  <%= link_to "← Voltar para resultados", resultados_path, class: "results-back-link" %>
+
+  <header class="results-show__header" data-testid="resumo-formulario">
+    <div>
+      <p class="results-show__semester"><%= @avaliacao.turma.semester %></p>
+      <h1><%= @avaliacao.title %></h1>
+      <p>Professor(a): <strong><%= @avaliacao.docente.nome %></strong></p>
+      <p>Prazo: <%= l(@avaliacao.due_date, format: :long) rescue @avaliacao.due_date %></p>
+      <p data-testid="total-respostas">Total de respostas: <%= @summary[:total_responses] %></p>
+    </div>
+    <div class="results-show__stats">
+      <div>
+        <span>Total de respostas</span>
+        <strong> <%= @summary[:total_responses] %> </strong>
+      </div>
+      <div>
+        <span>Média geral</span>
+        <strong><%= @summary[:average_score] %></strong>
+      </div>
+      <div>
+        <span>Taxa de conclusão</span>
+        <strong><%= @summary[:completion_rate] %>%</strong>
+      </div>
+      <%= button_to "Exportar resultados", export_resultado_path(@avaliacao), method: :get,
+                    class: "button button--primary",
+                    data: { testid: "botao-exportar" },
+                    disabled: @summary[:total_responses].zero? %>
+    </div>
+  </header>
+
+  <% if @summary[:total_responses].zero? %>
+    <p class="blank-state" data-testid="mensagem-sem-respostas">Ainda não há respostas disponíveis</p>
+  <% else %>
+    <section class="results-chart" data-testid="grafico-resultados">
+      <h2>Distribuição das respostas</h2>
+      <div class="results-chart__grid">
+        <% @summary[:question_stats].each do |stat| %>
+          <article class="question-stat">
+            <h3><%= stat[:prompt] %></h3>
+            <% stat[:distribution].each do |valor, total| %>
+              <% percentage = stat[:total].positive? ? ((total.to_f / stat[:total]) * 100).round : 0 %>
+              <div class="question-stat__row">
+                <span><%= valor %></span>
+                <div class="progress-bar">
+                  <span style="width: <%= percentage %>%"></span>
+                </div>
+                <span class="question-stat__value"><%= total %></span>
+              </div>
+            <% end %>
+          </article>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+</section>

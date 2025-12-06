@@ -1,78 +1,89 @@
 # frozen_string_literal: true
 
-Dado('que estou logado como um administrador válido') do
-  @admin = FactoryBot.create(:user, :admin)
-  login_as(@admin)
+require "securerandom"
+
+Given('que estou logado como um administrador válido') do
+  @admin ||= Usuario.create!(
+    identifier: SecureRandom.uuid,
+    nome: "Admin Resultados",
+    email: "admin-resultados-#{SecureRandom.hex(3)}@example.com",
+    type: "Usuario",
+    password: "senha123",
+    admin: true
+  )
 end
 
-Dado('que não existem formulários cadastrados') do
-  Formulario.delete_all
+Given('que não existem formulários cadastrados') do
+  Avaliacao.delete_all
 end
 
-Dado('que existem formulários para o semestre atual:') do |table|
+Given('que existem formulários para o semestre atual:') do |table|
   table.hashes.each do |row|
-    FactoryBot.create(:formulario, titulo: row['título'], semestre: '2025.1')
+    create_resultado_formulario(titulo: row['título'], semester: current_semester_label)
   end
 end
 
-Dado('que existe o formulário {string} com {int} respostas enviadas') do |titulo, total|
-  formulario = FactoryBot.create(:formulario, titulo: titulo, semestre: '2025.1')
-  FactoryBot.create_list(:resposta, total, formulario: formulario)
+Given('que existe o formulário {string} com respostas enviadas') do |titulo|
+  avaliacao = create_resultado_formulario(titulo: titulo)
+  create_respostas_para(avaliacao, 3)
 end
 
-Dado('que existem formulários com professor {string}') do |nome|
-  FactoryBot.create(:formulario, titulo: 'Avaliação Docente', professor: nome, semestre: '2025.1')
-  FactoryBot.create(:formulario, titulo: 'Avaliação da Infraestrutura', professor: 'Outro', semestre: '2025.1')
+Given('que existem formulários com professor {string}') do |nome|
+  create_resultado_formulario(titulo: "Avaliação Docente", professor: nome)
+  create_resultado_formulario(titulo: "Avaliação da Infraestrutura", professor: "Outro Docente")
 end
 
-Dado('que existem formulários de semestres diferentes') do
-  FactoryBot.create(:formulario, titulo: 'Avaliação Docente', semestre: '2025.1')
-  FactoryBot.create(:formulario, titulo: 'Avaliação Docente', semestre: '2024.2')
+Given('que existem formulários de semestres diferentes') do
+  create_resultado_formulario(titulo: "Avaliação Docente", semester: "2025.1")
+  create_resultado_formulario(titulo: "Avaliação Docente", semester: "2024.2")
 end
 
-Dado('que existe o formulário {string} sem nenhuma resposta') do |titulo|
-  FactoryBot.create(:formulario, titulo: titulo, semestre: '2025.1')
+Given('que existe o formulário {string} sem nenhuma resposta') do |titulo|
+  create_resultado_formulario(titulo: titulo)
 end
 
-Dado('o serviço de exportação está indisponível') do
-  allow(ExportadorResultadosService).to receive(:call).and_raise(StandardError, 'falha')
+Given('que existem formulários cadastrados') do
+  create_resultado_formulario(titulo: "Avaliação Docente")
+  create_resultado_formulario(titulo: "Avaliação da Infraestrutura")
 end
 
-# -------- Ações --------
+Given('o serviço de exportação está indisponível') do
+  EvaluationResultsExporter.force_failure = true
+end
 
-Quando('eu acesso a página {string}') do |path|
+When('eu acesso diretamente o endereço {string}') do |path|
   visit("/#{path}")
 end
 
-Quando('eu acesso diretamente o endereço {string}') do |path|
-  visit("/#{path}")
+When('eu abro o card {string}') do |titulo|
+  ensure_resultados_index
+  card = find("[data-testid='form-card']", text: titulo)
+  card.find("[data-testid='abrir-card']").click
 end
 
-Quando('eu abro o card {string}') do |titulo|
-  find("[data-testid='form-card']", text: titulo).click
-end
-
-Quando('eu pesquiso por {string}') do |termo|
+When('eu pesquiso por {string}') do |termo|
+  ensure_resultados_index
   find("[data-testid='campo-busca']").set(termo)
   find("[data-testid='botao-buscar']").click
 end
 
-Quando('seleciono o filtro de semestre {string}') do |semestre|
+When('seleciono o filtro de semestre {string}') do |semestre|
+  ensure_resultados_index
   find("[data-testid='filtro-semestre']").select(semestre)
+  find("[data-testid='botao-buscar']").click
 end
 
-Quando('tento exportar os resultados') do
+When('tento exportar os resultados') do
+  ensure_resultado_detail
   find("[data-testid='botao-exportar']").click
 end
 
-# -------- Verificações --------
-
-Então('devo visualizar os cards dos formulários {string} e {string}') do |t1, t2|
+Then('devo visualizar os cards dos formulários {string} e {string}') do |t1, t2|
   expect(page).to have_selector("[data-testid='form-card']", text: t1)
   expect(page).to have_selector("[data-testid='form-card']", text: t2)
 end
 
-Então('cada card exibe semestre, professor e total de respostas') do
+Then('cada card exibe semestre, professor e total de respostas') do
   all("[data-testid='form-card']").each do |card|
     expect(card).to have_selector("[data-testid='info-semestre']")
     expect(card).to have_selector("[data-testid='info-professor']")
@@ -80,33 +91,136 @@ Então('cada card exibe semestre, professor e total de respostas') do
   end
 end
 
-Então('vejo o resumo consolidado com gráficos e estatísticas') do
+Then('vejo o resumo consolidado com gráficos e estatísticas') do
   expect(page).to have_selector("[data-testid='resumo-formulario']")
   expect(page).to have_selector("[data-testid='grafico-resultados']")
 end
 
-Então('o botão {string} deve estar desabilitado') do |rotulo|
-  # mapeia "Exportar resultados" -> botao-exportar-resultados
-  testid = "botao-#{rotulo.downcase.tr(' ', '-')}"
-  expect(page).to have_selector("[data-testid='#{testid}'][disabled]")
+Then('o botão "Exportar resultados" deve estar habilitado') do
+  expect(page).to have_selector("[data-testid='botao-exportar']")
+  expect(find("[data-testid='botao-exportar']")[:disabled]).to be_nil
 end
 
-Então('permaneço na página de resultados') do
+Then('o botão "Exportar resultados" deve estar desabilitado') do
+  expect(find("[data-testid='botao-exportar']")[:disabled]).not_to be_nil
+end
+
+Then('permaneço na página de resultados') do
   expect(URI.parse(current_url).path).to eq('/resultados')
 end
 
-Então('vejo apenas os formulários do semestre {string}') do |semestre|
-  # todos exibidos com aquele semestre
-  expect(page).to have_selector("[data-testid='info-semestre']", text: semestre)
-  # e não aparece outro semestre
+Then('vejo apenas os formulários do semestre {string}') do |semestre|
+  nodes = all("[data-testid='info-semestre']")
+  expect(nodes).not_to be_empty
+  nodes.each { |node| expect(node.text).to eq(semestre) }
 end
 
-Então('nenhum arquivo é baixado') do
-  # Depende de como é feito; validar ausência de toast de sucesso:
-  expect(page).not_to have_content('Relatório exportado com sucesso')
+Then('nenhum arquivo é baixado') do
+  expect(page).to have_content('Não foi possível gerar o arquivo')
 end
 
-Então('o botão "Exportar resultados" deve estar habilitado') do
-  expect(page).to have_selector("[data-testid='botao-exportar']", visible: true)
-  expect(find("[data-testid='botao-exportar']")).not_to be_disabled
+Then('a lista de cards fica vazia') do
+  expect(page).to have_no_selector("[data-testid='form-card']")
+end
+
+Then('apenas os formulários relacionados a {string} são exibidos') do |nome|
+  ensure_resultados_index
+  expect(page).to have_selector("[data-testid='info-professor']", minimum: 1)
+  all("[data-testid='info-professor']").each do |node|
+    expect(node.text).to include(nome)
+  end
+end
+
+Then('vejo a mensagem {string}') do |texto|
+  step %(devo ver a mensagem "#{texto}")
+end
+
+Then('não há cards exibidos') do
+  expect(page).to have_no_selector("[data-testid='form-card']")
+end
+
+Then('a lista de cards fica vazia e vejo a mensagem {string}') do |texto|
+  expect(page).to have_no_selector("[data-testid='form-card']")
+  expect(page).to have_content(texto)
+end
+
+def create_resultado_formulario(titulo:, semester: current_semester_label, professor: "Maria Silva")
+  docente = Docente.find_by(nome: professor) || Docente.create!(
+    nome: professor,
+    email: "docente-#{SecureRandom.hex(3)}@example.com",
+    identifier: SecureRandom.uuid,
+    departamento: "Departamento",
+    titulacao: "Mestre"
+  )
+  materia = Materia.first || Materia.create!(code: "MAT-#{SecureRandom.hex(2)}", name: "Disciplina")
+  turma = Turma.create!(
+    class_code: "T#{SecureRandom.hex(2)}",
+    semester: semester,
+    materia: materia,
+    docente: docente,
+    time_slot: "Seg 10h"
+  )
+  avaliacao = Avaliacao.create!(
+    title: titulo,
+    turma: turma,
+    docente: docente,
+    due_date: Time.zone.today.end_of_month,
+    max_score: 10,
+    status: :published
+  )
+  avaliacao.questoes.create!(
+    prompt: "Como você avalia?",
+    question_type: TemplateQuestion::QUESTION_TYPES[:likert],
+    position: 1,
+    mandatory: true,
+    weight: 1,
+    min_value: 1,
+    max_value: 5
+  )
+  @last_avaliacao = avaliacao
+  avaliacao
+end
+
+def create_respostas_para(avaliacao, total)
+  total.times do |index|
+    dicente = Dicente.create!(
+      nome: "Aluno #{index}",
+      email: "aluno-#{SecureRandom.hex(3)}@example.com",
+      identifier: SecureRandom.uuid,
+      matricula: "M#{SecureRandom.hex(3)}",
+      curso: "Engenharia",
+      type: "Dicente",
+      password: "senha123"
+    )
+    resposta = Resposta.create!(
+      avaliacao: avaliacao,
+      dicente: dicente,
+      status: :submitted,
+      submitted_at: Time.zone.now,
+      score: (index + 3)
+    )
+    avaliacao.questoes.each do |questao|
+      RespostaItem.create!(questao: questao, resposta: resposta, valor: ((index % 5) + 1).to_s)
+    end
+  end
+end
+
+def current_semester_label
+  date = Time.zone.today
+  term = date.month <= 6 ? 1 : 2
+  format('%<year>d.%<term>d', year: date.year, term: term)
+end
+
+def ensure_resultados_index
+  return if page.current_path == '/resultados'
+
+  visit('/resultados')
+end
+
+def ensure_resultado_detail
+  if @last_avaliacao
+    visit("/resultados/#{@last_avaliacao.id}")
+  else
+    ensure_resultados_index
+  end
 end

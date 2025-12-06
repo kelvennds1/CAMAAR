@@ -1,0 +1,54 @@
+<% content_for :title, "Resultados" %>
+<section class="results-page">
+  <div class="results-page__intro">
+    <div>
+      <h1>Resultados dos formulários</h1>
+      <p>Consulte os formulários publicados e acompanhe as respostas enviadas pelos estudantes.</p>
+    </div>
+    <span class="meta-pill" data-testid="total-formularios">Total: <%= @avaliacoes.size %></span>
+  </div>
+
+  <%= form_with url: resultados_path, method: :get, class: "results-filter", data: { testid: "form-busca" }, local: true do |form| %>
+    <div class="field field--grow">
+      <%= form.label :q, "Buscar por título ou professor", class: "field__label" %>
+      <%= form.text_field :q, value: @query, placeholder: "Ex: Avaliação Docente", class: "field__input", data: { testid: "campo-busca" } %>
+    </div>
+    <div class="field">
+      <%= form.label :semester, "Semestre", class: "field__label" %>
+      <%= form.select :semester, options_for_select(@semester_options, @semester_filter), {}, class: "field__input", data: { testid: "filtro-semestre" } %>
+    </div>
+    <div class="field results-filter__actions">
+      <%= form.submit "Buscar", class: "button button--primary", data: { testid: "botao-buscar" } %>
+    </div>
+  <% end %>
+
+  <% if @avaliacoes.any? %>
+    <div class="results-grid">
+      <% @avaliacoes.each do |avaliacao| %>
+        <article class="results-card" data-testid="form-card">
+          <header>
+            <p class="results-card__semester" data-testid="info-semestre"><%= avaliacao.turma.semester %></p>
+            <h2><%= avaliacao.title %></h2>
+          </header>
+          <dl class="results-card__meta">
+            <div>
+              <dt>Professor(a)</dt>
+              <dd data-testid="info-professor"><%= avaliacao.docente.nome %></dd>
+            </div>
+            <div>
+              <dt>Total de respostas</dt>
+              <dd data-testid="info-total-respostas"><%= avaliacao.respostas.count %></dd>
+            </div>
+          </dl>
+          <%= link_to "Ver detalhes", resultado_path(avaliacao), class: "button button--ghost", data: { testid: "abrir-card" } %>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <% if @search_performed %>
+      <p class="blank-state" data-testid="mensagem-busca-vazia">Nenhum resultado para a busca</p>
+    <% else %>
+      <p class="blank-state" data-testid="mensagem-sem-formularios">Nenhum formulário disponível no momento</p>
+    <% end %>
+  <% end %>
+</section>

@@ -27,6 +27,11 @@
     <header class="app-header">
       <div class="app-header__content">
         <span class="app-logo">CAMAAR</span>
+        <nav class="app-nav">
+          <%= link_to "Templates", templates_path, class: ["app-nav__link", ("app-nav__link--active" if controller_name == "templates")].compact.join(" ") %>
+          <%= link_to "Avaliações", avaliacoes_path, class: ["app-nav__link", ("app-nav__link--active" if controller_name == "avaliacoes")].compact.join(" ") %>
+          <%= link_to "Resultados", resultados_path, class: ["app-nav__link", ("app-nav__link--active" if controller_name == "resultados")].compact.join(" ") %>
+        </nav>
       </div>
     </header>
 
