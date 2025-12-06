@@ -7,7 +7,7 @@ class Template < ApplicationRecord
 
   belongs_to :docente
   has_many :template_questions, dependent: :destroy, inverse_of: :template
-  has_many :avaliacoes
+  has_many :avaliacoes, dependent: :nullify
 
   accepts_nested_attributes_for :template_questions, allow_destroy: true
 

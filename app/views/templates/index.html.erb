@@ -13,15 +13,31 @@
 
   <div class="templates-page__grid">
     <section class="templates-form" data-testid="template-form-wrapper">
-      <h2>Novo template</h2>
+      <% editing = @template.persisted? %>
+      <h2><%= editing ? "Editar template" : "Novo template" %></h2>
+
+      <% if editing %>
+        <% cancel_path = @current_admin_id ? management_templates_path(admin_id: @current_admin_id) : templates_path %>
+        <div class="form-banner" data-testid="edit-mode-banner">
+          <p>Você está editando o template <strong><%= @template.name %></strong>.</p>
+          <%= link_to "Cancelar edição", cancel_path, class: "button button--ghost button--small", data: { testid: "cancel-edit-template" } %>
+        </div>
+      <% end %>
 
       <% if @docentes.empty? %>
         <div class="blank-state" data-testid="no-docentes">
           Cadastre pelo menos um docente para criar templates.
         </div>
       <% else %>
+        <% form_url = if editing
+                        @current_admin_id ? template_path(@template, admin_id: @current_admin_id) : template_path(@template)
+                      else
+                        @current_admin_id ? templates_path(admin_id: @current_admin_id) : templates_path
+                      end %>
+        <% form_method = editing ? :patch : :post %>
         <%= form_with model: @template,
-                      url: templates_path,
+                      url: form_url,
+                      method: form_method,
                       data: { testid: "template-form", template_form: "container" },
                       class: "template-form__form" do |form| %>
           <% if @template.errors.any? || @template.template_questions.any? { |question| question.errors.any? } %>
@@ -85,7 +101,8 @@
           </template>
 
           <div class="form-actions">
-            <%= form.submit "Criar template", class: "button button--primary", data: { testid: "submit-template" } %>
+            <% submit_label = editing ? "Salvar template" : "Criar template" %>
+            <%= form.submit submit_label, class: "button button--primary", data: { testid: "submit-template" } %>
           </div>
         <% end %>
       <% end %>
@@ -96,7 +113,7 @@
       <% if @templates.any? %>
         <div class="templates-list__grid">
           <% @templates.each do |template| %>
-            <article class="template-card" data-testid="template-card">
+            <article class="template-card" data-testid="template-card" data-template-id="<%= template.id %>">
               <header>
                 <p class="template-card__docente"><%= template.docente.nome %></p>
                 <h3><%= template.name %></h3>
@@ -104,6 +121,20 @@
                   <p class="template-card__description"><%= template.description %></p>
                 <% end %>
               </header>
+
+              <div class="template-card__actions">
+                <% admin_scope_id = @current_admin_id || template.docente_id %>
+                <%= link_to "Editar",
+                            edit_template_path(template, admin_id: admin_scope_id),
+                            class: "button button--ghost button--small",
+                            data: { testid: "edit-template" } %>
+                <%= button_to "Excluir",
+                              template_path(template, admin_id: admin_scope_id),
+                              method: :delete,
+                              data: { testid: "delete-template" },
+                              form: { class: "template-card__delete-form" },
+                              class: "button button--danger button--small" %>
+              </div>
 
               <dl class="template-card__stats">
                 <div>

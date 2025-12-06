@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  resources :templates, only: %i[index create]
+  resources :templates, only: %i[index create edit update destroy]
   get "gerenciamento/templates", to: "templates#index", as: :management_templates
   resources :avaliacoes, only: %i[index create]
   resources :resultados, only: %i[index show] do

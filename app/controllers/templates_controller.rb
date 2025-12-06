@@ -1,22 +1,52 @@
 class TemplatesController < ApplicationController
-  before_action :load_dependencies, only: :index
+  before_action :set_current_admin_id
+  before_action :set_template, only: %i[edit update destroy]
+  before_action :ensure_template_owner!, only: %i[edit update destroy]
+  before_action :load_dependencies, only: %i[index edit]
 
   def index
     @template = Template.new(status: Template::STATUS[:draft])
     build_placeholder_question
   end
 
+  def edit
+    build_placeholder_question
+    render :index
+  end
+
   def create
     @template = Template.new(template_params)
 
     if @template.save
-      redirect_to templates_path, notice: "Template criado com sucesso."
+      @current_admin_id ||= @template.docente_id
+      redirect_to templates_redirect_path, notice: "Template criado com sucesso."
     else
       load_dependencies
       build_placeholder_question
       flash.now[:alert] = "Não foi possível salvar o template. Corrija os campos destacados."
       render :index, status: :unprocessable_entity
     end
+  end
+
+  def update
+    if @template.update(template_params)
+      @current_admin_id ||= @template.docente_id
+      redirect_to templates_redirect_path, notice: "Template atualizado com sucesso."
+    else
+      load_dependencies
+      build_placeholder_question
+      flash.now[:alert] = "Não foi possível atualizar o template. Corrija os campos destacados."
+      render :index, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @template.destroy!
+    @current_admin_id ||= @template.docente_id
+    redirect_to templates_redirect_path, notice: "Template removido com sucesso."
+  rescue StandardError
+    redirect_to templates_redirect_path,
+                alert: "Não foi possível remover o template. Tente novamente mais tarde."
   end
 
   private
@@ -27,15 +57,39 @@ class TemplatesController < ApplicationController
       :description,
       :docente_id,
       template_questions_attributes: %i[id prompt question_type position required min_value max_value options_text _destroy]
-    ).merge(status: Template::STATUS[:draft])
+    )
   end
 
   def load_dependencies
     @docentes = Docente.order(:nome)
-    @current_admin_id = params[:admin_id].presence
     scope = Template.includes(:template_questions, :docente).order(created_at: :desc)
     scope = scope.where(docente_id: @current_admin_id) if @current_admin_id
     @templates = scope
+  end
+
+  def set_current_admin_id
+    @current_admin_id = params[:admin_id].presence
+  end
+
+  def set_template
+    @template = Template.includes(:template_questions).find(params[:id])
+    @current_admin_id ||= @template.docente_id
+  end
+
+  def ensure_template_owner!
+    return unless @current_admin_id
+
+    return if @template.docente_id.to_s == @current_admin_id.to_s
+
+    redirect_to templates_redirect_path, alert: "Template não encontrado para este administrador."
+  end
+
+  def templates_redirect_path
+    if @current_admin_id
+      management_templates_path(admin_id: @current_admin_id)
+    else
+      templates_path
+    end
   end
 
   def build_placeholder_question
