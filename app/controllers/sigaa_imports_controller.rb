@@ -5,6 +5,10 @@ class SigaaImportsController < ApplicationController
     def new
       # Renderiza formulário de importação
     end
+
+    def index
+      # Renderiza página de listagem/histórico de importações
+    end
   
     def create
       result = SigaaImporter.call(

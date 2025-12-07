@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
-Dado('estou na página "importacao/sigaa" do sistema') do
+Dado('estou na página de importação SIGAA') do
+  # Faz login do admin criado pelo step anterior
+  visit login_path
+  fill_in 'email', with: @admin_docente.email
+  fill_in 'password', with: 'senha123'
+  click_button 'Entrar'
+  
+  # Visita a página de importação
   visit new_sigaa_import_path
 end
 
@@ -14,11 +21,11 @@ Dado('existem arquivos JSON de turmas, matérias e participantes disponíveis no
 end
 
 Dado('que existem turmas, matérias e participantes nos arquivos JSON que ainda não existem na base de dados') do
-  Turma.delete_all
-  Materia.delete_all
-  Dicente.delete_all
-  Docente.delete_all
   Matricula.delete_all
+  Turma.delete_all
+  Dicente.delete_all
+  Docente.where.not(id: @admin_docente.id).delete_all
+  Materia.delete_all
 
   @turmas_antes = Turma.count
   @materias_antes = Materia.count
@@ -26,6 +33,7 @@ Dado('que existem turmas, matérias e participantes nos arquivos JSON que ainda 
 end
 
 Quando('eu seleciono os arquivos JSON do SIGAA para importação') do
+
   attach_file('classes_file', @turmas_json_path)
   attach_file('class_members_file', @participantes_json_path)
 end

@@ -94,8 +94,6 @@ end
 
 class ActionDispatch::IntegrationTest
   def sign_in(user)
-    post login_url, params: { session: { email: user.email, password: 'password' } } if defined?(login_url)
-    # Or use session directly if you don't have login routes yet
-    session[:user_id] = user.id
+    post '/login', params: { email: user.email, password: 'password' }
   end
 end

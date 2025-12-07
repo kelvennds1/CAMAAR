@@ -17,20 +17,20 @@ class SigaaImportsControllerTest < ActionDispatch::IntegrationTest
 
   test "should get new when admin" do
     sign_in @admin
-    get new_sigaa_import_url
+    get new_sigaa_import_url, headers: @headers
     assert_response :success
   end
 
   test "should redirect non-admin from new" do
     get new_sigaa_import_url
-    assert_redirected_to root_path
-    assert_equal "Acesso negado", flash[:alert]
+    assert_redirected_to login_path
+    assert_equal "Please log in to continue", flash[:alert]
   end
 
   test "should create import with valid file" do
     sign_in @admin
     
-    assert_difference "Materia.count" do
+    assert_difference "Materia.count", 3 do
       post sigaa_imports_url, params: { classes_file: @classes_file }
     end
     

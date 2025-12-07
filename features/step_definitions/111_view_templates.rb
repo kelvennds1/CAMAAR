@@ -7,6 +7,8 @@ Given('estou na página {string} do sistema') do |path|
 	case path
 	when "gerenciamento/templates"
 		visit management_templates_path(admin_id: @admin_docente.id)
+	when "importacao/sigaa"
+		visit new_sigaa_import_path
 	else
 		visit("/#{path}")
 	end
