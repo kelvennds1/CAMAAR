@@ -1,51 +1,60 @@
-<div class="container mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold mb-6">Importação de Dados do SIGAA</h1>
+<% content_for :title, "Nova Importação SIGAA" %>
 
-  <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-    <%= form_with url: sigaa_imports_path, multipart: true, local: true, class: "space-y-6" do |f| %>
-      
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="classes_file">
-          Arquivo de Turmas e Matérias (classes.json)
-        </label>
-        <%= f.file_field :classes_file, 
-                         accept: "application/json",
-                         class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
-        <p class="text-gray-600 text-xs mt-1">Formato esperado: JSON com dados de matérias e turmas</p>
-      </div>
-
-      <div class="mb-6">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="class_members_file">
-          Arquivo de Participantes (class_members.json)
-        </label>
-        <%= f.file_field :class_members_file, 
-                         accept: "application/json",
-                         class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
-        <p class="text-gray-600 text-xs mt-1">Formato esperado: JSON com dados de docentes e dicentes</p>
-      </div>
-
-      <div class="flex items-center justify-between">
-        <%= f.submit "Importar dados do SIGAA", 
-                     class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
-        <%= link_to "Cancelar", root_path, 
-                    class: "inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" %>
-      </div>
-    <% end %>
+<section class="sigaa-imports-page">
+  <div class="sigaa-imports-page__intro">
+    <div>
+      <h1>Nova Importação de Dados do SIGAA</h1>
+      <p>Faça upload dos arquivos JSON do SIGAA para importar dados de matérias, turmas, docentes e dicentes.</p>
+    </div>
+    <%= link_to "Voltar", sigaa_imports_path, class: "button button--ghost button--small", data: { testid: "back-button" } %>
   </div>
 
-  <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mt-6">
-    <div class="flex">
-      <div class="flex-shrink-0">
-        <svg class="h-5 w-5 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-        </svg>
+  <section class="sigaa-imports-form" data-testid="import-form">
+    <h2>Selecionar arquivos</h2>
+
+    <%= form_with url: sigaa_imports_path, multipart: true, local: true, data: { testid: "sigaa-import-form" } do |f| %>
+      <% if flash[:alert] %>
+        <div class="form-errors" data-testid="import-errors">
+          <p>Corrija os erros abaixo:</p>
+          <ul>
+            <li><%= flash[:alert] %></li>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="field">
+        <%= f.label :classes_file, "Arquivo de Turmas e Matérias", class: "field__label" %>
+        <%= f.file_field :classes_file, 
+                         accept: "application/json",
+                         class: "field__input",
+                         data: { testid: "classes-file-input" } %>
+        <p class="helper-text">Formato esperado: JSON com dados de matérias e turmas (classes.json)</p>
       </div>
-      <div class="ml-3">
-        <p class="text-sm text-blue-700">
+
+      <div class="field">
+        <%= f.label :class_members_file, "Arquivo de Participantes", class: "field__label" %>
+        <%= f.file_field :class_members_file, 
+                         accept: "application/json",
+                         class: "field__input",
+                         data: { testid: "members-file-input" } %>
+        <p class="helper-text">Formato esperado: JSON com dados de docentes e dicentes (class_members.json)</p>
+      </div>
+
+      <div class="info-banner">
+        <p>
           <strong>Dica:</strong> Você pode importar um ou ambos os arquivos. 
           O sistema evitará duplicação de registros automaticamente.
         </p>
       </div>
-    </div>
-  </div>
-</div>
+
+      <div class="form-actions">
+        <%= f.submit "Importar dados do SIGAA", 
+                     class: "button button--primary",
+                     data: { testid: "submit-import" } %>
+        <%= link_to "Cancelar", sigaa_imports_path, 
+                    class: "button button--ghost",
+                    data: { testid: "cancel-import" } %>
+      </div>
+    <% end %>
+  </section>
+</section>

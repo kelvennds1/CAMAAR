@@ -31,5 +31,9 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   #Sigaa Import routes
-  resources :sigaa_imports, only: [:new, :create, :index]
+  resources :sigaa_imports, only: [:new, :create, :index] do
+    collection do
+      post :update_database
+    end
+  end
 end

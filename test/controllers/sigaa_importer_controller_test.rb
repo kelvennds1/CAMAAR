@@ -35,7 +35,7 @@ class SigaaImportsControllerTest < ActionDispatch::IntegrationTest
     end
     
     assert_redirected_to sigaa_imports_path
-    assert_match /Importação concluída/, flash[:notice]
+    assert_match /Atualização concluída/, flash[:notice]
   end
 
   test "should show error with no files" do

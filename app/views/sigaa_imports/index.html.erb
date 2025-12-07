@@ -1,38 +1,74 @@
-<div class="container mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold mb-6">Importação de Dados do SIGAA</h1>
+<% content_for :title, "Importação SIGAA" %>
 
-  <div class="mb-6">
-    <%= link_to "Nova Importação", new_sigaa_import_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
-  </div>
-
-  <div class="bg-white shadow-md rounded px-8 pt-6 pb-8">
-    <h2 class="text-xl font-semibold mb-4">Status da Base de Dados</h2>
-    
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div class="bg-gray-50 p-4 rounded">
-        <h3 class="font-semibold text-gray-700">Matérias</h3>
-        <p class="text-3xl font-bold text-blue-600"><%= Materia.count %></p>
-      </div>
-      
-      <div class="bg-gray-50 p-4 rounded">
-        <h3 class="font-semibold text-gray-700">Turmas</h3>
-        <p class="text-3xl font-bold text-blue-600"><%= Turma.count %></p>
-      </div>
-      
-      <div class="bg-gray-50 p-4 rounded">
-        <h3 class="font-semibold text-gray-700">Docentes</h3>
-        <p class="text-3xl font-bold text-blue-600"><%= Docente.count %></p>
-      </div>
-      
-      <div class="bg-gray-50 p-4 rounded">
-        <h3 class="font-semibold text-gray-700">Dicentes</h3>
-        <p class="text-3xl font-bold text-blue-600"><%= Dicente.count %></p>
-      </div>
-      
-      <div class="bg-gray-50 p-4 rounded">
-        <h3 class="font-semibold text-gray-700">Matrículas</h3>
-        <p class="text-3xl font-bold text-blue-600"><%= Matricula.count %></p>
-      </div>
+<section class="sigaa-imports-page">
+  <div class="sigaa-imports-page__intro">
+    <div>
+      <h1>Importação e Atualização de Dados do SIGAA</h1>
+      <p>Sincronize a base de dados com informações do SIGAA. Importe arquivos específicos ou atualize automaticamente usando os arquivos do repositório.</p>
+    </div>
+    <div class="sigaa-imports-page__meta">
+      <span class="meta-pill">Total: <%= Materia.count + Turma.count + Docente.count + Dicente.count + Matricula.count %> registros</span>
     </div>
   </div>
-</div>
+
+  <div class="sigaa-imports-page__actions">
+    <%= link_to "Nova Importação", new_sigaa_import_path, class: "button button--primary", data: { testid: "new-import-button" } %>
+    
+    <%= form_with url: update_database_sigaa_imports_path, method: :post, local: true, class: "sigaa-imports-page__update-form" do |f| %>
+      <%= f.submit "🔄 Atualizar Base de Dados", 
+                   class: "button button--ghost",
+                   data: { 
+                     testid: "update-database-button"
+                   } %>
+    <% end %>
+  </div>
+
+  <div class="info-banner">
+    <p>
+      <strong>Diferença entre Importação e Atualização:</strong><br>
+      <strong>Importação:</strong> Permite fazer upload de arquivos JSON específicos para importar dados.<br>
+      <strong>Atualização:</strong> Usa automaticamente os arquivos <code>classes.json</code> e <code>class_members.json</code> do repositório para atualizar a base de dados, modificando registros existentes e adicionando novos.
+    </p>
+  </div>
+
+  <div class="sigaa-imports-page__stats">
+    <h2>Status da Base de Dados</h2>
+    
+    <div class="stats-grid">
+      <article class="stat-card">
+        <header>
+          <h3>Matérias</h3>
+        </header>
+        <p class="stat-card__value" data-testid="materias-count"><%= Materia.count %></p>
+      </article>
+      
+      <article class="stat-card">
+        <header>
+          <h3>Turmas</h3>
+        </header>
+        <p class="stat-card__value" data-testid="turmas-count"><%= Turma.count %></p>
+      </article>
+      
+      <article class="stat-card">
+        <header>
+          <h3>Docentes</h3>
+        </header>
+        <p class="stat-card__value" data-testid="docentes-count"><%= Docente.count %></p>
+      </article>
+      
+      <article class="stat-card">
+        <header>
+          <h3>Dicentes</h3>
+        </header>
+        <p class="stat-card__value" data-testid="dicentes-count"><%= Dicente.count %></p>
+      </article>
+      
+      <article class="stat-card">
+        <header>
+          <h3>Matrículas</h3>
+        </header>
+        <p class="stat-card__value" data-testid="matriculas-count"><%= Matricula.count %></p>
+      </article>
+    </div>
+  </div>
+</section>

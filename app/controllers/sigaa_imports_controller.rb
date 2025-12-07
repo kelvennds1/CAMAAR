@@ -24,6 +24,33 @@ class SigaaImportsController < ApplicationController
         render :new, status: :unprocessable_entity
       end
     end
+
+    def update_database
+      # Caminhos dos arquivos JSON no repositório
+      classes_file = Rails.root.join('classes.json')
+      members_file = Rails.root.join('class_members.json')
+      
+      # Verificar se os arquivos existem
+      unless File.exist?(classes_file) && File.exist?(members_file)
+        flash[:alert] = "Arquivos JSON não encontrados no repositório. Certifique-se de que classes.json e class_members.json estão na raiz do projeto."
+        redirect_to sigaa_imports_path
+        return
+      end
+      
+      # Executar a atualização
+      result = SigaaImporter.call(
+        classes_file: classes_file.to_s,
+        class_members_file: members_file.to_s
+      )
+      
+      if result.success?
+        flash[:notice] = result.summary_message
+      else
+        flash[:alert] = "Erro durante atualização: #{result.errors.join(', ')}"
+      end
+      
+      redirect_to sigaa_imports_path
+    end
   
     private
   
