@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_06_181209) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_06_211606) do
   create_table "avaliacoes", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -145,12 +145,16 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_06_181209) do
     t.string "nome", null: false
     t.string "ocupacao"
     t.string "password_digest"
+    t.datetime "password_reset_sent_at"
+    t.string "password_reset_token"
+    t.boolean "pending_activation", default: false, null: false
     t.string "titulacao"
     t.string "type", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_usuarios_on_email", unique: true
     t.index ["identifier"], name: "index_usuarios_on_identifier", unique: true
     t.index ["matricula"], name: "index_usuarios_on_matricula", unique: true
+    t.index ["password_reset_token"], name: "index_usuarios_on_password_reset_token", unique: true
     t.index ["type"], name: "index_usuarios_on_type"
   end
 
