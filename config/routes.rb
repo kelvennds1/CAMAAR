@@ -1,6 +1,16 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
+  # Authentication routes
+  get "login", to: "sessions#new", as: :login
+  post "login", to: "sessions#create"
+  delete "logout", to: "sessions#destroy", as: :logout
+
+  # Password setup routes
+  get "password/setup", to: "passwords#new", as: :password_setup
+  post "password/setup", to: "passwords#create"
+  get "password/request_new", to: "passwords#request_new", as: :request_new_password
+
   resources :templates, only: %i[index create edit update destroy]
   get "gerenciamento/templates", to: "templates#index", as: :management_templates
   resources :avaliacoes, only: %i[index create]
@@ -9,7 +19,7 @@ Rails.application.routes.draw do
       get :export
     end
   end
-  root "templates#index"
+  root "login#new"
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

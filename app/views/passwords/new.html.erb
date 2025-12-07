@@ -1,0 +1,170 @@
+<% content_for :title, "Set Your Password" %>
+
+<div class="password-setup-page">
+  <div class="password-setup-container">
+    <h1>Set Your Password</h1>
+    <p class="password-setup-subtitle">Choose a secure password for your CAMAAR account</p>
+
+    <% if flash[:alert] %>
+      <div class="alert alert-error" data-testid="password-error">
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
+
+    <%= form_with url: password_setup_path, method: :post, data: { testid: "password-setup-form" }, class: "password-setup-form" do |form| %>
+      <%= hidden_field_tag :token, @token %>
+
+      <div class="form-field">
+        <%= label_tag :password, "New Password" %>
+        <%= password_field_tag :password, nil,
+            class: "form-input",
+            data: { testid: "password-input" },
+            placeholder: "Enter your new password",
+            required: true,
+            minlength: 6 %>
+        <span class="form-hint">Minimum 6 characters</span>
+      </div>
+
+      <div class="form-field">
+        <%= label_tag :password_confirmation, "Confirm Password" %>
+        <%= password_field_tag :password_confirmation, nil,
+            class: "form-input",
+            data: { testid: "password-confirmation-input" },
+            placeholder: "Re-enter your password",
+            required: true %>
+      </div>
+
+      <div class="form-actions">
+        <%= submit_tag "Set Password",
+            class: "button button--primary",
+            data: { testid: "set-password-button" } %>
+      </div>
+    <% end %>
+
+    <div class="password-setup-footer">
+      <p>
+        Link expired? <%= link_to "Request a new one", request_new_password_path, data: { testid: "request-new-link" } %>
+      </p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .password-setup-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .password-setup-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    max-width: 450px;
+    width: 100%;
+  }
+
+  .password-setup-container h1 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-size: 1.75rem;
+  }
+
+  .password-setup-subtitle {
+    margin: 0 0 2rem 0;
+    color: #666;
+    font-size: 0.9rem;
+  }
+
+  .alert {
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+
+  .alert-error {
+    background-color: #fee;
+    color: #c33;
+    border: 1px solid #fcc;
+  }
+
+  .password-setup-form .form-field {
+    margin-bottom: 1.25rem;
+  }
+
+  .password-setup-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 500;
+  }
+
+  .password-setup-form .form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+  }
+
+  .password-setup-form .form-input:focus {
+    outline: none;
+    border-color: #667eea;
+  }
+
+  .form-hint {
+    display: block;
+    margin-top: 0.25rem;
+    color: #666;
+    font-size: 0.85rem;
+  }
+
+  .form-actions {
+    margin-top: 1.5rem;
+  }
+
+  .button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .button--primary {
+    background: #667eea;
+    color: white;
+    width: 100%;
+  }
+
+  .button--primary:hover {
+    background: #5568d3;
+  }
+
+  .password-setup-footer {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+    text-align: center;
+  }
+
+  .password-setup-footer p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  .password-setup-footer a {
+    color: #667eea;
+    text-decoration: none;
+  }
+
+  .password-setup-footer a:hover {
+    text-decoration: underline;
+  }
+</style>

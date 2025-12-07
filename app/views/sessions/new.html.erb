@@ -1,0 +1,131 @@
+<% content_for :title, "Login" %>
+
+<div class="login-page">
+  <div class="login-container">
+    <h1>CAMAAR - Sistema de Avaliação</h1>
+    <p class="login-subtitle">Entre com suas credenciais para acessar o sistema</p>
+
+    <% if flash[:alert] %>
+      <div class="alert alert-error" data-testid="login-error">
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
+
+    <%= form_with url: login_path, method: :post, data: { testid: "login-form" }, class: "login-form" do |form| %>
+      <div class="form-field">
+        <%= label_tag :email, "Email" %>
+        <%= email_field_tag :email, params[:email],
+            class: "form-input",
+            data: { testid: "email-input" },
+            placeholder: "usuario@example.com",
+            required: true %>
+      </div>
+
+      <div class="form-field">
+        <%= label_tag :password, "Senha" %>
+        <%= password_field_tag :password, nil,
+            class: "form-input",
+            data: { testid: "password-input" },
+            placeholder: "Digite sua senha",
+            required: true %>
+      </div>
+
+      <div class="form-actions">
+        <%= submit_tag "Entrar",
+            class: "button button--primary",
+            data: { testid: "login-button" } %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<style>
+  .login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .login-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+  }
+
+  .login-container h1 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-size: 1.75rem;
+  }
+
+  .login-subtitle {
+    margin: 0 0 2rem 0;
+    color: #666;
+    font-size: 0.9rem;
+  }
+
+  .alert {
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+
+  .alert-error {
+    background-color: #fee;
+    color: #c33;
+    border: 1px solid #fcc;
+  }
+
+  .login-form .form-field {
+    margin-bottom: 1.25rem;
+  }
+
+  .login-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 500;
+  }
+
+  .login-form .form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+  }
+
+  .login-form .form-input:focus {
+    outline: none;
+    border-color: #667eea;
+  }
+
+  .form-actions {
+    margin-top: 1.5rem;
+  }
+
+  .button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .button--primary {
+    background: #667eea;
+    color: white;
+    width: 100%;
+  }
+
+  .button--primary:hover {
+    background: #5568d3;
+  }
+</style>
