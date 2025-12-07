@@ -3,21 +3,25 @@
 require "securerandom"
 
 Given('que existem resultados de formulários disponíveis') do
+  ensure_admin_logged_in
   @avaliacao = build_avaliacao_para_relatorio(responses: 2)
   @expected_question_prompt = @avaliacao.questoes.first.prompt
   @expected_student_name = @avaliacao.respostas.first.dicente.nome
 end
 
 Given('que não existem respostas para o formulário') do
+  ensure_admin_logged_in
   @avaliacao = build_avaliacao_para_relatorio(responses: 0)
 end
 
 When('eu acesso a página de resultados do formulário') do
+  ensure_admin_logged_in
   visit resultado_path(@avaliacao)
 end
 
 When('aciono o download dos resultados') do
-  click_button "Exportar resultados"
+  ensure_admin_logged_in
+  find("[data-testid='botao-exportar']").click
   @download_headers = page.response_headers.dup
   @downloaded_content = page.body.dup
 end
@@ -137,4 +141,11 @@ def build_avaliacao_para_relatorio(responses:)
   end
 
   avaliacao
+end
+
+def ensure_admin_logged_in
+  unless defined?(@admin_logged_in) && @admin_logged_in
+    step 'que estou autenticado como administrador'
+    @admin_logged_in = true
+  end
 end

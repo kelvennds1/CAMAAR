@@ -310,6 +310,8 @@ class SigaaImporter
       dicente.curso = dicente_data['curso']
       dicente.ocupacao = dicente_data['ocupacao'] || 'dicente'
       dicente.formacao = dicente_data['formacao'] || 'graduando'
+      # Setar pending_activation como true para novos usuários importados
+      dicente.pending_activation = true if dicente.respond_to?(:pending_activation)
       
       if dicente.save
         @result.created[:dicentes] += 1

@@ -7,6 +7,7 @@ Given('que existe o template {string} associado a {int} formulários já criados
 	@template_under_edit = Template.find_by(name: nome, docente: @admin_docente)
 	@template_under_edit ||= create_template_for(@admin_docente, nome)
 	create_forms_for_template(@template_under_edit, total)
+	ensure_logged_in
 	visit management_templates_path(admin_id: @admin_docente.id)
 end
 
@@ -71,6 +72,21 @@ def create_supporting_turma(docente, sequence)
 end
 
 def within_template_card(nome, &block)
+	ensure_logged_in
 	card = find("[data-testid='template-card']", text: nome)
 	within(card, &block)
+end
+
+def ensure_admin_present
+	step 'que estou autenticado como administrador' unless defined?(@admin_docente) && @admin_docente
+end
+
+def ensure_logged_in
+	ensure_admin_present
+	unless page.current_path == login_path || page.has_content?("Templates")
+		visit login_path
+		fill_in "email", with: @admin_docente.email
+		fill_in "password", with: "senha123"
+		click_button "Entrar"
+	end
 end

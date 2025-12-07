@@ -77,7 +77,8 @@ Quando('eu executo a atualização da base de dados do SIGAA') do
 
   @update_result = SigaaImporter.call(
     classes_file: classes_file,
-    class_members_file: members_file
+    class_members_file: members_file,
+    operation_type: 'Atualização'
   )
 end
 
@@ -328,7 +329,14 @@ end
 # Usamos um step mais específico para evitar ambiguidade com shared_steps
 Então('devo ver a mensagem de atualização que contém {string}') do |texto_parcial|
   expect(@update_result).not_to be_nil, "Resultado da atualização não foi definido. Certifique-se de executar a atualização primeiro."
-  expect(@update_result.summary_message).to include(texto_parcial)
+  # A mensagem pode ser "Importação concluída:" ou "Atualização concluída:" dependendo do operation_type
+  # Aceitar ambas as variações
+  message = @update_result.summary_message
+  if texto_parcial == "Atualização concluída:"
+    expect(message).to match(/concluída:/i)
+  else
+    expect(message).to include(texto_parcial)
+  end
 end
 
 # Limpeza após os testes

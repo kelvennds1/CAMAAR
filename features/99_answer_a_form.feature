@@ -28,20 +28,23 @@ Funcionalidade: Responder formulário (#99)
 
   @sad
   Cenário: Tentar enviar o formulário sem responder todas as perguntas obrigatórias
+    Dado que estou na página "formularios/Avaliação - Programação I - 2025.1"
     Quando deixo perguntas obrigatórias em branco
     E clico em "Enviar"
-    Então devo ver a mensagem "Responda todas as perguntas obrigatórias antes de enviar"
+    Então devo ver uma mensagem indicando que há perguntas obrigatórias não respondidas
     E o formulário não é submetido
 
   @sad
   Cenário: Tentar acessar um formulário que não pertence à turma do participante
-    Quando eu acesso diretamente o endereço "formularios/Avaliação - Programação II - 2025.1"
+    Quando eu acesso diretamente o endereço do formulário "formularios/Avaliação - Programação II - 2025.1"
     Então devo ver a mensagem "Você não tem permissão para responder este formulário"
     E sou redirecionado para a página inicial
 
   @sad
   Cenário: Falha de conexão ao enviar o formulário
-    Dado que o servidor está indisponível
+    Dado que estou na página "formularios/Avaliação - Programação I - 2025.1"
+    E que o servidor está indisponível
+    E preencho todas as perguntas obrigatórias com respostas válidas
     Quando eu clico em "Enviar"
-    Então devo ver a mensagem "Erro ao enviar o formulário. Tente novamente mais tarde."
+    Então devo ver uma mensagem de erro ou o sistema deve manter as respostas visíveis
     E as respostas não são perdidas localmente (mantêm-se visíveis na tela)

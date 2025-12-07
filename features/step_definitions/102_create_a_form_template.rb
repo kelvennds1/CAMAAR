@@ -22,15 +22,23 @@ Dado('que existe um docente chamado {string}') do |nome|
 end
 
 Dado('acesso a página de templates') do
+  # Garantir que está logado primeiro
+  step 'que estou autenticado como administrador' unless defined?(@admin_docente) && @admin_docente
   visit templates_path
+  # Aguardar página carregar - verificar se tem o formulário ou a lista
+  expect(page).to have_content("Templates").or have_selector("form", wait: 5)
 end
 
 Quando('preencho o nome do template com {string}') do |nome|
-  fill_in("Nome", with: nome)
+  # Aguardar elemento estar disponível
+  field = find("[data-testid='template-name']", wait: 5)
+  field.set(nome)
 end
 
 Quando('seleciono o docente {string}') do |nome|
-  select(nome, from: "Responsável")
+  # Aguardar elemento estar disponível
+  select_box = find("[data-testid='template-docente']", wait: 5)
+  select_box.select(nome)
 end
 
 Quando('adiciono a questão {int} do tipo {string} com o texto {string}') do |ordem, tipo, texto|

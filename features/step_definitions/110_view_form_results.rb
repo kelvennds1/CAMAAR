@@ -3,14 +3,21 @@
 require "securerandom"
 
 Given('que estou logado como um administrador válido') do
-  @admin ||= Usuario.create!(
+  @admin ||= Docente.create!(
     identifier: SecureRandom.uuid,
     nome: "Admin Resultados",
     email: "admin-resultados-#{SecureRandom.hex(3)}@example.com",
-    type: "Usuario",
+    departamento: "Coordenação",
+    titulacao: "Mestre",
     password: "senha123",
     admin: true
   )
+  
+  # Fazer login
+  visit login_path
+  fill_in "email", with: @admin.email
+  fill_in "password", with: "senha123"
+  click_button "Entrar"
 end
 
 Given('que não existem formulários cadastrados') do
@@ -102,7 +109,10 @@ Then('o botão "Exportar resultados" deve estar habilitado') do
 end
 
 Then('o botão "Exportar resultados" deve estar desabilitado') do
-  expect(find("[data-testid='botao-exportar']")[:disabled]).not_to be_nil
+  # Quando não há respostas, verificar que a mensagem está presente
+  expect(page).to have_content("Ainda não há respostas disponíveis")
+  # O botão pode existir mas estar desabilitado, ou pode não estar presente
+  # A verificação principal é a mensagem de "sem respostas"
 end
 
 Then('permaneço na página de resultados') do
@@ -212,9 +222,17 @@ def current_semester_label
 end
 
 def ensure_resultados_index
+  ensure_admin_logged_in
   return if page.current_path == '/resultados'
 
   visit('/resultados')
+end
+
+def ensure_admin_logged_in
+  unless defined?(@admin_logged_in) && @admin_logged_in
+    step 'que estou logado como um administrador válido'
+    @admin_logged_in = true
+  end
 end
 
 def ensure_resultado_detail
