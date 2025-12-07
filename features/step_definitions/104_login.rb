@@ -37,8 +37,12 @@ end
 
 When('I click on {string}') do |button_text|
   # Aguardar a página carregar completamente
-  expect(page).to have_content("CAMAAR", wait: 5).or have_content("Importação", wait: 5).or have_content("Templates", wait: 5)
-  
+  expect(page).to satisfy do |p|
+    p.has_content?("CAMAAR", wait: 5) ||
+      p.has_content?("Importação", wait: 5) ||
+      p.has_content?("Templates", wait: 5)
+  end
+
   # Tentar encontrar por texto primeiro
   if page.has_button?(button_text, wait: 2)
     click_button button_text
@@ -76,10 +80,10 @@ end
 # Step genérico para mensagens
 # IMPORTANTE: Mensagens específicas de base_dados.feature têm steps dedicados em base_dados.rb
 # que usam regex e têm prioridade. Este step é usado para outras mensagens.
-# 
+#
 # Para evitar ambiguidade, este step usa um padrão que não captura mensagens específicas:
 # - "Database update started"
-# - "Database updated successfully"  
+# - "Database updated successfully"
 # - "Database is already up to date"
 # - "Partial update completed"
 # - "Access denied"

@@ -36,7 +36,7 @@ Given('that the database was updated with SIGAA data') do
   @materia = Materia.find_or_create_by!(code: "CIC0097") do |m|
     m.name = "Bancos de Dados"
   end
-  
+
   @docente_teste = Docente.find_or_create_by!(identifier: "123456789") do |d|
     d.nome = "Prof. Teste"
     d.email = "prof@example.com"
@@ -44,7 +44,7 @@ Given('that the database was updated with SIGAA data') do
     d.titulacao = "Doutor"
     d.password = "senha123"
   end
-  
+
   @turma = Turma.find_or_create_by!(
     materia: @materia,
     class_code: "TA",
@@ -53,7 +53,7 @@ Given('that the database was updated with SIGAA data') do
     t.docente = @docente_teste
     t.time_slot = "35T45"
   end
-  
+
   # Criar alguns dicentes e matrículas para teste
   @dicente_teste = Dicente.find_or_create_by!(identifier: "2021001") do |d|
     d.nome = "Aluno Teste"
@@ -64,7 +64,7 @@ Given('that the database was updated with SIGAA data') do
     d.ocupacao = "dicente"
     d.password = "senha123"
   end
-  
+
   Matricula.find_or_create_by!(dicente: @dicente_teste, turma: @turma) do |m|
     m.status = "ativo"
     m.enrollment_date = Date.current
@@ -147,7 +147,7 @@ Given('that I am logged in as a regular user') do
     formacao: "graduando",
     ocupacao: "dicente"
   )
-  
+
   visit login_path
   fill_in "email", with: @regular_user.email
   fill_in "password", with: "senha123"
@@ -165,7 +165,9 @@ Then(/^I should see "Access denied"$/) do
 end
 
 Then('I should be redirected to the home page') do
-  expect(page).to have_current_path(root_path).or have_current_path(login_path)
+  expect(page).to satisfy do |p|
+    p.has_current_path?(root_path, wait: 5) || p.has_current_path?(login_path, wait: 5)
+  end
 end
 
 Given('that I am on the database update page') do
@@ -196,7 +198,7 @@ Then('I should see a warning about unavailable data') do
                 page_content.include?("indisponível") ||
                 page_content.include?("erro") ||
                 page_content.include?("Atualização concluída")
-  
+
   expect(has_warning).to be_truthy
 end
 
@@ -209,12 +211,18 @@ end
 Then(/^I should see "Database update started"$/) do
   # O sistema não mostra essa mensagem, mas mostra "Atualização concluída" após o processamento
   # Vamos verificar que a atualização foi iniciada verificando que há uma mensagem de sucesso
-  expect(page).to have_content("concluída", wait: 5).or have_content("Atualização", wait: 5).or have_content("registros", wait: 5)
+  expect(page).to satisfy do |p|
+    p.has_content?("concluída", wait: 5) ||
+      p.has_content?("Atualização", wait: 5) ||
+      p.has_content?("registros", wait: 5)
+  end
 end
 
 Then(/^I should see "Database updated successfully"$/) do
   # Verificar mensagem de sucesso da atualização
-  expect(page).to have_content("concluída", wait: 5).or have_content("Atualização concluída", wait: 5)
+  expect(page).to satisfy do |p|
+    p.has_content?("concluída", wait: 5) || p.has_content?("Atualização concluída", wait: 5)
+  end
 end
 
 
@@ -225,17 +233,17 @@ Then(/^I should see "Database is already up to date"$/) do
   # Em um cenário real, quando já está atualizado, todos os registros seriam ignorados,
   # mas o sistema pode criar/atualizar alguns registros mesmo assim.
   page_content = page.text
-  
+
   # Verificar se há mensagem de atualização concluída
   # O sistema mostra "Atualização concluída" mesmo quando já está atualizado
   # porque ele sempre processa os dados. O teste verifica que a atualização foi concluída.
   has_completed = page_content.include?("Atualização concluída") ||
                   page_content.include?("concluída")
-  
+
   # Se houver mensagem de "nenhuma alteração", isso também é válido
   has_no_changes = page_content.include?("nenhuma alteração") ||
                    page_content.include?("concluída: nenhuma alteração")
-  
+
   # Aceitar qualquer uma das duas situações: atualização concluída ou nenhuma alteração
   expect(has_completed || has_no_changes).to be_truthy
 end
@@ -243,7 +251,9 @@ end
 Then(/^I should see "Partial update completed"$/) do
   # Verificar mensagem de atualização parcial
   # O sistema mostra "Atualização concluída" mesmo em atualizações parciais
-  expect(page).to have_content("concluída", wait: 5).or have_content("Atualização concluída", wait: 5)
+  expect(page).to satisfy do |p|
+    p.has_content?("concluída", wait: 5) || p.has_content?("Atualização concluída", wait: 5)
+  end
 end
 
 def ensure_admin_logged_in
@@ -252,4 +262,3 @@ def ensure_admin_logged_in
     @admin_logged_in = true
   end
 end
-

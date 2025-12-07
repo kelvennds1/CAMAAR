@@ -16,7 +16,7 @@ Dado('que estou autenticado como um participante válido') do
     formacao: "graduando",
     ocupacao: "dicente"
   )
-  
+
   # Fazer login
   visit login_path
   fill_in "email", with: @aluno.email
@@ -26,7 +26,7 @@ end
 
 Dado('existe o formulário {string} disponível para minha turma') do |titulo|
   require "securerandom"
-  
+
   # Criar docente
   @docente = Docente.find_or_create_by!(identifier: SecureRandom.uuid) do |d|
     d.nome = "Prof. Teste"
@@ -35,12 +35,12 @@ Dado('existe o formulário {string} disponível para minha turma') do |titulo|
     d.titulacao = "Doutor"
     d.password = "senha123"
   end
-  
+
   # Criar matéria
   @materia = Materia.find_or_create_by!(code: "CIC0097") do |m|
     m.name = "Programação I"
   end
-  
+
   # Criar turma
   @turma = Turma.find_or_create_by!(
     materia: @materia,
@@ -50,19 +50,19 @@ Dado('existe o formulário {string} disponível para minha turma') do |titulo|
     t.docente = @docente
     t.time_slot = "35T45"
   end
-  
+
   # Criar matrícula
   Matricula.find_or_create_by!(dicente: @aluno, turma: @turma) do |m|
     m.status = "ativo"
     m.enrollment_date = Date.current
   end
-  
+
   # Criar template com questões (usar find_or_initialize para evitar validação sem questões)
   @template = Template.find_or_initialize_by(name: "Template Teste", docente: @docente)
   if @template.new_record?
     @template.description = "Template de teste"
     @template.status = Template::STATUS[:draft]
-    
+
     # Criar questões antes de salvar o template (para passar na validação)
     @template.template_questions.build(
       prompt: "Satisfação geral",
@@ -72,14 +72,14 @@ Dado('existe o formulário {string} disponível para minha turma') do |titulo|
       min_value: 1,
       max_value: 5
     )
-    
+
     @template.template_questions.build(
       prompt: "Comentário",
       question_type: TemplateQuestion::QUESTION_TYPES[:text],
       position: 2,
       required: true
     )
-    
+
     @template.save!
   elsif @template.template_questions.empty?
     # Se o template existe mas não tem questões, criar
@@ -91,7 +91,7 @@ Dado('existe o formulário {string} disponível para minha turma') do |titulo|
       min_value: 1,
       max_value: 5
     )
-    
+
     @template.template_questions.create!(
       prompt: "Comentário",
       question_type: TemplateQuestion::QUESTION_TYPES[:text],
@@ -99,7 +99,7 @@ Dado('existe o formulário {string} disponível para minha turma') do |titulo|
       required: true
     )
   end
-  
+
   # Criar avaliação (formulário) - usar build primeiro para evitar validação de questões
   @form = Avaliacao.find_or_initialize_by(title: titulo, turma: @turma)
   if @form.new_record?
@@ -111,7 +111,7 @@ Dado('existe o formulário {string} disponível para minha turma') do |titulo|
       status: :published
     )
     @form.save!
-    
+
     # Criar questões na avaliação baseadas no template (como faz o EvaluationBatchCreator)
     @template.template_questions.order(:position).each do |tq|
       @form.questoes.create!(
@@ -233,7 +233,10 @@ end
 
 Quando('deixo perguntas obrigatórias em branco') do
   # Garantir que estamos na página do formulário
-  expect(page).to have_selector("[data-testid='pergunta-radio']", minimum: 1, wait: 5).or have_selector("[data-testid='pergunta-texto']", minimum: 1, wait: 5)
+  expect(page).to satisfy do |p|
+    p.has_selector?("[data-testid='pergunta-radio']", minimum: 1, wait: 5) ||
+      p.has_selector?("[data-testid='pergunta-texto']", minimum: 1, wait: 5)
+  end
   # Não preencher nada - deixar em branco propositalmente
 end
 
@@ -286,7 +289,7 @@ Então('devo ver o botão {string} desabilitado até preencher todos os campos o
   disabled_attr = botao[:disabled]
   disabled_class = botao[:class]&.include?('disabled')
   aria_disabled = botao['aria-disabled'] == 'true'
-  
+
   # Se nenhum indicador de desabilitado estiver presente, assumir que a validação será no submit
   # e apenas verificar que o botão existe
   if disabled_attr || disabled_class || aria_disabled
@@ -305,7 +308,7 @@ end
 Então('sou redirecionado para a página inicial') do
   # Pode ser redirecionado para / ou /formularios/pendentes dependendo do contexto
   current_path = URI.parse(current_url).path
-  expect(current_path).to eq('/').or eq('/formularios/pendentes').or eq(formularios_pendentes_path)
+  expect([ '/', '/formularios/pendentes', formularios_pendentes_path ]).to include(current_path)
 end
 
 Então('as respostas não são perdidas localmente \(mantêm-se visíveis na tela\)') do
@@ -313,12 +316,12 @@ Então('as respostas não são perdidas localmente \(mantêm-se visíveis na tel
   # o sistema enviará com sucesso. Nesse caso, verificamos se:
   # 1. Ainda estamos na página do formulário (indicando que houve erro e as respostas foram mantidas), OU
   # 2. Se as respostas estavam visíveis antes do envio (verificação preventiva)
-  
+
   # Verificar se ainda estamos na página do formulário (falha foi tratada)
   still_on_form = page.has_selector?("[data-testid='answer-form']", wait: 2) ||
                   page.has_selector?("[data-testid='botao-enviar']", wait: 2) ||
                   page.has_selector?("[data-testid='pergunta-radio']", wait: 2)
-  
+
   if still_on_form
     # Se ainda estamos no formulário, verificar que as respostas estão visíveis
     # Campos de texto ainda preenchidos
@@ -326,7 +329,7 @@ Então('as respostas não são perdidas localmente \(mantêm-se visíveis na tel
     text_fields.each do |campo|
       expect(campo.value).to be_present if campo.value.present?
     end
-    
+
     # Pelo menos uma alternativa de rádio continua marcada (se houver perguntas de rádio)
     radio_questions = all("[data-testid='pergunta-radio']", wait: 2)
     if radio_questions.any?
@@ -341,13 +344,18 @@ Então('as respostas não são perdidas localmente \(mantêm-se visíveis na tel
     # (não conseguimos simular a falha). Nesse caso, o teste passa porque
     # não podemos realmente testar falha de conexão sem modificar o controller.
     # O importante é que não houve erro inesperado.
-    expect(page).to have_content("Avaliação enviada com sucesso!", wait: 5).or have_current_path(formularios_pendentes_path, wait: 5)
+    expect(page).to satisfy do |p|
+      p.has_content?("Avaliação enviada com sucesso!", wait: 5) ||
+        p.has_current_path?(formularios_pendentes_path, wait: 5)
+    end
   end
 end
 
 Então('devo ver uma mensagem indicando que há perguntas obrigatórias não respondidas') do
   # A mensagem pode ser "A pergunta 'X' é obrigatória" ou similar
-  expect(page).to have_content("obrigatória", wait: 5).or have_content("obrigatório", wait: 5)
+  expect(page).to satisfy do |p|
+    p.has_content?("obrigatória", wait: 5) || p.has_content?("obrigatório", wait: 5)
+  end
 end
 
 Então('devo ver uma mensagem de erro ou o sistema deve manter as respostas visíveis') do
@@ -358,7 +366,7 @@ Então('devo ver uma mensagem de erro ou o sistema deve manter as respostas vis�
   still_on_form = page.has_selector?("[data-testid='answer-form']", wait: 2) ||
                   page.has_selector?("[data-testid='botao-enviar']", wait: 2)
   has_error = page.has_content?("Erro", wait: 2) || page.has_content?("erro", wait: 2)
-  
+
   # Se houve sucesso, significa que não conseguimos simular a falha (esperado)
   # Se ainda estamos no formulário ou há erro, significa que a falha foi tratada
   # Em qualquer caso, o teste passa porque não podemos realmente simular falha de conexão

@@ -26,7 +26,9 @@ Dado('acesso a página de templates') do
   step 'que estou autenticado como administrador' unless defined?(@admin_docente) && @admin_docente
   visit templates_path
   # Aguardar página carregar - verificar se tem o formulário ou a lista
-  expect(page).to have_content("Templates").or have_selector("form", wait: 5)
+  expect(page).to satisfy do |p|
+    p.has_content?("Templates", wait: 5) || p.has_selector?("form", wait: 5)
+  end
 end
 
 Quando('preencho o nome do template com {string}') do |nome|
