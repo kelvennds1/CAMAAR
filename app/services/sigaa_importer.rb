@@ -1,14 +1,15 @@
 # app/services/sigaa_importer.rb
 class SigaaImporter
   class ImportResult
-    attr_accessor :success, :errors, :created, :updated, :skipped
+    attr_accessor :success, :errors, :created, :updated, :skipped, :operation_type
     
-    def initialize
+    def initialize(operation_type: 'Importação')
       @success = true
       @errors = []
       @created = { materias: 0, turmas: 0, docentes: 0, dicentes: 0, matriculas: 0 }
       @updated = { materias: 0, turmas: 0, docentes: 0, dicentes: 0, matriculas: 0 }
       @skipped = { materias: 0, turmas: 0, docentes: 0, dicentes: 0, matriculas: 0 }
+      @operation_type = operation_type
     end
     
     def success?
@@ -32,27 +33,27 @@ class SigaaImporter
         parts = []
         parts << "#{total_created} novos registros criados" if total_created > 0
         parts << "#{total_updated} registros atualizados" if total_updated > 0
-        parts << "#{total_skipped} registros ignorados" if total_skipped > 0
+        parts << "#{total_skipped} registros ignorados por já existirem" if total_skipped > 0
         
         if parts.any?
-          "Atualização concluída: #{parts.join(', ')}"
+          "#{@operation_type} concluída: #{parts.join(', ')}"
         else
-          "Atualização concluída: nenhuma alteração necessária"
+          "#{@operation_type} concluída: nenhuma alteração necessária"
         end
       else
-        "Erros na importação: #{@errors.join(', ')}"
+        "Erros na #{@operation_type.downcase}: #{@errors.join(', ')}"
       end
     end
   end
 
-  def self.call(classes_file: nil, class_members_file: nil)
-    new(classes_file, class_members_file).import
+  def self.call(classes_file: nil, class_members_file: nil, operation_type: 'Importação')
+    new(classes_file, class_members_file, operation_type).import
   end
 
-  def initialize(classes_file, class_members_file)
+  def initialize(classes_file, class_members_file, operation_type = 'Importação')
     @classes_file = classes_file
     @class_members_file = class_members_file
-    @result = ImportResult.new
+    @result = ImportResult.new(operation_type: operation_type)
   end
 
   def import

@@ -21,7 +21,8 @@ namespace :sigaa do
     begin
       result = SigaaImporter.call(
         classes_file: classes_file.to_s,
-        class_members_file: members_file.to_s
+        class_members_file: members_file.to_s,
+        operation_type: 'Atualização'
       )
       
       if result.success?

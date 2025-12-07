@@ -13,7 +13,13 @@ Rails.application.routes.draw do
 
   resources :templates, only: %i[index create edit update destroy]
   get "gerenciamento/templates", to: "templates#index", as: :management_templates
-  resources :avaliacoes, only: %i[index create]
+  resources :avaliacoes, only: %i[index create] do
+    member do
+      get :responder
+      post :submeter
+    end
+  end
+  get "formularios/pendentes", to: "avaliacoes#pendentes", as: :formularios_pendentes
   resources :resultados, only: %i[index show] do
     member do
       get :export

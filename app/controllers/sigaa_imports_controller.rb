@@ -10,11 +10,12 @@ class SigaaImportsController < ApplicationController
       # Renderiza página de listagem/histórico de importações
     end
   
-    def create
-      result = SigaaImporter.call(
-        classes_file: params[:classes_file],
-        class_members_file: params[:class_members_file]
-      )
+  def create
+    result = SigaaImporter.call(
+      classes_file: params[:classes_file],
+      class_members_file: params[:class_members_file],
+      operation_type: 'Importação'
+    )
   
       if result.success?
         flash[:notice] = result.summary_message
@@ -40,7 +41,8 @@ class SigaaImportsController < ApplicationController
       # Executar a atualização
       result = SigaaImporter.call(
         classes_file: classes_file.to_s,
-        class_members_file: members_file.to_s
+        class_members_file: members_file.to_s,
+        operation_type: 'Atualização'
       )
       
       if result.success?
