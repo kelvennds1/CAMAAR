@@ -34,6 +34,7 @@
             <%= link_to "Templates", templates_path, class: ["app-nav__link", ("app-nav__link--active" if controller_name == "templates")].compact.join(" ") %>
             <%= link_to "Avaliações", avaliacoes_path, class: ["app-nav__link", ("app-nav__link--active" if controller_name == "avaliacoes" && action_name != "pendentes")].compact.join(" ") %>
             <%= link_to "Resultados", resultados_path, class: ["app-nav__link", ("app-nav__link--active" if controller_name == "resultados")].compact.join(" ") %>
+            <%= link_to "Importação SIGAA", sigaa_imports_path, class: ["app-nav__link", ("app-nav__link--active" if controller_name == "sigaa_imports")].compact.join(" ") %>
           <% end %>
         </nav>
       </div>
