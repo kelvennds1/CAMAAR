@@ -33,7 +33,7 @@ class SessionsController < ApplicationController
 
   def redirect_to_appropriate_page(user)
     if user.dicente?
-      redirect_to avaliacoes_path
+      redirect_to formularios_pendentes_path
     elsif user.docente?
       redirect_to templates_path
     else

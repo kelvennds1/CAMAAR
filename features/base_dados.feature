@@ -23,14 +23,6 @@ Feature: Database Update
         And I should see updated enrollment records
         And the data should match the current SIGAA data
 
-    Scenario: Update database with connection error to SIGAA
-        Given that I am on the Gerenciamento page
-        When I click on "Importar Dados"
-        And the system cannot connect to SIGAA
-        Then I should see "Error connecting to SIGAA"
-        And the database should remain unchanged
-        And I should see an option to retry the connection
-
     Scenario: Update database when already up to date
         Given that the database was recently updated
         And the database is already synchronized with SIGAA

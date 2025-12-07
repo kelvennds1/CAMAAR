@@ -2,4 +2,4 @@
 
 import "./templates_form";
 import "./evaluations";
-import "./evaluations";
+import "./sigaa_imports";

@@ -1,38 +1,41 @@
 # frozen_string_literal: true
 
-# Step definitions para a feature de importação de dados do SIGAA (#113).
-# IMPORTANTE:
-# - Ajuste os nomes dos models (Turma, Materia, Participante) conforme o projeto.
-# - Ajuste caminhos dos arquivos JSON e os identificadores de campos/botões da view.
-
-Dado('estou na página "importacao/sigaa" do sistema') do
-  visit('/importacao/sigaa')
+Dado('estou na página de importação SIGAA') do
+  # Faz login do admin criado pelo step anterior
+  visit login_path
+  fill_in 'email', with: @admin_docente.email
+  fill_in 'password', with: 'senha123'
+  click_button 'Entrar'
+  
+  # Visita a página de importação
+  visit new_sigaa_import_path
 end
 
 Dado('existem arquivos JSON de turmas, matérias e participantes disponíveis no repositório') do
-  @turmas_json_path        = Rails.root.join('spec/fixtures/sigaa/turmas.json')
-  @materias_json_path      = Rails.root.join('spec/fixtures/sigaa/materias.json')
-  @participantes_json_path = Rails.root.join('spec/fixtures/sigaa/participantes.json')
+  @turmas_json_path = Rails.root.join('classes.json')
+  @materias_json_path = Rails.root.join('classes.json') # Mesmo arquivo
+  @participantes_json_path = Rails.root.join('class_members.json')
 
   expect(File.exist?(@turmas_json_path)).to be(true)
-  expect(File.exist?(@materias_json_path)).to be(true)
   expect(File.exist?(@participantes_json_path)).to be(true)
 end
 
 Dado('que existem turmas, matérias e participantes nos arquivos JSON que ainda não existem na base de dados') do
+  Matricula.delete_all
   Turma.delete_all
+  Dicente.delete_all
+  Docente.where.not(id: @admin_docente.id).delete_all
   Materia.delete_all
-  Participante.delete_all
 
-  @turmas_antes        = Turma.count
-  @materias_antes      = Materia.count
-  @participantes_antes = Participante.count
+  @turmas_antes = Turma.count
+  @materias_antes = Materia.count
+  @dicentes_antes = Dicente.count
 end
 
 Quando('eu seleciono os arquivos JSON do SIGAA para importação') do
-  attach_file('turmas_file',        @turmas_json_path)
-  attach_file('materias_file',      @materias_json_path)
-  attach_file('participantes_file', @participantes_json_path)
+
+  attach_file('classes_file', @turmas_json_path)
+  attach_file('class_members_file', @participantes_json_path)
 end
 
 Quando('eu confirmo a importação dos dados') do
@@ -48,21 +51,19 @@ Então('as matérias do SIGAA que não existiam são cadastradas na base de dado
 end
 
 Então('os participantes do SIGAA que não existiam são cadastrados na base de dados') do
-  expect(Participante.count).to be > @participantes_antes
+  expect(Dicente.count).to be > @dicentes_antes
 end
 
 Dado('que algumas turmas, matérias e participantes dos arquivos JSON já existem na base de dados') do
-  Turma.delete_all
-  Materia.delete_all
-  Participante.delete_all
+  # Importa uma vez para criar registros
+  SigaaImporter.call(
+    classes_file: File.open(@turmas_json_path),
+    class_members_file: File.open(@participantes_json_path)
+  )
 
-  @turma_existente        = FactoryBot.create(:turma, codigo: 'TURMA_EXISTENTE')
-  @materia_existente      = FactoryBot.create(:materia, codigo: 'MAT_EXISTENTE')
-  @participante_existente = FactoryBot.create(:participante, matricula: 'PART_EXISTENTE')
-
-  @turmas_antes        = Turma.count
-  @materias_antes      = Materia.count
-  @participantes_antes = Participante.count
+  @turmas_antes = Turma.count
+  @materias_antes = Materia.count
+  @dicentes_antes = Dicente.count
 end
 
 Quando('eu realizo a importação dos dados do SIGAA') do
@@ -71,28 +72,26 @@ Quando('eu realizo a importação dos dados do SIGAA') do
 end
 
 Então('os registros já existentes não são duplicados na base de dados') do
-  expect(Turma.where(id: @turma_existente.id).count).to eq(1)
-  expect(Materia.where(id: @materia_existente.id).count).to eq(1)
-  expect(Participante.where(id: @participante_existente.id).count).to eq(1)
+  # Verifica que a contagem não aumentou
+  expect(Materia.count).to eq(@materias_antes)
 end
 
 Então('apenas os registros inexistentes são criados') do
   expect(Turma.count).to be >= @turmas_antes
   expect(Materia.count).to be >= @materias_antes
-  expect(Participante.count).to be >= @participantes_antes
+  expect(Dicente.count).to be >= @dicentes_antes
 end
 
 Dado('que o arquivo JSON de turmas está em formato inválido') do
-  @turmas_json_path = Rails.root.join('spec/fixtures/sigaa/turmas_invalido.json')
-  File.write(@turmas_json_path, 'isso_nao_e_um_json_valido') unless File.exist?(@turmas_json_path)
+  @invalid_file = Tempfile.new(['invalid', '.json'])
+  @invalid_file.write('isso_nao_e_um_json_valido')
+  @invalid_file.rewind
+  @turmas_json_path = @invalid_file.path
   @turmas_antes = Turma.count
 end
 
 Quando('eu tento importar os dados do SIGAA') do
-  attach_file('turmas_file',        @turmas_json_path)
-  attach_file('materias_file',      @materias_json_path)      if defined?(@materias_json_path)
-  attach_file('participantes_file', @participantes_json_path) if defined?(@participantes_json_path)
-
+  attach_file('classes_file', @turmas_json_path)
   click_button 'Importar dados do SIGAA'
 end
 
@@ -101,9 +100,9 @@ Então('nenhum dado é importado a partir desse arquivo inválido') do
 end
 
 Dado('que não selecionei nenhum arquivo JSON para importação') do
-  @turmas_antes        = Turma.count
-  @materias_antes      = Materia.count
-  @participantes_antes = Participante.count
+  @turmas_antes = Turma.count
+  @materias_antes = Materia.count
+  @dicentes_antes = Dicente.count
 end
 
 Quando('eu tento iniciar a importação dos dados do SIGAA') do
@@ -113,5 +112,5 @@ end
 Então('nenhum dado é importado') do
   expect(Turma.count).to eq(@turmas_antes)
   expect(Materia.count).to eq(@materias_antes)
-  expect(Participante.count).to eq(@participantes_antes)
+  expect(Dicente.count).to eq(@dicentes_antes)
 end

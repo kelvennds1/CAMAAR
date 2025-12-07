@@ -13,13 +13,20 @@ Rails.application.routes.draw do
 
   resources :templates, only: %i[index create edit update destroy]
   get "gerenciamento/templates", to: "templates#index", as: :management_templates
-  resources :avaliacoes, only: %i[index create]
+  resources :avaliacoes, only: %i[index create] do
+    member do
+      get :responder
+      post :submeter
+    end
+  end
+  get "formularios/pendentes", to: "avaliacoes#pendentes", as: :formularios_pendentes
   resources :resultados, only: %i[index show] do
     member do
       get :export
     end
   end
-  root "login#new"
+  
+  root "sessions#new"
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
@@ -28,4 +35,11 @@ Rails.application.routes.draw do
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+
+  #Sigaa Import routes
+  resources :sigaa_imports, only: [:new, :create, :index] do
+    collection do
+      post :update_database
+    end
+  end
 end

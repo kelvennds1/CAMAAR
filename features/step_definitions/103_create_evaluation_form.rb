@@ -3,14 +3,7 @@
 require "securerandom"
 
 Given('I am authenticated as an administrator') do
-  @admin ||= Usuario.create!(
-    identifier: SecureRandom.uuid,
-    nome: "Administrador Sprint",
-    email: "admin-#{SecureRandom.hex(4)}@example.com",
-    type: "Usuario",
-    password: "senha123",
-    admin: true
-  )
+  step 'que estou autenticado como administrador'
 end
 
 Given('there is at least one evaluation template available') do
@@ -48,10 +41,15 @@ end
 
 When('I select a template and choose one or more classes') do
   visit avaliacoes_path
-  select(@template.name, from: "Template")
+  # Aguardar página carregar completamente
+  expect(page).to have_content("Formulários de avaliação", wait: 5)
+  # Aguardar elemento estar disponível
+  select_box = find("[data-testid='evaluation-template']", wait: 5)
+  select_box.select(@template.name)
   @selected_turmas = @turmas.first(2)
   @selected_turmas.each do |turma|
-    find("input[type='checkbox'][value='#{turma.id}']", visible: :all).set(true)
+    checkbox = find("input[type='checkbox'][value='#{turma.id}']", visible: :all, wait: 2)
+    checkbox.set(true) if checkbox
   end
 end
 
@@ -85,8 +83,11 @@ end
 
 When('I try to create forms again using the same template for the same class') do
   visit avaliacoes_path
-  select(@template.name, from: "Template")
-  find("input[type='checkbox'][value='#{@turmas.first.id}']", visible: :all).set(true)
+  expect(page).to have_content("Formulários de avaliação", wait: 5)
+  select_box = find("[data-testid='evaluation-template']", wait: 5)
+  select_box.select(@template.name)
+  checkbox = find("input[type='checkbox'][value='#{@turmas.first.id}']", visible: :all, wait: 2)
+  checkbox.set(true) if checkbox
   find("[data-testid='create-evaluations']").click
 end
 
@@ -101,9 +102,13 @@ end
 
 When('I try to create forms without selecting a template') do
   visit avaliacoes_path
+  # Aguardar página carregar completamente
+  expect(page).to have_content("Formulários de avaliação", wait: 5)
+  expect(page).to have_selector("[data-testid='evaluation-template']", wait: 5)
   @selected_turmas = @turmas.first(1)
   @selected_turmas.each do |turma|
-    find("input[type='checkbox'][value='#{turma.id}']", visible: :all).set(true)
+    checkbox = find("input[type='checkbox'][value='#{turma.id}']", visible: :all, wait: 2)
+    checkbox.set(true) if checkbox
   end
   find("[data-testid='create-evaluations']").click
 end

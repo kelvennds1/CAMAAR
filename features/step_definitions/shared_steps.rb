@@ -8,3 +8,7 @@ Então('devo ver a mensagem {string}') do |texto|
     expect(page).to have_content(texto)
   end
 end
+
+Então('devo ver a mensagem que contém {string}') do |texto_parcial|
+  expect(page).to have_content(texto_parcial)
+end

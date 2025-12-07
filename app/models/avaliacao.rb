@@ -23,7 +23,8 @@ class Avaliacao < ApplicationRecord
     published
       .joins(turma: :matriculas)
       .where(matriculas: { dicente_id: dicente.id })
-      .left_outer_joins(:respostas)
-      .where(respostas: { dicente_id: [nil, dicente.id] })
+      .where.not(
+        id: Resposta.where(dicente_id: dicente.id).select(:avaliacao_id)
+      )
   }
 end

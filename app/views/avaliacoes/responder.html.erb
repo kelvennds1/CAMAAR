@@ -1,0 +1,100 @@
+<% content_for :title, "Responder Formulário" %>
+
+<section class="answer-form-page">
+  <div class="answer-form-page__header">
+    <a href="<%= formularios_pendentes_path %>" class="results-back-link" data-testid="back-link">
+      ← Voltar para formulários pendentes
+    </a>
+    <div>
+      <h1><%= @avaliacao.title %></h1>
+      <p class="answer-form-page__meta">
+        <strong>Turma:</strong> <%= @avaliacao.turma.materia.name %> — <%= @avaliacao.turma.class_code %> · 
+        <strong>Semestre:</strong> <%= @avaliacao.turma.semester %> · 
+        <strong>Professor(a):</strong> <%= @avaliacao.docente.nome %>
+      </p>
+      <p class="answer-form-page__due-date">
+        <strong>Prazo:</strong> <%= l(@avaliacao.due_date.to_date, format: :long) rescue @avaliacao.due_date %>
+      </p>
+    </div>
+  </div>
+
+  <%= form_with url: submeter_avaliacao_path(@avaliacao), method: :post, data: { testid: "answer-form" }, class: "answer-form", local: true do |form| %>
+    <% if @resposta.errors.any? %>
+      <div class="form-errors" data-testid="form-errors">
+        <p>Corrija os erros abaixo:</p>
+        <ul>
+          <% @resposta.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="questions-container">
+      <% @questoes.each_with_index do |questao, index| %>
+        <div class="question-block" data-testid="<%= questao.question_type == 'likert' ? 'pergunta-radio' : questao.question_type == 'text' ? 'pergunta-texto' : 'pergunta' %>">
+          <div class="question-header">
+            <h3>
+              <%= questao.position %>. <%= questao.prompt %>
+              <% if questao.mandatory %>
+                <span class="required-badge">*</span>
+              <% end %>
+            </h3>
+          </div>
+
+          <div class="question-answer">
+            <% case questao.question_type %>
+            <% when 'likert' %>
+              <div class="likert-scale" data-testid="likert-<%= questao.id %>">
+                <% (questao.min_value..questao.max_value).each do |value| %>
+                  <label class="likert-option">
+                    <%= radio_button_tag "respostas[#{questao.id}]", value, 
+                        @resposta.resposta_items.find_by(questao: questao)&.valor == value.to_s,
+                        required: questao.mandatory,
+                        data: { testid: "alternativa-opcao" } %>
+                    <span class="likert-value"><%= value %></span>
+                  </label>
+                <% end %>
+              </div>
+              <div class="likert-labels">
+                <span>Péssimo</span>
+                <span>Excelente</span>
+              </div>
+
+            <% when 'multiple_choice' %>
+              <div class="multiple-choice-options">
+                <% options = questao.options.present? ? JSON.parse(questao.options) : [] %>
+                <% options.each do |option| %>
+                  <label class="choice-option">
+                    <%= radio_button_tag "respostas[#{questao.id}]", option,
+                        @resposta.resposta_items.find_by(questao: questao)&.valor == option,
+                        required: questao.mandatory,
+                        data: { testid: "alternativa-opcao" } %>
+                    <span><%= option %></span>
+                  </label>
+                <% end %>
+              </div>
+
+            <% when 'text' %>
+              <div class="text-answer">
+                <%= text_area_tag "respostas[#{questao.id}]",
+                    @resposta.resposta_items.find_by(questao: questao)&.valor,
+                    required: questao.mandatory,
+                    rows: 4,
+                    class: "field__input",
+                    placeholder: "Digite sua resposta aqui...",
+                    data: { testid: "campo-texto-pergunta" } %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="form-actions">
+      <%= form.submit "Enviar", class: "button button--primary", data: { testid: "botao-enviar" } %>
+      <%= link_to "Cancelar", formularios_pendentes_path, class: "button button--ghost" %>
+    </div>
+  <% end %>
+</section>
+

@@ -1,0 +1,65 @@
+<% content_for :title, "Formulários Pendentes" %>
+
+<section class="pending-forms-page">
+  <div class="pending-forms-page__intro">
+    <div>
+      <h1>Formulários pendentes</h1>
+      <p>Responda aos formulários das suas turmas antes do prazo limite.</p>
+    </div>
+    <span class="meta-pill" data-testid="pending-count">Total: <%= @avaliacoes_pendentes.size %></span>
+  </div>
+
+  <% if @avaliacoes_pendentes.any? %>
+    <div class="pending-forms-grid">
+      <% @avaliacoes_pendentes.each do |avaliacao| %>
+        <% days_until_due = (avaliacao.due_date.to_date - Date.today).to_i %>
+        <% is_urgent = days_until_due <= 3 && days_until_due >= 0 %>
+        <% is_overdue = days_until_due < 0 %>
+        
+        <article class="pending-form-card <%= 'pending-form-card--urgent' if is_urgent %> <%= 'pending-form-card--overdue' if is_overdue %>" data-testid="pending-form">
+          <header>
+            <% if avaliacao.template&.name %>
+              <p class="pending-form-card__template" data-testid="form-template"><%= avaliacao.template.name %></p>
+            <% end %>
+            <h3 data-testid="form-title"><%= avaliacao.title %></h3>
+          </header>
+          
+          <dl class="pending-form-card__meta">
+            <div>
+              <dt>Turma</dt>
+              <dd data-testid="form-turma"><%= avaliacao.turma.materia.name %> — <%= avaliacao.turma.class_code %></dd>
+            </div>
+            <div>
+              <dt>Semestre</dt>
+              <dd data-testid="form-semester"><%= avaliacao.turma.semester %></dd>
+            </div>
+            <div>
+              <dt>Professor(a)</dt>
+              <dd data-testid="form-docente"><%= avaliacao.docente.nome %></dd>
+            </div>
+            <div>
+              <dt>Prazo</dt>
+              <dd data-testid="form-due-date">
+                <%= l(avaliacao.due_date.to_date, format: :long) rescue avaliacao.due_date %>
+                <% if is_overdue %>
+                  <span class="due-badge due-badge--overdue">Vencido</span>
+                <% elsif is_urgent %>
+                  <span class="due-badge due-badge--urgent">
+                    <%= days_until_due == 0 ? "Vence hoje" : "#{days_until_due} #{days_until_due == 1 ? 'dia' : 'dias'} restante#{'s' if days_until_due > 1}" %>
+                  </span>
+                <% end %>
+              </dd>
+            </div>
+          </dl>
+          
+          <div class="pending-form-card__actions">
+            <%= link_to "Responder formulário", responder_avaliacao_path(avaliacao), class: "button button--primary", data: { testid: "answer-form" } %>
+          </div>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="blank-state" data-testid="no-pending-forms">Nenhum formulário pendente no momento.</p>
+  <% end %>
+</section>
+

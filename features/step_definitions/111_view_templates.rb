@@ -7,6 +7,8 @@ Given('estou na página {string} do sistema') do |path|
 	case path
 	when "gerenciamento/templates"
 		visit management_templates_path(admin_id: @admin_docente.id)
+	when "importacao/sigaa"
+		visit new_sigaa_import_path
 	else
 		visit("/#{path}")
 	end
@@ -51,7 +53,16 @@ Then('a listagem de templates fica vazia') do
 end
 
 def ensure_admin_present
-	step 'que estou autenticado como administrador' unless @admin_docente
+	unless @admin_docente
+		step 'que estou autenticado como administrador'
+		# Garantir que está logado
+		unless page.current_path == login_path || page.has_content?("Templates")
+			visit login_path
+			fill_in "email", with: @admin_docente.email
+			fill_in "password", with: "senha123"
+			click_button "Entrar"
+		end
+	end
 end
 
 def create_template_for(docente, nome)
