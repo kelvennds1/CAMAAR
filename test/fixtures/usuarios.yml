@@ -27,3 +27,35 @@ two:
   matricula: MyString
   curso: MyString
   admin: false
+
+admin_user:
+  identifier: "admin001"
+  nome: "Admin Test"
+  email: "admin@test.com"
+  type: "Usuario"
+  admin: true
+  password_digest: <%= BCrypt::Password.create('password', cost: 4) %>
+
+docente_one:
+  identifier: "docente001"
+  nome: "Professor Teste"
+  email: "prof@test.com"
+  formacao: "Doutorado"
+  ocupacao: "docente"
+  type: "Docente"
+  departamento: "Departamento de Teste"
+  titulacao: "Doutor"
+  admin: false
+  password_digest: <%= BCrypt::Password.create('password', cost: 4) %>
+
+dicente_one:
+  identifier: "dicente001"
+  nome: "Aluno Teste"
+  email: "aluno@test.com"
+  formacao: "graduando"
+  ocupacao: "dicente"
+  type: "Dicente"
+  matricula: "123456789"
+  curso: "Ciência da Computação"
+  admin: false
+  password_digest: <%= BCrypt::Password.create('password', cost: 4) %>

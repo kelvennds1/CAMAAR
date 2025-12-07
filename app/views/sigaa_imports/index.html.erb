@@ -1,0 +1,38 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-6">Importação de Dados do SIGAA</h1>
+
+  <div class="mb-6">
+    <%= link_to "Nova Importação", new_sigaa_import_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+  </div>
+
+  <div class="bg-white shadow-md rounded px-8 pt-6 pb-8">
+    <h2 class="text-xl font-semibold mb-4">Status da Base de Dados</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="bg-gray-50 p-4 rounded">
+        <h3 class="font-semibold text-gray-700">Matérias</h3>
+        <p class="text-3xl font-bold text-blue-600"><%= Materia.count %></p>
+      </div>
+      
+      <div class="bg-gray-50 p-4 rounded">
+        <h3 class="font-semibold text-gray-700">Turmas</h3>
+        <p class="text-3xl font-bold text-blue-600"><%= Turma.count %></p>
+      </div>
+      
+      <div class="bg-gray-50 p-4 rounded">
+        <h3 class="font-semibold text-gray-700">Docentes</h3>
+        <p class="text-3xl font-bold text-blue-600"><%= Docente.count %></p>
+      </div>
+      
+      <div class="bg-gray-50 p-4 rounded">
+        <h3 class="font-semibold text-gray-700">Dicentes</h3>
+        <p class="text-3xl font-bold text-blue-600"><%= Dicente.count %></p>
+      </div>
+      
+      <div class="bg-gray-50 p-4 rounded">
+        <h3 class="font-semibold text-gray-700">Matrículas</h3>
+        <p class="text-3xl font-bold text-blue-600"><%= Matricula.count %></p>
+      </div>
+    </div>
+  </div>
+</div>
