@@ -5,7 +5,7 @@ Sistema de avaliação e gerenciamento de formulários para turmas acadêmicas.
 ## Sprint 1 - Resumo Executivo
 
 ### Papéis
-- **Scrum Master**: Kelven Dias
+- **Scrum Master**: Kelven Silva
 - **Product Owner**: Equipe de Engenharia de Software
 
 ### Funcionalidades Desenvolvidas
