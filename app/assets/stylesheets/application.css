@@ -54,6 +54,22 @@ body {
 	border-color: #fff;
 }
 
+.app-nav__link--logout {
+	background: transparent;
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	border-radius: 0.375rem;
+	padding: 0.4rem 1rem;
+	transition: all 0.2s ease;
+	font-family: inherit;
+	font-size: 0.95rem;
+	cursor: pointer;
+}
+
+.app-nav__link--logout:hover {
+	background: rgba(255, 255, 255, 0.1);
+	border-color: rgba(255, 255, 255, 0.5);
+}
+
 .app-main {
 	max-width: 1200px;
 	margin: 0 auto;

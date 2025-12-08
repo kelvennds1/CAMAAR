@@ -240,9 +240,16 @@ class SigaaImporter
       docente.departamento = docente_data['departamento'] || 'Não informado'
       docente.titulacao = docente_data['formacao'] || 'Não informado'
       docente.ocupacao = docente_data['ocupacao'] || 'docente'
-      
+      # Setar pending_activation como true para novos usuários importados
+      docente.pending_activation = true if docente.respond_to?(:pending_activation)
+      # Gerar token de configuração de senha
+      docente.password_reset_token = SecureRandom.urlsafe_base64(32)
+      docente.password_reset_sent_at = Time.current
+
       if docente.save
         @result.created[:docentes] += 1
+        # Enviar email de configuração de senha para novo usuário
+        send_password_setup_email(docente)
       else
         @result.errors << "Erro ao criar docente #{identifier}: #{docente.errors.full_messages.join(', ')}"
         return nil
@@ -312,9 +319,14 @@ class SigaaImporter
       dicente.formacao = dicente_data['formacao'] || 'graduando'
       # Setar pending_activation como true para novos usuários importados
       dicente.pending_activation = true if dicente.respond_to?(:pending_activation)
-      
+      # Gerar token de configuração de senha
+      dicente.password_reset_token = SecureRandom.urlsafe_base64(32)
+      dicente.password_reset_sent_at = Time.current
+
       if dicente.save
         @result.created[:dicentes] += 1
+        # Enviar email de configuração de senha para novo usuário
+        send_password_setup_email(dicente)
       else
         @result.errors << "Erro ao criar dicente #{identifier}: #{dicente.errors.full_messages.join(', ')}"
         return
@@ -404,5 +416,18 @@ class SigaaImporter
       d.departamento = 'Não informado'
       d.titulacao = 'Não informado'
     end
+  end
+
+  def send_password_setup_email(user)
+    # Enviar email (síncrono em test, assíncrono em production)
+    if Rails.env.test?
+      PasswordSetupMailer.setup_instructions(user).deliver_now
+    else
+      PasswordSetupMailer.setup_instructions(user).deliver_later
+    end
+  rescue StandardError => e
+    # Log do erro mas não falha a importação
+    Rails.logger.error("Erro ao enviar email de configuração de senha para #{user.email}: #{e.message}")
+    @result.errors << "Email não enviado para #{user.email}: #{e.message}"
   end
 end

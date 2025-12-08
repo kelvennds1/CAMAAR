@@ -99,10 +99,21 @@ Then('the system creates pending activation records for each imported participan
 end
 
 Then('the system sends a password setup request email to each new participant') do
-  # Verificar que os usuários foram criados (o envio de email seria testado em testes unitários)
+  # Verificar que os emails foram enfileirados para envio
   @sigaa_participants.each do |participant|
     dicente = Dicente.find_by(identifier: participant[:matricula])
     expect(dicente).not_to be_nil
+
+    # Verificar que o token foi gerado
+    expect(dicente.password_reset_token).not_to be_nil
+    expect(dicente.password_reset_sent_at).not_to be_nil
+
+    # Verificar que o email foi enfileirado
+    # No ambiente de teste, os emails ficam em ActionMailer::Base.deliveries
+    matching_email = ActionMailer::Base.deliveries.find do |mail|
+      mail.to.include?(dicente.email) && mail.subject.include?('senha')
+    end
+    expect(matching_email).not_to be_nil, "Email não foi enviado para #{dicente.email}"
   end
 end
 
@@ -110,17 +121,12 @@ Then('the participants cannot access the system until they set their passwords')
   @sigaa_participants.each do |participant|
     dicente = Dicente.find_by(identifier: participant[:matricula])
     expect(dicente).not_to be_nil
-    # Verificar que não podem fazer login sem senha configurada
-    # O SigaaImporter deve criar com pending_activation = true
-    # Mas como o SigaaImporter não seta isso, vamos verificar se password_digest está presente
-    # Se não tiver senha, não pode fazer login
-    expect(dicente.password_digest).to be_nil if dicente.respond_to?(:password_digest)
-    # Ou verificar pending_activation se existir
-    if dicente.respond_to?(:pending_activation) && Dicente.column_names.include?("pending_activation")
-      # Se o campo existe, verificar se está true (mas o importer pode não setar)
-      # Por enquanto, apenas verificar que o usuário foi criado
-      expect(dicente).to be_present
-    end
+
+    # Verificar que o usuário está com pending_activation = true
+    expect(dicente.pending_activation).to be true
+
+    # Verificar que não tem senha configurada (password_digest é nil)
+    expect(dicente.password_digest).to be_nil
   end
 end
 
@@ -163,6 +169,14 @@ Then('the system does not send the password setup request again for that partici
   # Verificar que não foi criado novo registro
   dicente = Dicente.find_by(identifier: @existing_participant[:matricula])
   expect(dicente).to eq(@existing_dicente)
+
+  # Contar quantos emails foram enviados para este usuário
+  # Como o usuário já existia, não deve ter enviado novo email
+  emails_to_existing = ActionMailer::Base.deliveries.count do |mail|
+    mail.to.include?(dicente.email) && mail.subject.include?('senha')
+  end
+  # Como o usuário já tinha senha (foi criado com senha123), não deve ter recebido email
+  expect(emails_to_existing).to eq(0)
 end
 
 Given('some SIGAA records are incomplete or invalid') do
@@ -205,6 +219,11 @@ def current_semester_label
   date = Time.zone.today
   term = date.month <= 6 ? 1 : 2
   format('%<year>d.%<term>d', year: date.year, term: term)
+end
+
+Before do
+  # Limpar emails antes de cada cenário
+  ActionMailer::Base.deliveries.clear
 end
 
 After do

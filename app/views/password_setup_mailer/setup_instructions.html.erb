@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Bem-vindo ao Sistema CAMAAR, <%= @user.nome %>!</h1>
+
+    <p>
+      Você foi cadastrado no Sistema CAMAAR - Coleta e Análise de Métricas de Avaliação Acadêmica em Rede.
+    </p>
+
+    <p>
+      Para acessar o sistema, você precisa configurar sua senha.
+      Clique no link abaixo para definir sua senha:
+    </p>
+
+    <p>
+      <a href="<%= @setup_url %>">Configurar minha senha</a>
+    </p>
+
+    <p>
+      Ou copie e cole o seguinte link no seu navegador:
+    </p>
+
+    <p>
+      <%= @setup_url %>
+    </p>
+
+    <p>
+      <strong>Importante:</strong> Este link é válido por 24 horas.
+    </p>
+
+    <p>
+      Após configurar sua senha, você poderá acessar o sistema utilizando seu email (<%= @user.email %>)
+      e a senha que você definiu.
+    </p>
+
+    <p>
+      Atenciosamente,<br/>
+      Equipe CAMAAR
+    </p>
+  </body>
+</html>
