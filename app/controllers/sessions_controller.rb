@@ -4,7 +4,10 @@ class SessionsController < ApplicationController
   skip_before_action :require_login, only: [:new, :create]
 
   def new
-    # Renderiza a página de login
+    # Redirect se já estiver logado
+    if logged_in?
+      redirect_to_appropriate_page(current_user)
+    end
   end
 
   def create
@@ -12,7 +15,7 @@ class SessionsController < ApplicationController
 
     if user && user.authenticate(params[:password])
       if user.respond_to?(:pending_activation) && user.pending_activation
-        flash[:alert] = "Please activate your account first"
+        flash[:alert] = "Por favor, ative sua conta primeiro"
         redirect_to login_path
       else
         session[:user_id] = user.id
@@ -26,7 +29,7 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil
-    redirect_to login_path, notice: "Logged out successfully"
+    redirect_to login_path, notice: "Sessão encerrada com sucesso"
   end
 
   private

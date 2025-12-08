@@ -13,17 +13,17 @@ RSpec.describe "Sessions", type: :request do
     end
 
     it "redirects to appropriate page if already logged in" do
-      login_as(dicente)
+      stub_authentication(dicente)
       get login_path
-      expect(response).to redirect_to(avaliacoes_path)
+      expect(response).to redirect_to(formularios_pendentes_path)
     end
   end
 
   describe "POST /login" do
     context "with valid credentials" do
-      it "logs in a dicente and redirects to avaliacoes" do
+      it "logs in a dicente and redirects to formularios_pendentes" do
         post login_path, params: { email: dicente.email, password: "senha123" }
-        expect(response).to redirect_to(avaliacoes_path)
+        expect(response).to redirect_to(formularios_pendentes_path)
         follow_redirect!
         expect(response.body).to_not include("Invalid email or password")
       end
@@ -67,13 +67,16 @@ RSpec.describe "Sessions", type: :request do
         post login_path, params: { email: pending_user.email, password: "senha123" }
         expect(response).to redirect_to(login_path)
         follow_redirect!
-        expect(response.body).to include("activate your account")
+        expect(response.body).to include("ative sua conta")
       end
     end
   end
 
   describe "DELETE /logout" do
-    before { login_as(dicente) }
+    before do
+      # Login real para ter sessão válida
+      post login_path, params: { email: dicente.email, password: "senha123" }
+    end
 
     it "logs out the user" do
       delete logout_path
@@ -84,7 +87,7 @@ RSpec.describe "Sessions", type: :request do
       delete logout_path
       expect(response).to redirect_to(login_path)
       follow_redirect!
-      expect(response.body).to include("Logged out successfully")
+      expect(response.body).to include("Sessão encerrada")
     end
   end
 

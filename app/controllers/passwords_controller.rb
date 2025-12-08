@@ -8,7 +8,7 @@ class PasswordsController < ApplicationController
     @user = Usuario.find_by(password_reset_token: @token)
 
     if @user.nil? || token_expired?(@user)
-      flash[:alert] = "Password setup link is invalid or expired"
+      flash[:alert] = "Link de configuração de senha é inválido ou expirado"
       redirect_to request_new_password_path
     end
   end
@@ -17,21 +17,26 @@ class PasswordsController < ApplicationController
     @user = Usuario.find_by(password_reset_token: params[:token])
 
     if @user.nil? || token_expired?(@user)
-      flash[:alert] = "Password setup link is invalid or expired"
+      flash[:alert] = "Link de configuração de senha é inválido ou expirado"
       redirect_to request_new_password_path
       return
     end
 
     if params[:password] != params[:password_confirmation]
       @token = params[:token]
-      flash.now[:alert] = "Password confirmation doesn't match"
+      flash.now[:alert] = "A confirmação de senha não corresponde"
       render :new, status: :unprocessable_entity
       return
     end
 
-    if @user.update(password: params[:password], password_reset_token: nil, password_reset_sent_at: nil, pending_activation: false)
+    @user.password = params[:password]
+    @user.pending_activation = false
+    @user.password_reset_token = nil
+    @user.password_reset_sent_at = nil
+
+    if @user.save
       session[:user_id] = @user.id
-      flash[:notice] = "Password set successfully! You are now logged in."
+      flash[:notice] = "Senha definida com sucesso! Você está conectado."
       redirect_to_appropriate_page(@user)
     else
       @token = params[:token]

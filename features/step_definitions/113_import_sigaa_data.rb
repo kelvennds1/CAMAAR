@@ -1,12 +1,7 @@
 # frozen_string_literal: true
 
 Dado('estou na página de importação SIGAA') do
-  # Faz login do admin criado pelo step anterior
-  visit login_path
-  fill_in 'email', with: @admin_docente.email
-  fill_in 'password', with: 'senha123'
-  click_button 'Entrar'
-  
+  # O admin já está autenticado pelo step anterior "que estou autenticado como administrador"
   # Visita a página de importação
   visit new_sigaa_import_path
 end

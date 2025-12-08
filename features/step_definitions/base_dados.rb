@@ -137,6 +137,16 @@ Then('no data should be modified') do
 end
 
 Given('that I am logged in as a regular user') do
+  # Primeiro, fazer logout se já estiver logado como admin
+  begin
+    # Verificar se há botão de logout
+    if page.has_button?("Sair")
+      click_button "Sair"
+    end
+  rescue Capybara::ElementNotFound, NoMethodError
+    # Ignorar se não conseguir fazer logout
+  end
+
   @regular_user = Dicente.create!(
     identifier: SecureRandom.uuid,
     nome: "Usuário Regular",
@@ -165,8 +175,12 @@ Then(/^I should see "Access denied"$/) do
 end
 
 Then('I should be redirected to the home page') do
+  # Um dicente é redirecionado para sua dashboard de formulários pendentes
+  # Um usuário não autenticado seria redirecionado para login
   expect(page).to satisfy do |p|
-    p.has_current_path?(root_path, wait: 5) || p.has_current_path?(login_path, wait: 5)
+    p.has_current_path?(root_path, wait: 5) ||
+    p.has_current_path?(login_path, wait: 5) ||
+    p.has_current_path?(formularios_pendentes_path, wait: 5)
   end
 end
 

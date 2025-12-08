@@ -87,14 +87,39 @@ FactoryBot.define do
     min_value { 1 }
     max_value { 5 }
     weight { 1 }
+
+    trait :likert do
+      question_type { TemplateQuestion::QUESTION_TYPES[:likert] }
+      min_value { 1 }
+      max_value { 5 }
+    end
+
+    trait :text do
+      question_type { TemplateQuestion::QUESTION_TYPES[:text] }
+      min_value { nil }
+      max_value { nil }
+    end
+
+    trait :multiple_choice do
+      question_type { TemplateQuestion::QUESTION_TYPES[:multiple_choice] }
+      options { ["Opção 1", "Opção 2", "Opção 3"] }
+      min_value { nil }
+      max_value { nil }
+    end
   end
 
   factory :resposta do
     association :avaliacao
     association :dicente
-    status { :submitted }
-    submitted_at { Time.zone.now }
-    score { 8.5 }
+    status { :pending }
+    submitted_at { nil }
+    score { nil }
+
+    trait :submitted do
+      status { :submitted }
+      submitted_at { Time.zone.now }
+      score { 8.5 }
+    end
   end
 
   factory :resposta_item do

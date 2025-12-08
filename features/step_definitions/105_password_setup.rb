@@ -22,9 +22,9 @@ When('I open the password setup link') do
 end
 
 When('I set a new valid password and confirmation') do
-  fill_in "password", with: "newpassword123"
-  fill_in "password_confirmation", with: "newpassword123"
-  click_button "Set Password"
+  fill_in "Nova Senha", with: "newpassword123"
+  fill_in "Confirmar Senha", with: "newpassword123"
+  click_button "Definir Senha"
 end
 
 Then('my account becomes active') do
@@ -44,23 +44,23 @@ Given('my password setup token is invalid or expired') do
 end
 
 Then('I see an error indicating the link is invalid or expired') do
-  expect(page).to have_content("Password setup link is invalid or expired")
+  expect(page).to have_content("Link de configuração de senha é inválido ou expirado")
 end
 
 Then('I am offered a way to request a new password setup email') do
   # Deve estar na página de solicitar novo link
   expect(page).to have_current_path(request_new_password_path)
-  expect(page).to have_content("Contact your administrator")
+  expect(page).to have_content("administrador")
 end
 
 When('I enter a password and a non-matching confirmation') do
-  fill_in "password", with: "password123"
-  fill_in "password_confirmation", with: "differentpassword"
-  click_button "Set Password"
+  fill_in "Nova Senha", with: "password123"
+  fill_in "Confirmar Senha", with: "differentpassword"
+  click_button "Definir Senha"
 end
 
 Then('I see a validation error about the confirmation not matching') do
-  expect(page).to have_content("Password confirmation doesn't match")
+  expect(page).to have_content("não corresponde")
 end
 
 Then('my account remains pending until I set a valid password') do
@@ -78,7 +78,7 @@ When('I try to use the same link again') do
 end
 
 Then('I see an error that the token has already been used') do
-  expect(page).to have_content("Password setup link is invalid or expired")
+  expect(page).to have_content("Link de configuração de senha é inválido ou expirado")
 end
 
 Then('I remain signed in with my new credentials') do

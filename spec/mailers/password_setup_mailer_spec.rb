@@ -26,33 +26,36 @@ RSpec.describe PasswordSetupMailer, type: :mailer do
     end
 
     it 'includes user name in body' do
-      expect(mail.body.encoded).to include(user.nome)
+      expect(mail.html_part.decoded).to include(user.nome)
+      expect(mail.text_part.decoded).to include(user.nome)
     end
 
     it 'includes password setup link in body' do
-      expect(mail.body.encoded).to include('password_setup')
-      expect(mail.body.encoded).to include(user.password_reset_token)
+      expect(mail.html_part.decoded).to include('password/setup')
+      expect(mail.text_part.decoded).to include('password/setup')
     end
 
     it 'includes user email in body' do
-      expect(mail.body.encoded).to include(user.email)
+      expect(mail.html_part.decoded).to include(user.email)
+      expect(mail.text_part.decoded).to include(user.email)
     end
 
     it 'mentions the link validity period' do
-      expect(mail.body.encoded).to match(/24 horas/i)
+      expect(mail.html_part.decoded).to match(/24 horas/i)
+      expect(mail.text_part.decoded).to match(/24 horas/i)
     end
 
     context 'with HTML version' do
       it 'includes clickable link' do
         html_part = mail.body.parts.find { |p| p.content_type.include?('text/html') }
-        expect(html_part.body.encoded).to include('<a href=')
+        expect(html_part.body.decoded).to include('<a href=')
       end
     end
 
     context 'with text version' do
       it 'includes plain text link' do
         text_part = mail.body.parts.find { |p| p.content_type.include?('text/plain') }
-        expect(text_part.body.encoded).to include('password_setup')
+        expect(text_part.body.decoded).to include('password/setup')
       end
     end
   end

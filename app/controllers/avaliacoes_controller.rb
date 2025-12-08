@@ -7,7 +7,7 @@ class AvaliacoesController < ApplicationController
   def index; end
 
   def pendentes
-    if current_user.dicente?
+    if current_user&.dicente?
       @avaliacoes_pendentes = Avaliacao.pending_for_dicente(current_user)
                                         .includes(:turma, :docente, :template, turma: :materia)
                                         .order("avaliacoes.due_date ASC")
@@ -161,10 +161,13 @@ class AvaliacoesController < ApplicationController
       questao = Questao.find_by(id: questao_id)
       next unless questao && questao.avaliacao == @avaliacao
 
+      # Ignorar valores em branco para questões opcionais
+      next if valor.blank? && !questao.mandatory
+
       # Criar ou atualizar resposta_item
       resposta_item = resposta.resposta_items.find_or_initialize_by(questao: questao)
       resposta_item.valor = valor.to_s
-      
+
       unless resposta_item.save
         resposta.errors.add(:base, "Erro ao salvar resposta para '#{questao.prompt}'")
         return false

@@ -1,0 +1,59 @@
+[
+  {
+    "code": "CIC0001",
+    "classCode": "A",
+    "semester": "2025.1",
+    "docente": {
+      "usuario": "prof001",
+      "nome": "Prof. Carlos Silva",
+      "email": "carlos.silva@unb.br",
+      "departamento": "Ciência da Computação",
+      "formacao": "Doutor",
+      "ocupacao": "docente"
+    },
+    "dicente": [
+      {
+        "usuario": "aluno001",
+        "matricula": "200012345",
+        "nome": "Ana Santos",
+        "email": "ana.santos@aluno.unb.br",
+        "curso": "Ciência da Computação",
+        "ocupacao": "dicente",
+        "formacao": "graduando"
+      },
+      {
+        "usuario": "aluno002",
+        "matricula": "200023456",
+        "nome": "Bruno Costa",
+        "email": "bruno.costa@aluno.unb.br",
+        "curso": "Ciência da Computação",
+        "ocupacao": "dicente",
+        "formacao": "graduando"
+      }
+    ]
+  },
+  {
+    "code": "CIC0002",
+    "classCode": "B",
+    "semester": "2025.1",
+    "docente": {
+      "usuario": "prof002",
+      "nome": "Profa. Maria Oliveira",
+      "email": "maria.oliveira@unb.br",
+      "departamento": "Ciência da Computação",
+      "formacao": "Doutora",
+      "ocupacao": "docente"
+    },
+    "dicente": [
+      {
+        "usuario": "aluno003",
+        "matricula": "200034567",
+        "nome": "Carlos Pereira",
+        "email": "carlos.pereira@aluno.unb.br",
+        "curso": "Engenharia de Software",
+        "ocupacao": "dicente",
+        "formacao": "graduando"
+      }
+    ]
+  }
+]

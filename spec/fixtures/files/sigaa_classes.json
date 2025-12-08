@@ -1,0 +1,20 @@
+[
+  {
+    "code": "CIC0001",
+    "name": "Introdução à Ciência da Computação",
+    "class": {
+      "classCode": "A",
+      "semester": "2025.1",
+      "time": "3M34"
+    }
+  },
+  {
+    "code": "CIC0002",
+    "name": "Algoritmos e Estruturas de Dados",
+    "class": {
+      "classCode": "B",
+      "semester": "2025.1",
+      "time": "2T23"
+    }
+  }
+]

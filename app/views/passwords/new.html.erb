@@ -1,9 +1,9 @@
-<% content_for :title, "Set Your Password" %>
+<% content_for :title, "Defina sua Senha" %>
 
 <div class="password-setup-page">
   <div class="password-setup-container">
-    <h1>Set Your Password</h1>
-    <p class="password-setup-subtitle">Choose a secure password for your CAMAAR account</p>
+    <h1>Defina sua Senha</h1>
+    <p class="password-setup-subtitle">Escolha uma senha segura para sua conta CAMAAR</p>
 
     <% if flash[:alert] %>
       <div class="alert alert-error" data-testid="password-error">
@@ -15,27 +15,27 @@
       <%= hidden_field_tag :token, @token %>
 
       <div class="form-field">
-        <%= label_tag :password, "New Password" %>
+        <%= label_tag :password, "Nova Senha" %>
         <%= password_field_tag :password, nil,
             class: "form-input",
             data: { testid: "password-input" },
-            placeholder: "Enter your new password",
+            placeholder: "Digite sua nova senha",
             required: true,
             minlength: 6 %>
-        <span class="form-hint">Minimum 6 characters</span>
+        <span class="form-hint">Mínimo 6 caracteres</span>
       </div>
 
       <div class="form-field">
-        <%= label_tag :password_confirmation, "Confirm Password" %>
+        <%= label_tag :password_confirmation, "Confirmar Senha" %>
         <%= password_field_tag :password_confirmation, nil,
             class: "form-input",
             data: { testid: "password-confirmation-input" },
-            placeholder: "Re-enter your password",
+            placeholder: "Digite sua senha novamente",
             required: true %>
       </div>
 
       <div class="form-actions">
-        <%= submit_tag "Set Password",
+        <%= submit_tag "Definir Senha",
             class: "button button--primary",
             data: { testid: "set-password-button" } %>
       </div>
@@ -43,7 +43,7 @@
 
     <div class="password-setup-footer">
       <p>
-        Link expired? <%= link_to "Request a new one", request_new_password_path, data: { testid: "request-new-link" } %>
+        Link expirado? <%= link_to "Solicite um novo", request_new_password_path, data: { testid: "request-new-link" } %>
       </p>
     </div>
   </div>
