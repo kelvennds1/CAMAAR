@@ -16,35 +16,61 @@ class EvaluationBatchCreator
   end
 
   def call
-    return Result.new(created: [], skipped: [], errors: ["Selecione ao menos um template e uma turma"]) if invalid_params?
+    return error_result("Selecione ao menos um template e uma turma") if invalid_params?
 
+    template, turmas = load_template_and_turmas
+    created, skipped = process_turmas(template, turmas)
+
+    Result.new(created:, skipped:, errors: [])
+  rescue ActiveRecord::RecordInvalid => e
+    handle_record_invalid(e)
+  rescue ActiveRecord::RecordNotFound
+    error_result("Template selecionado não foi encontrado")
+  end
+
+  private
+
+  def error_result(message)
+    Result.new(created: [], skipped: [], errors: [message])
+  end
+
+  def load_template_and_turmas
     template = Template.includes(:template_questions).find(@template_id)
     turmas = Turma.includes(:docente).where(id: @turma_ids)
+    [template, turmas]
+  end
 
+  def process_turmas(template, turmas)
     created = []
     skipped = []
 
     ApplicationRecord.transaction do
       turmas.each do |turma|
-        if duplicate?(turma, template)
-          skipped << turma
-          next
-        end
-
-        avaliacao = Avaliacao.create!(build_evaluation_attributes(template, turma))
-        copy_questions(template, avaliacao)
-        created << avaliacao
+        process_single_turma(turma, template, created, skipped)
       end
     end
 
-    Result.new(created:, skipped:, errors: [])
-  rescue ActiveRecord::RecordInvalid => e
-    Result.new(created: [], skipped: [], errors: [e.record.errors.full_messages.to_sentence.presence || e.message])
-  rescue ActiveRecord::RecordNotFound
-    Result.new(created: [], skipped: [], errors: ["Template selecionado não foi encontrado"])
+    [created, skipped]
   end
 
-  private
+  def process_single_turma(turma, template, created, skipped)
+    if duplicate?(turma, template)
+      skipped << turma
+    else
+      created << create_avaliacao_for_turma(turma, template)
+    end
+  end
+
+  def create_avaliacao_for_turma(turma, template)
+    avaliacao = Avaliacao.create!(build_evaluation_attributes(template, turma))
+    copy_questions(template, avaliacao)
+    avaliacao
+  end
+
+  def handle_record_invalid(error)
+    message = error.record.errors.full_messages.to_sentence.presence || error.message
+    error_result(message)
+  end
 
   def invalid_params?
     @template_id.blank? || @turma_ids.empty?

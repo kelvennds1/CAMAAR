@@ -1,0 +1,26 @@
+Sun, 14 Dec 2025 17:23:35 -0300
+app/services/evaluation_batch_creator.rb	Sun, 14 Dec 2025 17:01:26 -0300
+app/services/evaluation_result_aggregator.rb	Sun, 14 Dec 2025 17:01:26 -0300
+app/services/evaluation_results_exporter.rb	Sun, 14 Dec 2025 17:01:26 -0300
+app/services/report_generator.rb	Sun, 14 Dec 2025 17:01:26 -0300
+app/services/sigaa_importer.rb	Sun, 14 Dec 2025 17:21:35 -0300
+app/controllers/application_controller.rb	Sun, 14 Dec 2025 17:01:26 -0300
+app/controllers/avaliacoes_controller.rb	Sun, 14 Dec 2025 17:23:17 -0300
+app/controllers/passwords_controller.rb	Sun, 14 Dec 2025 17:18:13 -0300
+app/controllers/resultados_controller.rb	Sun, 14 Dec 2025 17:01:26 -0300
+app/controllers/sessions_controller.rb	Sun, 14 Dec 2025 17:01:26 -0300
+app/controllers/sigaa_imports_controller.rb	Sun, 14 Dec 2025 17:01:26 -0300
+app/controllers/templates_controller.rb	Sun, 14 Dec 2025 17:01:26 -0300
+app/models/application_record.rb	Sat, 06 Dec 2025 16:12:21 -0300
+app/models/avaliacao.rb	Sun, 14 Dec 2025 17:01:26 -0300
+app/models/dicente.rb	Sun, 14 Dec 2025 17:01:26 -0300
+app/models/docente.rb	Sun, 14 Dec 2025 17:01:26 -0300
+app/models/materia.rb	Sun, 14 Dec 2025 17:01:26 -0300
+app/models/matricula.rb	Sun, 14 Dec 2025 17:01:26 -0300
+app/models/questao.rb	Sun, 14 Dec 2025 17:01:26 -0300
+app/models/resposta.rb	Sun, 14 Dec 2025 17:01:26 -0300
+app/models/resposta_item.rb	Sun, 14 Dec 2025 17:01:26 -0300
+app/models/template.rb	Sun, 14 Dec 2025 17:01:26 -0300
+app/models/template_question.rb	Sun, 14 Dec 2025 17:01:26 -0300
+app/models/turma.rb	Sun, 14 Dec 2025 17:01:26 -0300
+app/models/usuario.rb	Sun, 14 Dec 2025 17:01:26 -0300
