@@ -143,9 +143,9 @@ class TemplateQuestion < ApplicationRecord
   def parsed_options_from_accessor
     source = if @options_text.nil?
                options_array
-             else
+    else
                @options_text.to_s.split(/\r?\n/)
-             end
+    end
 
     source.map(&:strip).reject(&:blank?).uniq
   end

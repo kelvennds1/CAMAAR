@@ -123,7 +123,7 @@ class AvaliacoesController < ApplicationController
   # Refactored validation: checks if user is a dicente
   #
   def validate_submission_permissions
-    return validate_responder_permission && validate_enrollment_in_turma
+    validate_responder_permission && validate_enrollment_in_turma
   end
 
   ##
@@ -258,7 +258,7 @@ class AvaliacoesController < ApplicationController
   def current_semester
     date = Time.zone.today
     term = date.month <= 6 ? 1 : 2
-    format('%<year>d.%<term>d', year: date.year, term: term)
+    format("%<year>d.%<term>d", year: date.year, term: term)
   end
 
   def success_message(result)

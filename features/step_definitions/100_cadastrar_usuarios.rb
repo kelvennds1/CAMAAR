@@ -22,7 +22,7 @@ Given('there are participants in SIGAA who do not have a user in the system yet'
       ocupacao: "dicente"
     }
   ]
-  
+
   # Garantir que não existem usuários com esses emails
   @sigaa_participants.each do |participant|
     Usuario.where(email: participant[:email]).destroy_all
@@ -32,7 +32,7 @@ end
 When('I import the participants from SIGAA') do
   # Simular importação via SigaaImporter
   # Criar arquivo JSON temporário
-  members_data = [{
+  members_data = [ {
     "code" => "CIC0097",
     "classCode" => "TA",
     "semester" => current_semester_label,
@@ -55,24 +55,24 @@ When('I import the participants from SIGAA') do
       "email" => "prof.teste@unb.br",
       "ocupacao" => "docente"
     }
-  }].to_json
-  
-  @temp_members_file = Tempfile.new(['members', '.json'])
+  } ].to_json
+
+  @temp_members_file = Tempfile.new([ 'members', '.json' ])
   @temp_members_file.write(members_data)
   @temp_members_file.rewind
-  
+
   # Criar matéria e turma necessárias
   @materia = Materia.find_or_create_by!(code: "CIC0097") do |m|
     m.name = "Bancos de Dados"
   end
-  
+
   @docente = Docente.find_or_create_by!(identifier: "123456") do |d|
     d.nome = "Prof. Teste"
     d.email = "prof.teste@unb.br"
     d.departamento = "CIC"
     d.titulacao = "DOUTORADO"
   end
-  
+
   @turma = Turma.find_or_create_by!(
     materia: @materia,
     class_code: "TA",
@@ -81,7 +81,7 @@ When('I import the participants from SIGAA') do
     t.docente = @docente
     t.time_slot = "35T45"
   end
-  
+
   # Executar importação
   @import_result = SigaaImporter.call(
     class_members_file: @temp_members_file,
@@ -140,7 +140,7 @@ Given('there is already a user registered for a SIGAA participant') do
     formacao: "graduando",
     ocupacao: "dicente"
   }
-  
+
   @existing_dicente = Dicente.create!(
     identifier: @existing_participant[:matricula],
     nome: @existing_participant[:nome],
@@ -150,8 +150,8 @@ Given('there is already a user registered for a SIGAA participant') do
     formacao: @existing_participant[:formacao],
     password: "senha123"
   )
-  
-  @sigaa_participants = [@existing_participant]
+
+  @sigaa_participants = [ @existing_participant ]
 end
 
 When('I import the participants from SIGAA again') do
@@ -198,7 +198,7 @@ Given('some SIGAA records are incomplete or invalid') do
       ocupacao: "dicente"
     }
   ]
-  
+
   @sigaa_participants = @invalid_participants
 end
 
@@ -232,4 +232,3 @@ After do
     @temp_members_file.unlink
   end
 end
-

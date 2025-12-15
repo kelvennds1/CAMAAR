@@ -102,7 +102,7 @@ FactoryBot.define do
 
     trait :multiple_choice do
       question_type { TemplateQuestion::QUESTION_TYPES[:multiple_choice] }
-      options { ["Opção 1", "Opção 2", "Opção 3"] }
+      options { [ "Opção 1", "Opção 2", "Opção 3" ] }
       min_value { nil }
       max_value { nil }
     end

@@ -6,10 +6,10 @@
 # ==== Usage
 #   # All evaluations
 #   report = ReportGenerator.new
-#   
+#
 #   # Specific scope
 #   report = ReportGenerator.new(Avaliacao.where(status: :published))
-#   
+#
 #   summary = report.summary  # Array of evaluation summaries
 #   totals = report.totals    # Aggregate totals
 #

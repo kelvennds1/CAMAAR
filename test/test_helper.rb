@@ -85,15 +85,15 @@ module ActiveSupport
 
       Dicente.create!(defaults.merge(attrs))
     end
-    
+
     def sign_in(user)
-      post login_url, params: { session: { email: user.email, password: 'password' } }
+      post login_url, params: { session: { email: user.email, password: "password" } }
     end
   end
 end
 
 class ActionDispatch::IntegrationTest
   def sign_in(user)
-    post '/login', params: { email: user.email, password: 'password' }
+    post "/login", params: { email: user.email, password: "password" }
   end
 end

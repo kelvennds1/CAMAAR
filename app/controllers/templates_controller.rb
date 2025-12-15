@@ -221,7 +221,7 @@ class TemplatesController < ApplicationController
   def calculate_slots_needed
     base_slots = @template.persisted? ? 1 : 3
     active_count = count_active_questions
-    [active_count, base_slots].max - active_count
+    [ active_count, base_slots ].max - active_count
   end
 
   ##

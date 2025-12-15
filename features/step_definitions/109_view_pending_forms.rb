@@ -28,7 +28,7 @@ end
 
 Given('I am enrolled in one or more classes for the current semester') do
   @current_semester = "#{Time.zone.today.year}.#{Time.zone.today.month <= 6 ? 1 : 2}"
-  
+
   # Create a docente for the turma
   generated_identifier = SecureRandom.uuid
   @docente = Docente.create!(
@@ -75,7 +75,7 @@ Given('there are evaluation forms assigned to my classes that I have not answere
     docente: @docente,
     status: :published
   )
-  
+
   @template.template_questions.build(
     prompt: "Como você avalia o domínio do conteúdo pelo professor?",
     question_type: "likert",
@@ -84,7 +84,7 @@ Given('there are evaluation forms assigned to my classes that I have not answere
     min_value: 1,
     max_value: 5
   )
-  
+
   @template.save!
 
   # Create published avaliacoes
@@ -163,7 +163,7 @@ Given('I have already answered an evaluation form for one of my classes') do
     docente: @docente,
     status: :published
   )
-  
+
   @template.template_questions.build(
     prompt: "Como você avalia o domínio do conteúdo pelo professor?",
     question_type: "likert",
@@ -172,7 +172,7 @@ Given('I have already answered an evaluation form for one of my classes') do
     min_value: 1,
     max_value: 5
   )
-  
+
   @template.save!
 
   # Create published avaliacao answered
@@ -249,4 +249,3 @@ Then('I see a message indicating there are no pending forms') do
   expect(page).to have_selector('[data-testid="no-pending-forms"]')
   expect(page).to have_content("Nenhum formulário pendente no momento")
 end
-

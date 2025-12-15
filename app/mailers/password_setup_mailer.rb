@@ -10,7 +10,7 @@
 # Configurado para 'noreply@camaar.unb.br'
 #
 class PasswordSetupMailer < ApplicationMailer
-  default from: 'noreply@camaar.unb.br'
+  default from: "noreply@camaar.unb.br"
 
   # Envia e-mail com instruções para configuração de senha.
   #
@@ -30,7 +30,7 @@ class PasswordSetupMailer < ApplicationMailer
 
     mail(
       to: @user.email,
-      subject: 'Configure sua senha - Sistema CAMAAR'
+      subject: "Configure sua senha - Sistema CAMAAR"
     )
   end
 end

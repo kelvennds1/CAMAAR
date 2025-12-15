@@ -106,7 +106,7 @@ class EvaluationResultsExporter
   # * Writes header row to CSV
   #
   def add_csv_header(csv)
-    csv << ["Questão", "Aluno", "Resposta", "Enviado em"]
+    csv << [ "Questão", "Aluno", "Resposta", "Enviado em" ]
   end
 
   ##
@@ -151,6 +151,6 @@ class EvaluationResultsExporter
   # * Array - CSV row data [question prompt, student name, response value, submitted_at]
   #
   def build_csv_row(questao, item)
-    [questao.prompt, item.resposta.dicente.nome, item.valor, item.resposta.submitted_at]
+    [ questao.prompt, item.resposta.dicente.nome, item.valor, item.resposta.submitted_at ]
   end
 end

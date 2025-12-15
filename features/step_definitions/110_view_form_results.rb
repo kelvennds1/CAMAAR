@@ -12,7 +12,7 @@ Given('que estou logado como um administrador válido') do
     password: "senha123",
     admin: true
   )
-  
+
   # Fazer login
   visit login_path
   fill_in "email", with: @admin.email

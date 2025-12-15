@@ -9,10 +9,10 @@
 # * +turmas+ - Class sections of this subject
 #
 class Materia < ApplicationRecord
-	self.table_name = "materias"
+  self.table_name = "materias"
 
-	has_many :turmas, dependent: :destroy
+  has_many :turmas, dependent: :destroy
 
-	validates :code, :name, presence: true
-	validates :code, uniqueness: true
+  validates :code, :name, presence: true
+  validates :code, uniqueness: true
 end

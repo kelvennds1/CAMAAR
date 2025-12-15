@@ -37,7 +37,7 @@ class SigaaImporter
     # ==== Parameters
     # * +operation_type+ - String describing the type of operation (default: 'Importação')
     #
-    def initialize(operation_type: 'Importação')
+    def initialize(operation_type: "Importação")
       @success = true
       @errors = []
       @created = { materias: 0, turmas: 0, docentes: 0, dicentes: 0, matriculas: 0 }
@@ -135,7 +135,7 @@ class SigaaImporter
   # * Creates/updates records in the database (Materia, Turma, Docente, Dicente, Matricula)
   # * Sends password setup emails to newly created users
   #
-  def self.call(classes_file: nil, class_members_file: nil, operation_type: 'Importação')
+  def self.call(classes_file: nil, class_members_file: nil, operation_type: "Importação")
     new(classes_file, class_members_file, operation_type).import
   end
 
@@ -147,7 +147,7 @@ class SigaaImporter
   # * +class_members_file+ - File object with class members JSON data
   # * +operation_type+ - String describing the operation (default: 'Importação')
   #
-  def initialize(classes_file, class_members_file, operation_type = 'Importação')
+  def initialize(classes_file, class_members_file, operation_type = "Importação")
     @classes_file = classes_file
     @class_members_file = class_members_file
     @result = ImportResult.new(operation_type: operation_type)
@@ -172,7 +172,7 @@ class SigaaImporter
       import_classes if @classes_file
       import_class_members if @class_members_file
     end
-    
+
     @result
   rescue JSON::ParserError => e
     @result.success = false
@@ -222,11 +222,11 @@ class SigaaImporter
 
   def import_materia_and_turma(class_data)
     materia = find_or_create_materia(class_data)
-    import_turma(materia, class_data['class']) if class_data['class']
+    import_turma(materia, class_data["class"]) if class_data["class"]
   end
 
   def find_or_create_materia(class_data)
-    materia = Materia.find_or_initialize_by(code: class_data['code'])
+    materia = Materia.find_or_initialize_by(code: class_data["code"])
 
     if materia.new_record?
       create_materia(materia, class_data)
@@ -238,7 +238,7 @@ class SigaaImporter
   end
 
   def create_materia(materia, class_data)
-    materia.name = class_data['name']
+    materia.name = class_data["name"]
     if materia.save
       @result.created[:materias] += 1
     else
@@ -247,9 +247,9 @@ class SigaaImporter
   end
 
   def update_materia_if_needed(materia, class_data)
-    return @result.skipped[:materias] += 1 if materia.name == class_data['name']
+    return @result.skipped[:materias] += 1 if materia.name == class_data["name"]
 
-    materia.name = class_data['name']
+    materia.name = class_data["name"]
     if materia.save
       @result.updated[:materias] += 1
     else
@@ -270,13 +270,13 @@ class SigaaImporter
   def find_or_initialize_turma(materia, class_info)
     Turma.find_or_initialize_by(
       materia: materia,
-      class_code: class_info['classCode'],
-      semester: class_info['semester']
+      class_code: class_info["classCode"],
+      semester: class_info["semester"]
     )
   end
 
   def create_new_turma(turma, class_info)
-    turma.time_slot = class_info['time']
+    turma.time_slot = class_info["time"]
     turma.docente = find_or_create_placeholder_docente
 
     if turma.save
@@ -287,9 +287,9 @@ class SigaaImporter
   end
 
   def update_turma_if_needed(turma, class_info)
-    return @result.skipped[:turmas] += 1 if turma.time_slot == class_info['time']
+    return @result.skipped[:turmas] += 1 if turma.time_slot == class_info["time"]
 
-    turma.time_slot = class_info['time']
+    turma.time_slot = class_info["time"]
     if turma.save
       @result.updated[:turmas] += 1
     else
@@ -319,7 +319,7 @@ class SigaaImporter
   # Finds the turma for the given member data.
   #
   def find_turma_for_member_data(member_data)
-    materia = Materia.find_by(code: member_data['code'])
+    materia = Materia.find_by(code: member_data["code"])
     unless materia
       @result.errors << "Matéria #{member_data['code']} não encontrada"
       return nil
@@ -327,8 +327,8 @@ class SigaaImporter
 
     turma = Turma.find_by(
       materia: materia,
-      class_code: member_data['classCode'],
-      semester: member_data['semester']
+      class_code: member_data["classCode"],
+      semester: member_data["semester"]
     )
 
     unless turma
@@ -343,9 +343,9 @@ class SigaaImporter
   # Imports/updates docente for a turma if present in member_data.
   #
   def import_docente_for_turma(member_data, turma)
-    return unless member_data['docente']
+    return unless member_data["docente"]
 
-    docente = import_docente(member_data['docente'])
+    docente = import_docente(member_data["docente"])
     update_turma_docente(turma, docente) if docente
   end
 
@@ -363,9 +363,9 @@ class SigaaImporter
   # Imports dicentes and their matriculas for a turma.
   #
   def import_dicentes_for_turma(member_data, turma)
-    return unless member_data['dicente']
+    return unless member_data["dicente"]
 
-    member_data['dicente'].each do |dicente_data|
+    member_data["dicente"].each do |dicente_data|
       import_dicente_and_matricula(dicente_data, turma)
     end
   end
@@ -385,7 +385,7 @@ class SigaaImporter
   # * Updates import result counters
   #
   def import_docente(docente_data)
-    identifier = docente_data['usuario'] || docente_data['matricula']
+    identifier = docente_data["usuario"] || docente_data["matricula"]
     docente = Docente.find_or_initialize_by(identifier: identifier)
 
     if docente.new_record?
@@ -410,11 +410,11 @@ class SigaaImporter
   end
 
   def assign_docente_attributes(docente, docente_data)
-    docente.nome = docente_data['nome']
-    docente.email = docente_data['email']
-    docente.departamento = docente_data['departamento'] || 'Não informado'
-    docente.titulacao = docente_data['formacao'] || 'Não informado'
-    docente.ocupacao = docente_data['ocupacao'] || 'docente'
+    docente.nome = docente_data["nome"]
+    docente.email = docente_data["email"]
+    docente.departamento = docente_data["departamento"] || "Não informado"
+    docente.titulacao = docente_data["formacao"] || "Não informado"
+    docente.ocupacao = docente_data["ocupacao"] || "docente"
   end
 
   def setup_docente_activation(docente)
@@ -437,11 +437,11 @@ class SigaaImporter
 
   def docente_needs_update?(docente, docente_data)
     attributes_to_check = {
-      nome: docente_data['nome'],
-      email: docente_data['email'],
-      departamento: docente_data['departamento'] || 'Não informado',
-      titulacao: docente_data['formacao'] || 'Não informado',
-      ocupacao: docente_data['ocupacao'] || 'docente'
+      nome: docente_data["nome"],
+      email: docente_data["email"],
+      departamento: docente_data["departamento"] || "Não informado",
+      titulacao: docente_data["formacao"] || "Não informado",
+      ocupacao: docente_data["ocupacao"] || "docente"
     }
 
     changed = attributes_to_check.any? { |attr, new_value| docente.send(attr) != new_value }
@@ -466,7 +466,7 @@ class SigaaImporter
   # * Updates import result counters
   #
   def import_dicente_and_matricula(dicente_data, turma)
-    identifier = dicente_data['usuario'] || dicente_data['matricula']
+    identifier = dicente_data["usuario"] || dicente_data["matricula"]
     dicente = Dicente.find_or_initialize_by(identifier: identifier)
 
     return unless process_dicente(dicente, dicente_data, identifier)
@@ -496,12 +496,12 @@ class SigaaImporter
   end
 
   def assign_dicente_attributes(dicente, dicente_data)
-    dicente.nome = dicente_data['nome']
-    dicente.email = dicente_data['email']
-    dicente.matricula = dicente_data['matricula']
-    dicente.curso = dicente_data['curso']
-    dicente.ocupacao = dicente_data['ocupacao'] || 'dicente'
-    dicente.formacao = dicente_data['formacao'] || 'graduando'
+    dicente.nome = dicente_data["nome"]
+    dicente.email = dicente_data["email"]
+    dicente.matricula = dicente_data["matricula"]
+    dicente.curso = dicente_data["curso"]
+    dicente.ocupacao = dicente_data["ocupacao"] || "dicente"
+    dicente.formacao = dicente_data["formacao"] || "graduando"
   end
 
   def setup_dicente_activation(dicente)
@@ -526,12 +526,12 @@ class SigaaImporter
 
   def dicente_needs_update?(dicente, dicente_data)
     attributes_to_check = {
-      nome: dicente_data['nome'],
-      email: dicente_data['email'],
-      matricula: dicente_data['matricula'],
-      curso: dicente_data['curso'],
-      ocupacao: dicente_data['ocupacao'] || 'dicente',
-      formacao: dicente_data['formacao'] || 'graduando'
+      nome: dicente_data["nome"],
+      email: dicente_data["email"],
+      matricula: dicente_data["matricula"],
+      curso: dicente_data["curso"],
+      ocupacao: dicente_data["ocupacao"] || "dicente",
+      formacao: dicente_data["formacao"] || "graduando"
     }
 
     changed = attributes_to_check.any? { |attr, new_value| dicente.send(attr) != new_value }
@@ -550,7 +550,7 @@ class SigaaImporter
   end
 
   def create_new_matricula(matricula)
-    matricula.status = 'ativo'
+    matricula.status = "ativo"
     matricula.enrollment_date = Date.current
 
     if matricula.save
@@ -561,9 +561,9 @@ class SigaaImporter
   end
 
   def update_matricula_if_needed(matricula)
-    return @result.skipped[:matriculas] += 1 if matricula.status == 'ativo'
+    return @result.skipped[:matriculas] += 1 if matricula.status == "ativo"
 
-    matricula.status = 'ativo'
+    matricula.status = "ativo"
     if matricula.save
       @result.updated[:matriculas] += 1
     else
@@ -572,11 +572,11 @@ class SigaaImporter
   end
 
   def find_or_create_placeholder_docente
-    Docente.find_or_create_by!(identifier: 'PLACEHOLDER_DOCENTE') do |d|
-      d.nome = 'Docente Não Atribuído'
-      d.email = 'placeholder@example.com'
-      d.departamento = 'Não informado'
-      d.titulacao = 'Não informado'
+    Docente.find_or_create_by!(identifier: "PLACEHOLDER_DOCENTE") do |d|
+      d.nome = "Docente Não Atribuído"
+      d.email = "placeholder@example.com"
+      d.departamento = "Não informado"
+      d.titulacao = "Não informado"
     end
   end
 

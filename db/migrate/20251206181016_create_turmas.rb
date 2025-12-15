@@ -10,6 +10,6 @@ class CreateTurmas < ActiveRecord::Migration[8.1]
       t.timestamps
     end
 
-    add_index :turmas, [:materia_id, :class_code, :semester], unique: true, name: "index_turmas_on_materia_code_and_semester"
+    add_index :turmas, [ :materia_id, :class_code, :semester ], unique: true, name: "index_turmas_on_materia_code_and_semester"
   end
 end

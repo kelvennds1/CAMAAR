@@ -5,7 +5,7 @@
 #
 class SigaaImportsController < ApplicationController
     before_action :require_admin
-  
+
     ##
     # Displays the form for uploading SIGAA import files.
     #
@@ -31,7 +31,7 @@ class SigaaImportsController < ApplicationController
     def index
       # Renderiza página de listagem/histórico de importações
     end
-  
+
   ##
   # Processes uploaded SIGAA files and imports data into the database.
   #
@@ -52,9 +52,9 @@ class SigaaImportsController < ApplicationController
     result = SigaaImporter.call(
       classes_file: params[:classes_file],
       class_members_file: params[:class_members_file],
-      operation_type: 'Importação'
+      operation_type: "Importação"
     )
-  
+
       if result.success?
         flash[:notice] = result.summary_message
         redirect_to sigaa_imports_path
@@ -103,11 +103,11 @@ class SigaaImportsController < ApplicationController
     end
 
     def classes_json_path
-      Rails.root.join('classes.json')
+      Rails.root.join("classes.json")
     end
 
     def members_json_path
-      Rails.root.join('class_members.json')
+      Rails.root.join("class_members.json")
     end
 
     def json_files_missing_message
@@ -121,7 +121,7 @@ class SigaaImportsController < ApplicationController
       result = SigaaImporter.call(
         classes_file: classes_json_path.to_s,
         class_members_file: members_json_path.to_s,
-        operation_type: 'Atualização'
+        operation_type: "Atualização"
       )
 
       handle_update_result(result)
@@ -155,4 +155,4 @@ class SigaaImportsController < ApplicationController
         redirect_to root_path
       end
     end
-  end
+end

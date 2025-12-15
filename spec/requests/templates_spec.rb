@@ -80,7 +80,7 @@ RSpec.describe "Templates", type: :request do
         template: {
           name: "Template Atualizado",
           template_questions_attributes: template.template_questions.each_with_index.to_h do |question, index|
-            [index.to_s, { id: question.id, prompt: question.prompt, question_type: question.question_type, position: question.position, required: question.required, min_value: question.min_value, max_value: question.max_value }]
+            [ index.to_s, { id: question.id, prompt: question.prompt, question_type: question.question_type, position: question.position, required: question.required, min_value: question.min_value, max_value: question.max_value } ]
           end
         }
       }

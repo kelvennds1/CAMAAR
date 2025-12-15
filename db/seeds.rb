@@ -56,7 +56,7 @@ admin = Docente.find_or_create_by!(email: 'admin@camaar.com') do |d|
 end
 puts "   ✅ #{admin.nome} - #{admin.email}"
 
- # ============================================================
+# ============================================================
 # 2. CRIAR MATÉRIAS
 # ============================================================
 puts "\n Criando Matérias..."
@@ -85,8 +85,8 @@ current_semester = "#{Time.zone.today.year}.#{Time.zone.today.month <= 6 ? 1 : 2
 puts "   Semestre atual: #{current_semester}"
 
 turma1 = Turma.find_or_create_by!(
-  materia: materia1, 
-  class_code: "A", 
+  materia: materia1,
+  class_code: "A",
   semester: current_semester
 ) do |t|
   t.docente = docente1
@@ -95,8 +95,8 @@ end
 puts "    #{turma1.materia.name} - Turma #{turma1.class_code}"
 
 turma2 = Turma.find_or_create_by!(
-  materia: materia2, 
-  class_code: "B", 
+  materia: materia2,
+  class_code: "B",
   semester: current_semester
 ) do |t|
   t.docente = docente2
@@ -105,8 +105,8 @@ end
 puts "    #{turma2.materia.name} - Turma #{turma2.class_code}"
 
 turma3 = Turma.find_or_create_by!(
-  materia: materia3, 
-  class_code: "C", 
+  materia: materia3,
+  class_code: "C",
   semester: current_semester
 ) do |t|
   t.docente = docente1
@@ -197,7 +197,7 @@ template1 = Template.find_or_initialize_by(
 if template1.new_record?
   template1.description = "Template para avaliação de desempenho docente"
   template1.status = :published
-  
+
   template1.template_questions.build([
     {
       prompt: "Como você avalia o domínio do conteúdo pelo professor?",
@@ -230,7 +230,7 @@ if template1.new_record?
       required: false
     }
   ])
-  
+
   template1.save!
   puts "    #{template1.name} (#{template1.template_questions.count} questões)"
 else
@@ -245,7 +245,7 @@ template2 = Template.find_or_initialize_by(
 if template2.new_record?
   template2.description = "Avaliação sobre recursos e infraestrutura"
   template2.status = :published
-  
+
   template2.template_questions.build([
     {
       prompt: "Como você avalia os recursos didáticos utilizados?",
@@ -264,7 +264,7 @@ if template2.new_record?
       max_value: 5
     }
   ])
-  
+
   template2.save!
   puts "    #{template2.name} (#{template2.template_questions.count} questões)"
 else
@@ -282,11 +282,11 @@ def criar_avaliacao_com_questoes(attrs, template)
     title: attrs[:title],
     turma: attrs[:turma]
   )
-  
+
   if avaliacao.new_record?
     avaliacao.assign_attributes(attrs)
     avaliacao.save!
-    
+
     # Copiar questões do template
     template.template_questions.order(:position).each do |tq|
       avaliacao.questoes.create!(
@@ -301,12 +301,12 @@ def criar_avaliacao_com_questoes(attrs, template)
         weight: 1
       )
     end
-    
+
     puts "    #{avaliacao.title} (prazo: #{avaliacao.due_date.strftime('%d/%m/%Y')})"
   else
     puts "     #{avaliacao.title} já existe"
   end
-  
+
   avaliacao
 end
 

@@ -14,6 +14,6 @@ class CreateTemplateQuestions < ActiveRecord::Migration[8.1]
       t.timestamps
     end
 
-    add_index :template_questions, [:template_id, :position], unique: true
+    add_index :template_questions, [ :template_id, :position ], unique: true
   end
 end

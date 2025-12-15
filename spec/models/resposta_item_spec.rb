@@ -16,5 +16,4 @@ RSpec.describe RespostaItem, type: :model do
     it { is_expected.to validate_presence_of(:valor) }
     it { is_expected.to validate_uniqueness_of(:questao_id).scoped_to(:resposta_id) }
   end
-
 end

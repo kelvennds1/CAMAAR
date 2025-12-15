@@ -18,11 +18,11 @@ RSpec.describe PasswordSetupMailer, type: :mailer do
     end
 
     it 'sends to the correct email address' do
-      expect(mail.to).to eq([user.email])
+      expect(mail.to).to eq([ user.email ])
     end
 
     it 'sends from the correct sender' do
-      expect(mail.from).to eq(['noreply@camaar.unb.br'])
+      expect(mail.from).to eq([ 'noreply@camaar.unb.br' ])
     end
 
     it 'includes user name in body' do

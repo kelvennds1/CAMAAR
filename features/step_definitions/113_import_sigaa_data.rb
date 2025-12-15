@@ -28,7 +28,6 @@ Dado('que existem turmas, matérias e participantes nos arquivos JSON que ainda 
 end
 
 Quando('eu seleciono os arquivos JSON do SIGAA para importação') do
-
   attach_file('classes_file', @turmas_json_path)
   attach_file('class_members_file', @participantes_json_path)
 end
@@ -78,7 +77,7 @@ Então('apenas os registros inexistentes são criados') do
 end
 
 Dado('que o arquivo JSON de turmas está em formato inválido') do
-  @invalid_file = Tempfile.new(['invalid', '.json'])
+  @invalid_file = Tempfile.new([ 'invalid', '.json' ])
   @invalid_file.write('isso_nao_e_um_json_valido')
   @invalid_file.rewind
   @turmas_json_path = @invalid_file.path

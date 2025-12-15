@@ -122,7 +122,7 @@ class ResultadosController < ApplicationController
   #
   def semester_filters
     current = current_semester
-    [["Todos", ""], [current, current]]
+    [ [ "Todos", "" ], [ current, current ] ]
   end
 
   ##
@@ -137,7 +137,7 @@ class ResultadosController < ApplicationController
   def current_semester
     date = Time.zone.today
     term = date.month <= 6 ? 1 : 2
-    format('%<year>d.%<term>d', year: date.year, term: term)
+    format("%<year>d.%<term>d", year: date.year, term: term)
   end
 
   ##

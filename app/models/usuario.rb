@@ -14,48 +14,48 @@
 # * +activation_token_expires_at+ - Token expiration datetime
 #
 class Usuario < ApplicationRecord
-	self.inheritance_column = :type
+  self.inheritance_column = :type
 
-	has_secure_password validations: false
+  has_secure_password validations: false
 
-	validates :identifier, :nome, :email, :type, presence: true
-	validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, uniqueness: true
-	validates :identifier, uniqueness: true
-	validates :matricula, uniqueness: true, allow_blank: true
+  validates :identifier, :nome, :email, :type, presence: true
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, uniqueness: true
+  validates :identifier, uniqueness: true
+  validates :matricula, uniqueness: true, allow_blank: true
 
-	##
-	# Finds all teachers (docentes).
-	#
-	# ==== Returns
-	# * ActiveRecord::Relation - Collection of Docente records
-	#
-	scope :docentes, -> { where(type: "Docente") }
+  ##
+  # Finds all teachers (docentes).
+  #
+  # ==== Returns
+  # * ActiveRecord::Relation - Collection of Docente records
+  #
+  scope :docentes, -> { where(type: "Docente") }
 
-	##
-	# Finds all students (dicentes).
-	#
-	# ==== Returns
-	# * ActiveRecord::Relation - Collection of Dicente records
-	#
-	scope :dicentes, -> { where(type: "Dicente") }
+  ##
+  # Finds all students (dicentes).
+  #
+  # ==== Returns
+  # * ActiveRecord::Relation - Collection of Dicente records
+  #
+  scope :dicentes, -> { where(type: "Dicente") }
 
-	##
-	# Checks if user is a teacher (docente).
-	#
-	# ==== Returns
-	# * Boolean - true if user is a Docente, false otherwise
-	#
-	def docente?
-		is_a?(Docente)
-	end
+  ##
+  # Checks if user is a teacher (docente).
+  #
+  # ==== Returns
+  # * Boolean - true if user is a Docente, false otherwise
+  #
+  def docente?
+    is_a?(Docente)
+  end
 
-	##
-	# Checks if user is a student (dicente).
-	#
-	# ==== Returns
-	# * Boolean - true if user is a Dicente, false otherwise
-	#
-	def dicente?
-		is_a?(Dicente)
-	end
+  ##
+  # Checks if user is a student (dicente).
+  #
+  # ==== Returns
+  # * Boolean - true if user is a Dicente, false otherwise
+  #
+  def dicente?
+    is_a?(Dicente)
+  end
 end

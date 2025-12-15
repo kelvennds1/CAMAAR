@@ -25,7 +25,7 @@ Rails.application.routes.draw do
       get :export
     end
   end
-  
+
   root "sessions#new"
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -36,8 +36,8 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  #Sigaa Import routes
-  resources :sigaa_imports, only: [:new, :create, :index] do
+  # Sigaa Import routes
+  resources :sigaa_imports, only: [ :new, :create, :index ] do
     collection do
       post :update_database
     end

@@ -1,7 +1,6 @@
 require "test_helper"
 
 class SigaaImportsControllerTest < ActionDispatch::IntegrationTest
-  
   def setup
     @admin = Usuario.create!(
       identifier: "admin001",
@@ -9,8 +8,8 @@ class SigaaImportsControllerTest < ActionDispatch::IntegrationTest
       email: "admin@test.com",
       type: "Usuario",
       admin: true,
-      password: 'password',
-      password_confirmation: 'password'
+      password: "password",
+      password_confirmation: "password"
     )
     @classes_file = fixture_file_upload("sigaa/classes.json", "application/json")
   end
@@ -29,20 +28,20 @@ class SigaaImportsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create import with valid file" do
     sign_in @admin
-    
+
     assert_difference "Materia.count", 3 do
       post sigaa_imports_url, params: { classes_file: @classes_file }
     end
-    
+
     assert_redirected_to sigaa_imports_path
     assert_match /Atualização concluída/, flash[:notice]
   end
 
   test "should show error with no files" do
     sign_in @admin
-    
+
     post sigaa_imports_url, params: {}
-    
+
     assert_response :unprocessable_entity
     assert_match /Selecione ao menos um arquivo/, response.body
   end

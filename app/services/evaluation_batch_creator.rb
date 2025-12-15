@@ -105,7 +105,7 @@ class EvaluationBatchCreator
   # * Result - Result object with error message
   #
   def error_result(message)
-    Result.new(created: [], skipped: [], errors: [message])
+    Result.new(created: [], skipped: [], errors: [ message ])
   end
 
   ##
@@ -120,7 +120,7 @@ class EvaluationBatchCreator
   def load_template_and_turmas
     template = Template.includes(:template_questions).find(@template_id)
     turmas = Turma.includes(:docente).where(id: @turma_ids)
-    [template, turmas]
+    [ template, turmas ]
   end
 
   ##
@@ -147,7 +147,7 @@ class EvaluationBatchCreator
       end
     end
 
-    [created, skipped]
+    [ created, skipped ]
   end
 
   ##
@@ -279,7 +279,7 @@ class EvaluationBatchCreator
   def normalized_due_date
     parsed = if @due_date_param.present?
                Time.zone.parse(@due_date_param) rescue nil
-             end
+    end
     parsed || Time.zone.today.end_of_month
   end
 
