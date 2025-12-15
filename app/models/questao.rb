@@ -19,6 +19,8 @@
 class Questao < ApplicationRecord
   self.table_name = "questoes"
 
+  # Constante com os tipos de questão suportados.
+  # Referencia TemplateQuestion::QUESTION_TYPES para manter consistência.
   QUESTION_TYPES = TemplateQuestion::QUESTION_TYPES
 
   belongs_to :avaliacao

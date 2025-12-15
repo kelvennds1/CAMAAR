@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>class ApplicationController - CAMAAR - Documentação</title>
+<title>class ApplicationController - RDoc Documentation</title>
 
 
   <meta name="keywords" content="ruby,class,ApplicationController">
@@ -88,19 +88,6 @@
   
 
 
-  <div class="nav-section">
-    <h3>Instance Methods</h3>
-    <ul class="link-list" role="directory">
-
-      <li ><a href="#method-i-current_user">current_user</a></li>
-
-      <li ><a href="#method-i-logged_in-3F">logged_in?</a></li>
-
-      <li ><a href="#method-i-require_login">require_login</a></li>
-
-    </ul>
-  </div>
-
 
 
   <footer id="validator-badges" role="contentinfo">
@@ -135,181 +122,6 @@
 
 
 
-
-     <section id="private-instance-5Buntitled-5D-method-details" class="method-section anchor-link">
-       <header>
-         <h3>Private Instance Methods</h3>
-       </header>
-
-
-      <div id="method-i-current_user" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-current_user" title="Link to this method">
-                <span class="method-name">current_user</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="current_user-source">
-            <pre>   <span class="ruby-comment"># File app/controllers/application_controller.rb</span>
-<span class="line-num">27</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">current_user</span>
-<span class="line-num">28</span>   <span class="ruby-ivar">@current_user</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Usuario</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">id:</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>]) <span class="ruby-keyword">if</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>]
-<span class="line-num">29</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Returns the currently logged in user.</p>
-
-<h4 id="method-i-current_user-label-Returns">Returns<span><a href="#method-i-current_user-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p><a href="Usuario.html"><code>Usuario</code></a> - The current user object if logged in, nil otherwise</p>
-</li></ul>
-
-<h4 id="method-i-current_user-label-Side+Effects">Side Effects<span><a href="#method-i-current_user-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>None - This is a read-only method that caches the result in @current_user</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-logged_in-3F" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-logged_in-3F" title="Link to this method">
-                <span class="method-name">logged_in?</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="logged_in-3F-source">
-            <pre>   <span class="ruby-comment"># File app/controllers/application_controller.rb</span>
-<span class="line-num">40</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">logged_in?</span>
-<span class="line-num">41</span>   <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">present?</span>
-<span class="line-num">42</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Checks if a user is currently logged in.</p>
-
-<h4 id="method-i-logged_in-3F-label-Returns">Returns<span><a href="#method-i-logged_in-3F-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Boolean - true if a user is logged in, false otherwise</p>
-</li></ul>
-
-<h4 id="method-i-logged_in-3F-label-Side+Effects">Side Effects<span><a href="#method-i-logged_in-3F-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>None</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-require_login" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-require_login" title="Link to this method">
-                <span class="method-name">require_login</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="require_login-source">
-            <pre>   <span class="ruby-comment"># File app/controllers/application_controller.rb</span>
-<span class="line-num">55</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">require_login</span>
-<span class="line-num">56</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">logged_in?</span>
-<span class="line-num">57</span>     <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Por favor, faça login para continuar&quot;</span>
-<span class="line-num">58</span>     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">login_path</span>
-<span class="line-num">59</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">60</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Requires user to be logged in before accessing controller actions. Redirects to login page if user is not authenticated.</p>
-
-<h4 id="method-i-require_login-label-Returns">Returns<span><a href="#method-i-require_login-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Redirects to login_path if not logged in</p>
-</li></ul>
-
-<h4 id="method-i-require_login-label-Side+Effects">Side Effects<span><a href="#method-i-require_login-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Sets <a href=":alert">flash</a> with error message</p>
-</li><li>
-<p>Redirects to login_path if user is not logged in</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-    </section>
 
   </section>
 

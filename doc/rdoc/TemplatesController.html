@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>class TemplatesController - CAMAAR - Documentação</title>
+<title>class TemplatesController - RDoc Documentation</title>
 
 
   <meta name="keywords" content="ruby,class,TemplatesController">
@@ -92,27 +92,13 @@
     <h3>Instance Methods</h3>
     <ul class="link-list" role="directory">
 
-      <li ><a href="#method-i-build_placeholder_question">build_placeholder_question</a></li>
-
       <li ><a href="#method-i-create">create</a></li>
 
       <li ><a href="#method-i-destroy">destroy</a></li>
 
       <li ><a href="#method-i-edit">edit</a></li>
 
-      <li ><a href="#method-i-ensure_template_owner-21">ensure_template_owner!</a></li>
-
       <li ><a href="#method-i-index">index</a></li>
-
-      <li ><a href="#method-i-load_dependencies">load_dependencies</a></li>
-
-      <li ><a href="#method-i-set_current_admin_id">set_current_admin_id</a></li>
-
-      <li ><a href="#method-i-set_template">set_template</a></li>
-
-      <li ><a href="#method-i-template_params">template_params</a></li>
-
-      <li ><a href="#method-i-templates_redirect_path">templates_redirect_path</a></li>
 
       <li ><a href="#method-i-update">update</a></li>
 
@@ -184,20 +170,20 @@
         <div class="method-description">
 
           <div class="method-source-code" id="create-source">
-            <pre>   <span class="ruby-comment"># File app/controllers/templates_controller.rb</span>
-<span class="line-num">57</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create</span>
-<span class="line-num">58</span>   <span class="ruby-ivar">@template</span> = <span class="ruby-constant">Template</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">template_params</span>)
-<span class="line-num">59</span> 
-<span class="line-num">60</span>   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@template</span>.<span class="ruby-identifier">save</span>
-<span class="line-num">61</span>     <span class="ruby-ivar">@current_admin_id</span> <span class="ruby-operator">||=</span> <span class="ruby-ivar">@template</span>.<span class="ruby-identifier">docente_id</span>
-<span class="line-num">62</span>     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">templates_redirect_path</span>, <span class="ruby-value">notice:</span> <span class="ruby-string">&quot;Template criado com sucesso.&quot;</span>
-<span class="line-num">63</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">64</span>     <span class="ruby-identifier">load_dependencies</span>
-<span class="line-num">65</span>     <span class="ruby-identifier">build_placeholder_question</span>
-<span class="line-num">66</span>     <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Não foi possível salvar o template. Corrija os campos destacados.&quot;</span>
-<span class="line-num">67</span>     <span class="ruby-identifier">render</span> <span class="ruby-value">:index</span>, <span class="ruby-value">status:</span> <span class="ruby-value">:unprocessable_entity</span>
-<span class="line-num">68</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">69</span> <span class="ruby-keyword">end</span></pre>
+            <pre><span class="ruby-comment"># File app/controllers/templates_controller.rb, line 57</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create</span>
+  <span class="ruby-ivar">@template</span> = <span class="ruby-constant">Template</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">template_params</span>)
+
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@template</span>.<span class="ruby-identifier">save</span>
+    <span class="ruby-ivar">@current_admin_id</span> <span class="ruby-operator">||=</span> <span class="ruby-ivar">@template</span>.<span class="ruby-identifier">docente_id</span>
+    <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">templates_redirect_path</span>, <span class="ruby-value">notice:</span> <span class="ruby-string">&quot;Template criado com sucesso.&quot;</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">load_dependencies</span>
+    <span class="ruby-identifier">build_placeholder_question</span>
+    <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Não foi possível salvar o template. Corrija os campos destacados.&quot;</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:index</span>, <span class="ruby-value">status:</span> <span class="ruby-value">:unprocessable_entity</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
           </div>
 
 
@@ -211,7 +197,7 @@
 
 <h4 id="method-i-create-label-Returns">Returns<span><a href="#method-i-create-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
 <ul><li>
-<p>Redirects to <a href="TemplatesController.html#method-i-templates_redirect_path"><code>templates_redirect_path</code></a> on success</p>
+<p>Redirects to templates_redirect_path on success</p>
 </li><li>
 <p>Renders index view with errors on failure</p>
 </li></ul>
@@ -259,15 +245,15 @@
         <div class="method-description">
 
           <div class="method-source-code" id="destroy-source">
-            <pre>    <span class="ruby-comment"># File app/controllers/templates_controller.rb</span>
-<span class="line-num">112</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">destroy</span>
-<span class="line-num">113</span>   <span class="ruby-ivar">@template</span>.<span class="ruby-identifier">destroy!</span>
-<span class="line-num">114</span>   <span class="ruby-ivar">@current_admin_id</span> <span class="ruby-operator">||=</span> <span class="ruby-ivar">@template</span>.<span class="ruby-identifier">docente_id</span>
-<span class="line-num">115</span>   <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">templates_redirect_path</span>, <span class="ruby-value">notice:</span> <span class="ruby-string">&quot;Template removido com sucesso.&quot;</span>
-<span class="line-num">116</span> <span class="ruby-keyword">rescue</span> <span class="ruby-constant">StandardError</span>
-<span class="line-num">117</span>   <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">templates_redirect_path</span>,
-<span class="line-num">118</span>               <span class="ruby-value">alert:</span> <span class="ruby-string">&quot;Não foi possível remover o template. Tente novamente mais tarde.&quot;</span>
-<span class="line-num">119</span> <span class="ruby-keyword">end</span></pre>
+            <pre><span class="ruby-comment"># File app/controllers/templates_controller.rb, line 112</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">destroy</span>
+  <span class="ruby-ivar">@template</span>.<span class="ruby-identifier">destroy!</span>
+  <span class="ruby-ivar">@current_admin_id</span> <span class="ruby-operator">||=</span> <span class="ruby-ivar">@template</span>.<span class="ruby-identifier">docente_id</span>
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">templates_redirect_path</span>, <span class="ruby-value">notice:</span> <span class="ruby-string">&quot;Template removido com sucesso.&quot;</span>
+<span class="ruby-keyword">rescue</span> <span class="ruby-constant">StandardError</span>
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">templates_redirect_path</span>,
+              <span class="ruby-value">alert:</span> <span class="ruby-string">&quot;Não foi possível remover o template. Tente novamente mais tarde.&quot;</span>
+<span class="ruby-keyword">end</span></pre>
           </div>
 
 
@@ -281,7 +267,7 @@
 
 <h4 id="method-i-destroy-label-Returns">Returns<span><a href="#method-i-destroy-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
 <ul><li>
-<p>Redirects to <a href="TemplatesController.html#method-i-templates_redirect_path"><code>templates_redirect_path</code></a></p>
+<p>Redirects to templates_redirect_path</p>
 </li></ul>
 
 <h4 id="method-i-destroy-label-Side+Effects">Side Effects<span><a href="#method-i-destroy-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
@@ -325,11 +311,11 @@
         <div class="method-description">
 
           <div class="method-source-code" id="edit-source">
-            <pre>   <span class="ruby-comment"># File app/controllers/templates_controller.rb</span>
-<span class="line-num">37</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">edit</span>
-<span class="line-num">38</span>   <span class="ruby-identifier">build_placeholder_question</span>
-<span class="line-num">39</span>   <span class="ruby-identifier">render</span> <span class="ruby-value">:index</span>
-<span class="line-num">40</span> <span class="ruby-keyword">end</span></pre>
+            <pre><span class="ruby-comment"># File app/controllers/templates_controller.rb, line 37</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">edit</span>
+  <span class="ruby-identifier">build_placeholder_question</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:index</span>
+<span class="ruby-keyword">end</span></pre>
           </div>
 
 
@@ -385,11 +371,11 @@
         <div class="method-description">
 
           <div class="method-source-code" id="index-source">
-            <pre>   <span class="ruby-comment"># File app/controllers/templates_controller.rb</span>
-<span class="line-num">20</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">index</span>
-<span class="line-num">21</span>   <span class="ruby-ivar">@template</span> = <span class="ruby-constant">Template</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">status:</span> <span class="ruby-constant">Template</span><span class="ruby-operator">::</span><span class="ruby-constant">STATUS</span>[<span class="ruby-value">:draft</span>])
-<span class="line-num">22</span>   <span class="ruby-identifier">build_placeholder_question</span>
-<span class="line-num">23</span> <span class="ruby-keyword">end</span></pre>
+            <pre><span class="ruby-comment"># File app/controllers/templates_controller.rb, line 20</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">index</span>
+  <span class="ruby-ivar">@template</span> = <span class="ruby-constant">Template</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">status:</span> <span class="ruby-constant">Template</span><span class="ruby-operator">::</span><span class="ruby-constant">STATUS</span>[<span class="ruby-value">:draft</span>])
+  <span class="ruby-identifier">build_placeholder_question</span>
+<span class="ruby-keyword">end</span></pre>
           </div>
 
 
@@ -440,18 +426,18 @@
         <div class="method-description">
 
           <div class="method-source-code" id="update-source">
-            <pre>   <span class="ruby-comment"># File app/controllers/templates_controller.rb</span>
-<span class="line-num">87</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">update</span>
-<span class="line-num">88</span>   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@template</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">template_params</span>)
-<span class="line-num">89</span>     <span class="ruby-ivar">@current_admin_id</span> <span class="ruby-operator">||=</span> <span class="ruby-ivar">@template</span>.<span class="ruby-identifier">docente_id</span>
-<span class="line-num">90</span>     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">templates_redirect_path</span>, <span class="ruby-value">notice:</span> <span class="ruby-string">&quot;Template atualizado com sucesso.&quot;</span>
-<span class="line-num">91</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">92</span>     <span class="ruby-identifier">load_dependencies</span>
-<span class="line-num">93</span>     <span class="ruby-identifier">build_placeholder_question</span>
-<span class="line-num">94</span>     <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Não foi possível atualizar o template. Corrija os campos destacados.&quot;</span>
-<span class="line-num">95</span>     <span class="ruby-identifier">render</span> <span class="ruby-value">:index</span>, <span class="ruby-value">status:</span> <span class="ruby-value">:unprocessable_entity</span>
-<span class="line-num">96</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">97</span> <span class="ruby-keyword">end</span></pre>
+            <pre><span class="ruby-comment"># File app/controllers/templates_controller.rb, line 87</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">update</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@template</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">template_params</span>)
+    <span class="ruby-ivar">@current_admin_id</span> <span class="ruby-operator">||=</span> <span class="ruby-ivar">@template</span>.<span class="ruby-identifier">docente_id</span>
+    <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">templates_redirect_path</span>, <span class="ruby-value">notice:</span> <span class="ruby-string">&quot;Template atualizado com sucesso.&quot;</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">load_dependencies</span>
+    <span class="ruby-identifier">build_placeholder_question</span>
+    <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Não foi possível atualizar o template. Corrija os campos destacados.&quot;</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:index</span>, <span class="ruby-value">status:</span> <span class="ruby-value">:unprocessable_entity</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
           </div>
 
 
@@ -467,7 +453,7 @@
 
 <h4 id="method-i-update-label-Returns">Returns<span><a href="#method-i-update-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
 <ul><li>
-<p>Redirects to <a href="TemplatesController.html#method-i-templates_redirect_path"><code>templates_redirect_path</code></a> on success</p>
+<p>Redirects to templates_redirect_path on success</p>
 </li><li>
 <p>Renders index view with errors on failure</p>
 </li></ul>
@@ -479,397 +465,6 @@
 <p>Updates or destroys <a href="TemplateQuestion.html"><code>TemplateQuestion</code></a> records</p>
 </li><li>
 <p>Sets <a href=":notice">flash</a> on success or <a href=":alert">flash</a> on failure</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-    </section>
-
-     <section id="private-instance-5Buntitled-5D-method-details" class="method-section anchor-link">
-       <header>
-         <h3>Private Instance Methods</h3>
-       </header>
-
-
-      <div id="method-i-build_placeholder_question" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-build_placeholder_question" title="Link to this method">
-                <span class="method-name">build_placeholder_question</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="build_placeholder_question-source">
-            <pre>    <span class="ruby-comment"># File app/controllers/templates_controller.rb</span>
-<span class="line-num">212</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_placeholder_question</span>
-<span class="line-num">213</span>   <span class="ruby-identifier">base_slots</span> = <span class="ruby-ivar">@template</span>.<span class="ruby-identifier">persisted?</span> <span class="ruby-operator">?</span> <span class="ruby-value">1</span> <span class="ruby-operator">:</span> <span class="ruby-value">3</span>
-<span class="line-num">214</span>   <span class="ruby-identifier">active_questions</span> = <span class="ruby-ivar">@template</span>.<span class="ruby-identifier">template_questions</span>.<span class="ruby-identifier">reject</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:marked_for_destruction?</span>).<span class="ruby-identifier">size</span>
-<span class="line-num">215</span>   <span class="ruby-identifier">total_needed</span> = [<span class="ruby-identifier">active_questions</span>, <span class="ruby-identifier">base_slots</span>].<span class="ruby-identifier">max</span>
-<span class="line-num">216</span> 
-<span class="line-num">217</span>   <span class="ruby-keyword">while</span> <span class="ruby-identifier">active_questions</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">total_needed</span>
-<span class="line-num">218</span>     <span class="ruby-ivar">@template</span>.<span class="ruby-identifier">template_questions</span>.<span class="ruby-identifier">build</span>(
-<span class="line-num">219</span>       <span class="ruby-value">question_type:</span> <span class="ruby-constant">TemplateQuestion</span><span class="ruby-operator">::</span><span class="ruby-constant">QUESTION_TYPES</span>[<span class="ruby-value">:likert</span>],
-<span class="line-num">220</span>       <span class="ruby-value">position:</span> <span class="ruby-ivar">@template</span>.<span class="ruby-identifier">template_questions</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>,
-<span class="line-num">221</span>       <span class="ruby-value">required:</span> <span class="ruby-keyword">true</span>,
-<span class="line-num">222</span>       <span class="ruby-value">min_value:</span> <span class="ruby-value">1</span>,
-<span class="line-num">223</span>       <span class="ruby-value">max_value:</span> <span class="ruby-value">5</span>
-<span class="line-num">224</span>     )
-<span class="line-num">225</span>     <span class="ruby-identifier">active_questions</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
-<span class="line-num">226</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">227</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Builds placeholder questions for the template form.</p>
-
-<h4 id="method-i-build_placeholder_question-label-Side+Effects">Side Effects<span><a href="#method-i-build_placeholder_question-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Adds <a href="TemplateQuestion.html"><code>TemplateQuestion</code></a> objects to @template.template_questions</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-ensure_template_owner-21" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-ensure_template_owner-21" title="Link to this method">
-                <span class="method-name">ensure_template_owner!</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="ensure_template_owner-21-source">
-            <pre>    <span class="ruby-comment"># File app/controllers/templates_controller.rb</span>
-<span class="line-num">184</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">ensure_template_owner!</span>
-<span class="line-num">185</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@current_admin_id</span>
-<span class="line-num">186</span> 
-<span class="line-num">187</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@template</span>.<span class="ruby-identifier">docente_id</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@current_admin_id</span>.<span class="ruby-identifier">to_s</span>
-<span class="line-num">188</span> 
-<span class="line-num">189</span>   <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">templates_redirect_path</span>, <span class="ruby-value">alert:</span> <span class="ruby-string">&quot;Template não encontrado para este administrador.&quot;</span>
-<span class="line-num">190</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Ensures current user owns the template being accessed.</p>
-
-<h4 id="method-i-ensure_template_owner-21-label-Returns">Returns<span><a href="#method-i-ensure_template_owner-21-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Redirects to <a href="TemplatesController.html#method-i-templates_redirect_path"><code>templates_redirect_path</code></a> if user doesn’t own template</p>
-</li></ul>
-
-<h4 id="method-i-ensure_template_owner-21-label-Side+Effects">Side Effects<span><a href="#method-i-ensure_template_owner-21-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Sets <a href=":alert">flash</a> and redirects if access denied</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-load_dependencies" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-load_dependencies" title="Link to this method">
-                <span class="method-name">load_dependencies</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="load_dependencies-source">
-            <pre>    <span class="ruby-comment"># File app/controllers/templates_controller.rb</span>
-<span class="line-num">144</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">load_dependencies</span>
-<span class="line-num">145</span>   <span class="ruby-ivar">@docentes</span> = <span class="ruby-constant">Docente</span>.<span class="ruby-identifier">order</span>(<span class="ruby-value">:nome</span>)
-<span class="line-num">146</span>   <span class="ruby-identifier">scope</span> = <span class="ruby-constant">Template</span>.<span class="ruby-identifier">includes</span>(<span class="ruby-value">:template_questions</span>, <span class="ruby-value">:docente</span>).<span class="ruby-identifier">order</span>(<span class="ruby-value">created_at:</span> <span class="ruby-value">:desc</span>)
-<span class="line-num">147</span>   <span class="ruby-identifier">scope</span> = <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">docente_id:</span> <span class="ruby-ivar">@current_admin_id</span>) <span class="ruby-keyword">if</span> <span class="ruby-ivar">@current_admin_id</span>
-<span class="line-num">148</span>   <span class="ruby-ivar">@templates</span> = <span class="ruby-identifier">scope</span>
-<span class="line-num">149</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Loads dependencies needed for index and edit views.</p>
-
-<h4 id="method-i-load_dependencies-label-Side+Effects">Side Effects<span><a href="#method-i-load_dependencies-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Sets @docentes and @templates instance variables</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-set_current_admin_id" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-set_current_admin_id" title="Link to this method">
-                <span class="method-name">set_current_admin_id</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="set_current_admin_id-source">
-            <pre>    <span class="ruby-comment"># File app/controllers/templates_controller.rb</span>
-<span class="line-num">157</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_current_admin_id</span>
-<span class="line-num">158</span>   <span class="ruby-ivar">@current_admin_id</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:admin_id</span>].<span class="ruby-identifier">presence</span>
-<span class="line-num">159</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Sets the current admin ID from parameters.</p>
-
-<h4 id="method-i-set_current_admin_id-label-Side+Effects">Side Effects<span><a href="#method-i-set_current_admin_id-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Sets @current_admin_id instance variable</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-set_template" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-set_template" title="Link to this method">
-                <span class="method-name">set_template</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="set_template-source">
-            <pre>    <span class="ruby-comment"># File app/controllers/templates_controller.rb</span>
-<span class="line-num">170</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_template</span>
-<span class="line-num">171</span>   <span class="ruby-ivar">@template</span> = <span class="ruby-constant">Template</span>.<span class="ruby-identifier">includes</span>(<span class="ruby-value">:template_questions</span>).<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
-<span class="line-num">172</span>   <span class="ruby-ivar">@current_admin_id</span> <span class="ruby-operator">||=</span> <span class="ruby-ivar">@template</span>.<span class="ruby-identifier">docente_id</span>
-<span class="line-num">173</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Loads template from database.</p>
-
-<h4 id="method-i-set_template-label-Parameters">Parameters<span><a href="#method-i-set_template-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p><code>params[:id]</code> - Integer with <a href="Template.html"><code>Template</code></a> ID</p>
-</li></ul>
-
-<h4 id="method-i-set_template-label-Side+Effects">Side Effects<span><a href="#method-i-set_template-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Sets @template and @current_admin_id instance variables</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-template_params" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-template_params" title="Link to this method">
-                <span class="method-name">template_params</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="template_params-source">
-            <pre>    <span class="ruby-comment"># File app/controllers/templates_controller.rb</span>
-<span class="line-num">129</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">template_params</span>
-<span class="line-num">130</span>   <span class="ruby-identifier">params</span>.<span class="ruby-identifier">require</span>(<span class="ruby-value">:template</span>).<span class="ruby-identifier">permit</span>(
-<span class="line-num">131</span>     <span class="ruby-value">:name</span>,
-<span class="line-num">132</span>     <span class="ruby-value">:description</span>,
-<span class="line-num">133</span>     <span class="ruby-value">:docente_id</span>,
-<span class="line-num">134</span>     <span class="ruby-value">template_questions_attributes:</span> <span class="ruby-node">%i[id prompt question_type position required min_value max_value options_text _destroy]</span>
-<span class="line-num">135</span>   )
-<span class="line-num">136</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Extracts and sanitizes template parameters.</p>
-
-<h4 id="method-i-template_params-label-Returns">Returns<span><a href="#method-i-template_params-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>ActionController::Parameters - Permitted template parameters</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-templates_redirect_path" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-templates_redirect_path" title="Link to this method">
-                <span class="method-name">templates_redirect_path</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="templates_redirect_path-source">
-            <pre>    <span class="ruby-comment"># File app/controllers/templates_controller.rb</span>
-<span class="line-num">198</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">templates_redirect_path</span>
-<span class="line-num">199</span>   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@current_admin_id</span>
-<span class="line-num">200</span>     <span class="ruby-identifier">management_templates_path</span>(<span class="ruby-value">admin_id:</span> <span class="ruby-ivar">@current_admin_id</span>)
-<span class="line-num">201</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">202</span>     <span class="ruby-identifier">templates_path</span>
-<span class="line-num">203</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">204</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Determines redirect path based on admin context.</p>
-
-<h4 id="method-i-templates_redirect_path-label-Returns">Returns<span><a href="#method-i-templates_redirect_path-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>String - Path to redirect to (management_templates_path or templates_path)</p>
 </li></ul>
 
 

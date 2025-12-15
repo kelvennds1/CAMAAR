@@ -1,17 +1,51 @@
 {
   "RSpec": {
     "coverage": {
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/helpers/application_helper.rb": {
+      "/workspaces/CAMAAR/app/helpers/application_helper.rb": {
         "lines": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
           1,
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/mailers/password_setup_mailer.rb": {
+      "/workspaces/CAMAAR/app/mailers/password_setup_mailer.rb": {
         "lines": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
           null,
           1,
           1,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
           null,
           1,
           71,
@@ -25,15 +59,34 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/mailers/application_mailer.rb": {
+      "/workspaces/CAMAAR/app/mailers/application_mailer.rb": {
         "lines": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
           1,
           1,
           1,
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/models/avaliacao.rb": {
+      "/workspaces/CAMAAR/app/models/avaliacao.rb": {
         "lines": [
           null,
           null,
@@ -98,14 +151,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/models/application_record.rb": {
-        "lines": [
-          1,
-          1,
-          null
-        ]
-      },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/models/dicente.rb": {
+      "/workspaces/CAMAAR/app/models/application_record.rb": {
         "lines": [
           null,
           null,
@@ -123,6 +169,27 @@
           null,
           1,
           1,
+          null
+        ]
+      },
+      "/workspaces/CAMAAR/app/models/dicente.rb": {
+        "lines": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          1,
           1,
           1,
           1,
@@ -131,7 +198,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/models/usuario.rb": {
+      "/workspaces/CAMAAR/app/models/usuario.rb": {
         "lines": [
           null,
           null,
@@ -196,7 +263,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/models/docente.rb": {
+      "/workspaces/CAMAAR/app/models/docente.rb": {
         "lines": [
           null,
           null,
@@ -220,7 +287,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/models/materia.rb": {
+      "/workspaces/CAMAAR/app/models/materia.rb": {
         "lines": [
           null,
           null,
@@ -242,7 +309,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/models/matricula.rb": {
+      "/workspaces/CAMAAR/app/models/matricula.rb": {
         "lines": [
           null,
           null,
@@ -272,7 +339,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/models/questao.rb": {
+      "/workspaces/CAMAAR/app/models/questao.rb": {
         "lines": [
           null,
           null,
@@ -294,6 +361,8 @@
           null,
           1,
           1,
+          null,
+          null,
           null,
           1,
           null,
@@ -318,31 +387,63 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/models/template_question.rb": {
+      "/workspaces/CAMAAR/app/models/template_question.rb": {
         "lines": [
-          1,
-          null,
-          1,
           null,
           null,
           null,
           null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
           1,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          null,
           null,
           1,
           null,
           1,
           null,
           1,
+          null,
           1,
           1,
           1,
           1,
+          1,
+          null,
+          null,
+          null,
+          null,
+          null,
           null,
           1,
           57,
           null,
           0,
+          null,
+          null,
+          null,
+          null,
+          null,
           null,
           null,
           1,
@@ -416,9 +517,18 @@
           4,
           null,
           null,
+          null,
+          null,
+          null,
           1,
           5,
           5,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
           null,
           null,
           1,
@@ -429,6 +539,9 @@
           null,
           null,
           5,
+          null,
+          null,
+          null,
           null,
           null,
           1,
@@ -457,12 +570,21 @@
           205,
           null,
           null,
+          null,
+          null,
+          null,
           1,
           205,
           null,
           null,
+          null,
+          null,
+          null,
           1,
           205,
+          null,
+          null,
+          null,
           null,
           null,
           1,
@@ -471,7 +593,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/models/resposta_item.rb": {
+      "/workspaces/CAMAAR/app/models/resposta_item.rb": {
         "lines": [
           null,
           null,
@@ -496,7 +618,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/models/resposta.rb": {
+      "/workspaces/CAMAAR/app/models/resposta.rb": {
         "lines": [
           null,
           null,
@@ -534,7 +656,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/models/template.rb": {
+      "/workspaces/CAMAAR/app/models/template.rb": {
         "lines": [
           null,
           null,
@@ -551,6 +673,10 @@
           null,
           null,
           1,
+          null,
+          null,
+          null,
+          null,
           null,
           1,
           null,
@@ -598,7 +724,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/models/turma.rb": {
+      "/workspaces/CAMAAR/app/models/turma.rb": {
         "lines": [
           null,
           null,
@@ -631,7 +757,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/services/evaluation_batch_creator.rb": {
+      "/workspaces/CAMAAR/app/services/evaluation_batch_creator.rb": {
         "lines": [
           null,
           null,
@@ -949,7 +1075,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/services/evaluation_result_aggregator.rb": {
+      "/workspaces/CAMAAR/app/services/evaluation_result_aggregator.rb": {
         "lines": [
           null,
           null,
@@ -963,6 +1089,9 @@
           null,
           null,
           1,
+          null,
+          null,
+          null,
           1,
           null,
           null,
@@ -1058,7 +1187,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/services/evaluation_results_exporter.rb": {
+      "/workspaces/CAMAAR/app/services/evaluation_results_exporter.rb": {
         "lines": [
           1,
           null,
@@ -1081,6 +1210,9 @@
           1,
           null,
           1,
+          null,
+          null,
+          null,
           1,
           null,
           null,
@@ -1215,7 +1347,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/services/report_generator.rb": {
+      "/workspaces/CAMAAR/app/services/report_generator.rb": {
         "lines": [
           null,
           null,
@@ -1306,6 +1438,9 @@
           null,
           1,
           null,
+          null,
+          null,
+          null,
           1,
           null,
           null,
@@ -1339,7 +1474,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/services/sigaa_importer.rb": {
+      "/workspaces/CAMAAR/app/services/sigaa_importer.rb": {
         "lines": [
           null,
           null,
@@ -1359,6 +1494,19 @@
           null,
           null,
           1,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
           1,
           null,
           null,
@@ -1925,7 +2073,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/controllers/application_controller.rb": {
+      "/workspaces/CAMAAR/app/controllers/application_controller.rb": {
         "lines": [
           null,
           null,
@@ -1990,7 +2138,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/controllers/avaliacoes_controller.rb": {
+      "/workspaces/CAMAAR/app/controllers/avaliacoes_controller.rb": {
         "lines": [
           1,
           null,
@@ -2135,8 +2283,21 @@
           8,
           null,
           null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
           1,
           8,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
           null,
           null,
           1,
@@ -2144,6 +2305,15 @@
           6,
           null,
           2,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
           null,
           null,
           null,
@@ -2156,6 +2326,14 @@
           6,
           null,
           0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
           null,
           null,
           null,
@@ -2286,7 +2464,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/controllers/passwords_controller.rb": {
+      "/workspaces/CAMAAR/app/controllers/passwords_controller.rb": {
         "lines": [
           null,
           null,
@@ -2512,7 +2690,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/controllers/resultados_controller.rb": {
+      "/workspaces/CAMAAR/app/controllers/resultados_controller.rb": {
         "lines": [
           null,
           null,
@@ -2676,7 +2854,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/controllers/sessions_controller.rb": {
+      "/workspaces/CAMAAR/app/controllers/sessions_controller.rb": {
         "lines": [
           null,
           null,
@@ -2792,7 +2970,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/controllers/templates_controller.rb": {
+      "/workspaces/CAMAAR/app/controllers/templates_controller.rb": {
         "lines": [
           null,
           null,
@@ -3049,7 +3227,7 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/controllers/sigaa_imports_controller.rb": {
+      "/workspaces/CAMAAR/app/controllers/sigaa_imports_controller.rb": {
         "lines": [
           null,
           null,
@@ -3210,8 +3388,29 @@
           null
         ]
       },
-      "/home/gabriel/Documents/UnB/engenharia_software/camaar/CAMAAR/app/jobs/application_job.rb": {
+      "/workspaces/CAMAAR/app/jobs/application_job.rb": {
         "lines": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
           0,
           null,
           null,
@@ -3223,6 +3422,6 @@
         "branches": {}
       }
     },
-    "timestamp": 1765809574
+    "timestamp": 1765810788
   }
 }

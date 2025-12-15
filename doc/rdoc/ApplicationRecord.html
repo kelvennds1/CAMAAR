@@ -5,13 +5,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>class ApplicationRecord - CAMAAR - Documentação</title>
+<title>class ApplicationRecord - RDoc Documentation</title>
 
 
   <meta name="keywords" content="ruby,class,ApplicationRecord">
 
 
-    <meta name="description" content="Documentation for the ApplicationRecord class">
+    <meta name="description" content="class ApplicationRecord: Classe base abstrata para todos os modelos ActiveRecord da aplicação. Esta classe serve como classe pai para todos os modelos da aplicação CAMAAR, for">
 
 
 
@@ -71,6 +71,35 @@
   </div>
 
   
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+
+
+
+
+  <ul class="link-list" role="directory">
+    
+
+
+
+
+          <li>
+      <a href="#class-ApplicationRecord-label-Heran-C3-A7a">Herança</a>
+</li>
+
+
+
+
+          <li>
+      <a href="#class-ApplicationRecord-label-Exemplo">Exemplo</a>
+</li>
+
+
+
+  </ul>
+</div>
+
 
   
 
@@ -108,6 +137,21 @@
 
   <section class="description">
     
+<p>Classe base abstrata para todos os modelos ActiveRecord da aplicação.</p>
+
+<p>Esta classe serve como classe pai para todos os modelos da aplicação CAMAAR, fornecendo configurações e comportamentos comuns.</p>
+
+<h2 id="class-ApplicationRecord-label-Heran-C3-A7a">Herança<span><a href="#class-ApplicationRecord-label-Heran-C3-A7a">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>Todos os modelos da aplicação devem herdar desta classe em vez de herdar diretamente de ActiveRecord::Base.</p>
+
+<h2 id="class-ApplicationRecord-label-Exemplo">Exemplo<span><a href="#class-ApplicationRecord-label-Exemplo">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">Usuario</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">ApplicationRecord</span>
+  <span class="ruby-comment"># ...</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
   </section>
 
 

@@ -5,17 +5,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>class Resposta - CAMAAR - Documentação</title>
+<title>class Resposta - RDoc Documentation</title>
 
 
   <meta name="keywords" content="ruby,class,Resposta">
 
 
-<<<<<<< HEAD
     <meta name="description" content="class Resposta: Model representing a student&#39;s response to an evaluation. Contains the submission metadata and links to individual answer items.">
-=======
-    <meta name="description" content="class Resposta: Model representing a student&#39;s response to an evaluation. Contains the overall response status and links to individual question responses.">
->>>>>>> sprint-3-documentacao
 
 
 
@@ -148,7 +144,6 @@
 
   <section class="description">
     
-<<<<<<< HEAD
 <p>Model representing a student’s response to an evaluation. Contains the submission metadata and links to individual answer items.</p>
 
 <h4 id="class-Resposta-label-Attributes">Attributes<span><a href="#class-Resposta-label-Attributes">&para;</a> <a href="#top">&uarr;</a></span></h4>
@@ -160,27 +155,16 @@
 
 <h4 id="class-Resposta-label-Associations">Associations<span><a href="#class-Resposta-label-Associations">&para;</a> <a href="#top">&uarr;</a></span></h4>
 <ul><li>
-<p><code>avaliacao</code> - Evaluation being responded to</p>
-</li><li>
-<p><code>dicente</code> - Student who submitted the response</p>
-</li><li>
-<p><code>resposta_items</code> - Individual answers to each question</p>
-</li></ul>
-
-<h4 id="class-Resposta-label-Validations">Validations<span><a href="#class-Resposta-label-Validations">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>One response per student per evaluation (unique dicente_id + avaliacao_id)</p>
-=======
-<p>Model representing a student’s response to an evaluation. Contains the overall response status and links to individual question responses.</p>
-
-<h4 id="class-Resposta-label-Associations">Associations<span><a href="#class-Resposta-label-Associations">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
 <p>belongs_to :avaliacao - The evaluation being responded to</p>
 </li><li>
 <p>belongs_to :dicente - The student who submitted this response</p>
 </li><li>
 <p>has_many :resposta_items - Individual answers to each question</p>
->>>>>>> sprint-3-documentacao
+</li></ul>
+
+<h4 id="class-Resposta-label-Validations">Validations<span><a href="#class-Resposta-label-Validations">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>One response per student per evaluation (unique dicente_id + avaliacao_id)</p>
 </li></ul>
 
   </section>

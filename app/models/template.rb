@@ -13,6 +13,10 @@
 # * has_many :avaliacoes - Evaluations created from this template
 #
 class Template < ApplicationRecord
+  # Constante com os status possíveis de um template.
+  # * +draft+ - Rascunho, em edição
+  # * +published+ - Publicado, disponível para uso
+  # * +archived+ - Arquivado, não disponível
   STATUS = {
     draft: "draft",
     published: "published",

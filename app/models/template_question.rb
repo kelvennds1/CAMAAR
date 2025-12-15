@@ -1,10 +1,32 @@
+# Modelo que representa uma questão de template de avaliação.
+#
+# Esta classe define as questões que compõem um template de avaliação,
+# suportando diferentes tipos como Likert, múltipla escolha e texto.
+#
+# == Tipos de Questão Suportados
+# * +likert+ - Escala numérica de 1 a 5
+# * +multiple_choice+ - Múltipla escolha com opções definidas
+# * +text+ - Resposta em texto livre
+#
+# == Associações
+# * belongs_to :template
+#
+# == Validações
+# * prompt, question_type e position são obrigatórios
+# * question_type deve ser um dos tipos válidos
+# * position deve ser maior que 0
+# * Múltipla escolha requer pelo menos 2 opções
+# * Likert requer escala válida de 1-5
+#
 class TemplateQuestion < ApplicationRecord
+  # Constante com os tipos de questão suportados.
   QUESTION_TYPES = {
     likert: "likert",
     multiple_choice: "multiple_choice",
     text: "text"
   }.freeze
 
+  # Atributo virtual para entrada de opções como texto.
   attr_accessor :options_text
 
   belongs_to :template, inverse_of: :template_questions
@@ -17,12 +39,22 @@ class TemplateQuestion < ApplicationRecord
   validate :validate_multiple_choice_options
   validate :validate_likert_scale
 
+  # Retorna as opções como array.
+  #
+  # == Retorno
+  # Array de strings com as opções, ou array vazio se não houver opções.
+  #
   def options_array
     (options.presence && JSON.parse(options)) || []
   rescue JSON::ParserError
     []
   end
 
+  # Retorna as opções formatadas como texto.
+  #
+  # == Retorno
+  # String com as opções separadas por quebra de linha.
+  #
   def options_text
     @options_text.presence || options_array.join("\n")
   end
@@ -94,11 +126,20 @@ class TemplateQuestion < ApplicationRecord
     self.max_value = nil
   end
 
+  ##
+  # Armazena as opções como JSON.
+  #
   def store_options_payload
     collection = parsed_options_from_accessor
     self.options = collection.any? ? collection.to_json : nil
   end
 
+  ##
+  # Converte o texto de opções em array limpo.
+  #
+  # == Retorno
+  # Array de strings únicas e não vazias.
+  #
   def parsed_options_from_accessor
     source = if @options_text.nil?
                options_array
@@ -109,6 +150,9 @@ class TemplateQuestion < ApplicationRecord
     source.map(&:strip).reject(&:blank?).uniq
   end
 
+  ##
+  # Valida que múltipla escolha tem pelo menos 2 opções.
+  #
   def validate_multiple_choice_options
     return unless question_type == QUESTION_TYPES[:multiple_choice]
 
@@ -135,14 +179,23 @@ class TemplateQuestion < ApplicationRecord
     values_present? && values_in_range? && min_less_than_max?
   end
 
+  ##
+  # Verifica se os valores min/max estão presentes.
+  #
   def values_present?
     min_value.present? && max_value.present?
   end
 
+  ##
+  # Verifica se os valores estão no intervalo permitido (1-5).
+  #
   def values_in_range?
     min_value >= 1 && max_value <= 5
   end
 
+  ##
+  # Verifica se min_value é menor que max_value.
+  #
   def min_less_than_max?
     min_value < max_value
   end

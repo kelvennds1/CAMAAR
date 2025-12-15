@@ -19,6 +19,9 @@ class EvaluationResultsExporter
   class ExportError < StandardError; end
 
   class << self
+    ##
+    # @!attribute [rw] force_failure
+    #   Atributo para forçar falhas em testes.
     attr_accessor :force_failure
   end
 

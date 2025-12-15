@@ -16,6 +16,19 @@ class SigaaImporter
   # Result object that tracks the import operation statistics and errors.
   #
   class ImportResult
+    ##
+    # @!attribute [rw] success
+    #   Indica se a operação foi bem sucedida.
+    # @!attribute [rw] errors
+    #   Array de erros ocorridos durante a importação.
+    # @!attribute [rw] created
+    #   Hash com contagem de registros criados por tipo.
+    # @!attribute [rw] updated
+    #   Hash com contagem de registros atualizados por tipo.
+    # @!attribute [rw] skipped
+    #   Hash com contagem de registros ignorados por tipo.
+    # @!attribute [rw] operation_type
+    #   Tipo da operação (ex: 'Importação').
     attr_accessor :success, :errors, :created, :updated, :skipped, :operation_type
 
     ##

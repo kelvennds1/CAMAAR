@@ -10,6 +10,9 @@
 #   # => { total_responses: 25, completion_rate: 80, average_score: 4.2, question_stats: [...] }
 #
 class EvaluationResultAggregator
+  ##
+  # @!attribute [r] avaliacao
+  #   A avaliação para a qual os resultados serão agregados.
   attr_reader :avaliacao
 
   ##

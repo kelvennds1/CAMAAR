@@ -11,7 +11,7 @@
   <meta name="keywords" content="ruby,class,ApplicationJob">
 
 
-    <meta name="description" content="Documentation for the ApplicationJob class">
+    <meta name="description" content="class ApplicationJob: Classe base para todos os jobs assíncronos da aplicação. Esta classe fornece configurações padrão para processamento de tarefas em background na aplic">
 
 
 
@@ -71,6 +71,42 @@
   </div>
 
   
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+
+
+
+
+  <ul class="link-list" role="directory">
+    
+
+
+
+
+          <li>
+      <a href="#class-ApplicationJob-label-Heran-C3-A7a">Herança</a>
+</li>
+
+
+
+
+          <li>
+      <a href="#class-ApplicationJob-label-Configura-C3-A7-C3-B5es+dispon-C3-ADveis">Configurações disponíveis</a>
+</li>
+
+
+
+
+          <li>
+      <a href="#class-ApplicationJob-label-Exemplo">Exemplo</a>
+</li>
+
+
+
+  </ul>
+</div>
+
 
   
 
@@ -108,6 +144,32 @@
 
   <section class="description">
     
+<p>Classe base para todos os jobs assíncronos da aplicação.</p>
+
+<p>Esta classe fornece configurações padrão para processamento de tarefas em background na aplicação CAMAAR usando ActiveJob.</p>
+
+<h2 id="class-ApplicationJob-label-Heran-C3-A7a">Herança<span><a href="#class-ApplicationJob-label-Heran-C3-A7a">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>Todos os jobs da aplicação devem herdar desta classe.</p>
+
+<h2 id="class-ApplicationJob-label-Configura-C3-A7-C3-B5es+dispon-C3-ADveis">Configurações disponíveis<span><a href="#class-ApplicationJob-label-Configura-C3-A7-C3-B5es+dispon-C3-ADveis">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>retry_on: Configura retentativas automáticas para erros específicos</p>
+</li><li>
+<p>discard_on: Descarta jobs quando determinados erros ocorrem</p>
+</li></ul>
+
+<h2 id="class-ApplicationJob-label-Exemplo">Exemplo<span><a href="#class-ApplicationJob-label-Exemplo">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">ProcessDataJob</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">ApplicationJob</span>
+  <span class="ruby-identifier">queue_as</span> <span class="ruby-value">:default</span>
+
+  <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">perform</span>(<span class="ruby-identifier">data</span>)
+    <span class="ruby-comment"># Processamento assíncrono</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
   </section>
 
 

@@ -5,13 +5,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>class TemplateQuestion - CAMAAR - Documentação</title>
+<title>class TemplateQuestion - RDoc Documentation</title>
 
 
   <meta name="keywords" content="ruby,class,TemplateQuestion">
 
 
-    <meta name="description" content="Documentation for the TemplateQuestion class">
+    <meta name="description" content="class TemplateQuestion: Modelo que representa uma questão de template de avaliação. Esta classe define as questões que compõem um template de avaliação, suportando diferentes">
 
 
 
@@ -71,6 +71,42 @@
   </div>
 
   
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+
+
+
+
+  <ul class="link-list" role="directory">
+    
+
+
+
+
+          <li>
+      <a href="#class-TemplateQuestion-label-Tipos+de+Quest-C3-A3o+Suportados">Tipos de Questão Suportados</a>
+</li>
+
+
+
+
+          <li>
+      <a href="#class-TemplateQuestion-label-Associa-C3-A7-C3-B5es">Associações</a>
+</li>
+
+
+
+
+          <li>
+      <a href="#class-TemplateQuestion-label-Valida-C3-A7-C3-B5es">Validações</a>
+</li>
+
+
+
+  </ul>
+</div>
+
 
   
 
@@ -92,17 +128,7 @@
     <h3>Instance Methods</h3>
     <ul class="link-list" role="directory">
 
-      <li ><a href="#method-i-normalize_fields">normalize_fields</a></li>
-
       <li ><a href="#method-i-options_array">options_array</a></li>
-
-      <li ><a href="#method-i-parsed_options_from_accessor">parsed_options_from_accessor</a></li>
-
-      <li ><a href="#method-i-store_options_payload">store_options_payload</a></li>
-
-      <li ><a href="#method-i-validate_likert_scale">validate_likert_scale</a></li>
-
-      <li ><a href="#method-i-validate_multiple_choice_options">validate_multiple_choice_options</a></li>
 
     </ul>
   </div>
@@ -127,6 +153,37 @@
 
   <section class="description">
     
+<p>Modelo que representa uma questão de template de avaliação.</p>
+
+<p>Esta classe define as questões que compõem um template de avaliação, suportando diferentes tipos como Likert, múltipla escolha e texto.</p>
+
+<h2 id="class-TemplateQuestion-label-Tipos+de+Quest-C3-A3o+Suportados">Tipos de Questão Suportados<span><a href="#class-TemplateQuestion-label-Tipos+de+Quest-C3-A3o+Suportados">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p><code>likert</code> - Escala numérica de 1 a 5</p>
+</li><li>
+<p><code>multiple_choice</code> - Múltipla escolha com opções definidas</p>
+</li><li>
+<p><code>text</code> - <a href="Resposta.html"><code>Resposta</code></a> em texto livre</p>
+</li></ul>
+
+<h2 id="class-TemplateQuestion-label-Associa-C3-A7-C3-B5es">Associações<span><a href="#class-TemplateQuestion-label-Associa-C3-A7-C3-B5es">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>belongs_to :template</p>
+</li></ul>
+
+<h2 id="class-TemplateQuestion-label-Valida-C3-A7-C3-B5es">Validações<span><a href="#class-TemplateQuestion-label-Valida-C3-A7-C3-B5es">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>prompt, question_type e position são obrigatórios</p>
+</li><li>
+<p>question_type deve ser um dos tipos válidos</p>
+</li><li>
+<p>position deve ser maior que 0</p>
+</li><li>
+<p>Múltipla escolha requer pelo menos 2 opções</p>
+</li><li>
+<p>Likert requer escala válida de 1-5</p>
+</li></ul>
+
   </section>
 
 
@@ -146,7 +203,7 @@
 
         <dd>
 
-          
+          <p>Constante com os tipos de questão suportados.</p>
         </dd>
 
 
@@ -172,7 +229,7 @@
         <div class="method-description">
 
 
-        
+        <p>Atributo virtual para entrada de opções como texto.</p>
 
         </div>
       </div>
@@ -211,276 +268,21 @@
         <div class="method-description">
 
           <div class="method-source-code" id="options_array-source">
-            <pre>   <span class="ruby-comment"># File app/models/template_question.rb</span>
-<span class="line-num">20</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">options_array</span>
-<span class="line-num">21</span>   (<span class="ruby-identifier">options</span>.<span class="ruby-identifier">presence</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">options</span>)) <span class="ruby-operator">||</span> []
-<span class="line-num">22</span> <span class="ruby-keyword">rescue</span> <span class="ruby-constant">JSON</span><span class="ruby-operator">::</span><span class="ruby-constant">ParserError</span>
-<span class="line-num">23</span>   []
-<span class="line-num">24</span> <span class="ruby-keyword">end</span></pre>
+            <pre><span class="ruby-comment"># File app/models/template_question.rb, line 47</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">options_array</span>
+  (<span class="ruby-identifier">options</span>.<span class="ruby-identifier">presence</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">options</span>)) <span class="ruby-operator">||</span> []
+<span class="ruby-keyword">rescue</span> <span class="ruby-constant">JSON</span><span class="ruby-operator">::</span><span class="ruby-constant">ParserError</span>
+  []
+<span class="ruby-keyword">end</span></pre>
           </div>
 
 
 
-          
+          <p>Retorna as opções como array.</p>
 
+<h2 id="method-i-options_array-label-Retorno">Retorno<span><a href="#method-i-options_array-label-Retorno">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
-        </div>
-
-
-
-
-
-      </div>
-
-
-    </section>
-
-     <section id="private-instance-5Buntitled-5D-method-details" class="method-section anchor-link">
-       <header>
-         <h3>Private Instance Methods</h3>
-       </header>
-
-
-      <div id="method-i-normalize_fields" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-normalize_fields" title="Link to this method">
-                <span class="method-name">normalize_fields</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="normalize_fields-source">
-            <pre>   <span class="ruby-comment"># File app/models/template_question.rb</span>
-<span class="line-num">32</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">normalize_fields</span>
-<span class="line-num">33</span>   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">question_type</span> = <span class="ruby-identifier">question_type</span>.<span class="ruby-identifier">presence</span>&amp;.<span class="ruby-identifier">downcase</span>
-<span class="line-num">34</span>   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">position</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">template</span>&amp;.<span class="ruby-identifier">template_questions</span>&amp;.<span class="ruby-identifier">size</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
-<span class="line-num">35</span> 
-<span class="line-num">36</span>   <span class="ruby-keyword">case</span> <span class="ruby-identifier">question_type</span>
-<span class="line-num">37</span>   <span class="ruby-keyword">when</span> <span class="ruby-constant">QUESTION_TYPES</span>[<span class="ruby-value">:multiple_choice</span>]
-<span class="line-num">38</span>     <span class="ruby-identifier">store_options_payload</span>
-<span class="line-num">39</span>     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">min_value</span> = <span class="ruby-keyword">nil</span>
-<span class="line-num">40</span>     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">max_value</span> = <span class="ruby-keyword">nil</span>
-<span class="line-num">41</span>   <span class="ruby-keyword">when</span> <span class="ruby-constant">QUESTION_TYPES</span>[<span class="ruby-value">:likert</span>]
-<span class="line-num">42</span>     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">min_value</span> = (<span class="ruby-identifier">min_value</span>.<span class="ruby-identifier">presence</span> <span class="ruby-operator">||</span> <span class="ruby-value">1</span>).<span class="ruby-identifier">to_i</span>
-<span class="line-num">43</span>     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">max_value</span> = (<span class="ruby-identifier">max_value</span>.<span class="ruby-identifier">presence</span> <span class="ruby-operator">||</span> <span class="ruby-value">5</span>).<span class="ruby-identifier">to_i</span>
-<span class="line-num">44</span>     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">options</span> = <span class="ruby-keyword">nil</span>
-<span class="line-num">45</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">46</span>     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">options</span> = <span class="ruby-keyword">nil</span>
-<span class="line-num">47</span>     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">min_value</span> = <span class="ruby-keyword">nil</span>
-<span class="line-num">48</span>     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">max_value</span> = <span class="ruby-keyword">nil</span>
-<span class="line-num">49</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">50</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-parsed_options_from_accessor" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-parsed_options_from_accessor" title="Link to this method">
-                <span class="method-name">parsed_options_from_accessor</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="parsed_options_from_accessor-source">
-            <pre>   <span class="ruby-comment"># File app/models/template_question.rb</span>
-<span class="line-num">57</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">parsed_options_from_accessor</span>
-<span class="line-num">58</span>   <span class="ruby-identifier">source</span> = <span class="ruby-keyword">if</span> <span class="ruby-ivar">@options_text</span>.<span class="ruby-identifier">nil?</span>
-<span class="line-num">59</span>              <span class="ruby-identifier">options_array</span>
-<span class="line-num">60</span>            <span class="ruby-keyword">else</span>
-<span class="line-num">61</span>              <span class="ruby-ivar">@options_text</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp">/\r?\n/</span>)
-<span class="line-num">62</span>            <span class="ruby-keyword">end</span>
-<span class="line-num">63</span> 
-<span class="line-num">64</span>   <span class="ruby-identifier">source</span>.<span class="ruby-identifier">map</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:strip</span>).<span class="ruby-identifier">reject</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:blank?</span>).<span class="ruby-identifier">uniq</span>
-<span class="line-num">65</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-store_options_payload" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-store_options_payload" title="Link to this method">
-                <span class="method-name">store_options_payload</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="store_options_payload-source">
-            <pre>   <span class="ruby-comment"># File app/models/template_question.rb</span>
-<span class="line-num">52</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">store_options_payload</span>
-<span class="line-num">53</span>   <span class="ruby-identifier">collection</span> = <span class="ruby-identifier">parsed_options_from_accessor</span>
-<span class="line-num">54</span>   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">options</span> = <span class="ruby-identifier">collection</span>.<span class="ruby-identifier">any?</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">collection</span>.<span class="ruby-identifier">to_json</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
-<span class="line-num">55</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-validate_likert_scale" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-validate_likert_scale" title="Link to this method">
-                <span class="method-name">validate_likert_scale</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="validate_likert_scale-source">
-            <pre>   <span class="ruby-comment"># File app/models/template_question.rb</span>
-<span class="line-num">75</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">validate_likert_scale</span>
-<span class="line-num">76</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">question_type</span> <span class="ruby-operator">==</span> <span class="ruby-constant">QUESTION_TYPES</span>[<span class="ruby-value">:likert</span>]
-<span class="line-num">77</span> 
-<span class="line-num">78</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">min_value</span>.<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">max_value</span>.<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">min_value</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">1</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">max_value</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-value">5</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">min_value</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">max_value</span>
-<span class="line-num">79</span>     <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-value">:base</span>, <span class="ruby-string">&quot;A escala numérica deve ser de 1 a 5&quot;</span>)
-<span class="line-num">80</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">81</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-validate_multiple_choice_options" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-validate_multiple_choice_options" title="Link to this method">
-                <span class="method-name">validate_multiple_choice_options</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="validate_multiple_choice_options-source">
-            <pre>   <span class="ruby-comment"># File app/models/template_question.rb</span>
-<span class="line-num">67</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">validate_multiple_choice_options</span>
-<span class="line-num">68</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">question_type</span> <span class="ruby-operator">==</span> <span class="ruby-constant">QUESTION_TYPES</span>[<span class="ruby-value">:multiple_choice</span>]
-<span class="line-num">69</span> 
-<span class="line-num">70</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">options_array</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">2</span>
-<span class="line-num">71</span>     <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-value">:options</span>, <span class="ruby-string">&quot;Adicione pelo menos duas opções&quot;</span>)
-<span class="line-num">72</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">73</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          
+<p>Array de strings com as opções, ou array vazio se não houver opções.</p>
 
 
         </div>

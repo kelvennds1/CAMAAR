@@ -5,17 +5,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>class EvaluationBatchCreator - CAMAAR - Documentação</title>
+<title>class EvaluationBatchCreator - RDoc Documentation</title>
 
 
   <meta name="keywords" content="ruby,class,EvaluationBatchCreator">
 
 
-<<<<<<< HEAD
     <meta name="description" content="class EvaluationBatchCreator: Service for creating evaluation batches from a template. Creates one Avaliacao per selected Turma, copying questions from the template.">
-=======
-    <meta name="description" content="class EvaluationBatchCreator: Service for creating batches of evaluations from templates. Creates multiple Avaliacao records and their associated Questao records for multiple class">
->>>>>>> sprint-3-documentacao
 
 
 
@@ -107,31 +103,7 @@
     <h3>Instance Methods</h3>
     <ul class="link-list" role="directory">
 
-      <li ><a href="#method-i-build_evaluation_attributes">build_evaluation_attributes</a></li>
-
       <li ><a href="#method-i-call">call</a></li>
-
-      <li ><a href="#method-i-copy_questions">copy_questions</a></li>
-
-      <li ><a href="#method-i-create_avaliacao_for_turma">create_avaliacao_for_turma</a></li>
-
-      <li ><a href="#method-i-duplicate-3F">duplicate?</a></li>
-
-      <li ><a href="#method-i-error_result">error_result</a></li>
-
-      <li ><a href="#method-i-handle_record_invalid">handle_record_invalid</a></li>
-
-      <li ><a href="#method-i-invalid_params-3F">invalid_params?</a></li>
-
-      <li ><a href="#method-i-load_template_and_turmas">load_template_and_turmas</a></li>
-
-      <li ><a href="#method-i-max_score_for">max_score_for</a></li>
-
-      <li ><a href="#method-i-normalized_due_date">normalized_due_date</a></li>
-
-      <li ><a href="#method-i-process_single_turma">process_single_turma</a></li>
-
-      <li ><a href="#method-i-process_turmas">process_turmas</a></li>
 
     </ul>
   </div>
@@ -156,8 +128,7 @@
 
   <section class="description">
     
-<<<<<<< HEAD
-<p>Service for creating evaluation batches from a template. Creates one <a href="Avaliacao.html"><code>Avaliacao</code></a> per selected <a href="Turma.html"><code>Turma</code></a>, copying questions from the template.</p>
+<p>Service for creating evaluation batches from a template. Creates one <a href="Avaliacao.html"><code>Avaliacao</code></a> per selected <a href="Turma.html"><code>Turma</code></a>, copying questions from the template. Creates multiple <a href="Avaliacao.html"><code>Avaliacao</code></a> records and their associated <a href="Questao.html"><code>Questao</code></a> records for multiple classes (turmas) at once.</p>
 
 <h4 id="class-EvaluationBatchCreator-label-Usage">Usage<span><a href="#class-EvaluationBatchCreator-label-Usage">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
@@ -173,9 +144,6 @@
   <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Errors: #{result.errors.join(&#39;, &#39;)}&quot;</span>
 <span class="ruby-keyword">end</span>
 </pre>
-=======
-<p>Service for creating batches of evaluations from templates. Creates multiple <a href="Avaliacao.html"><code>Avaliacao</code></a> records and their associated <a href="Questao.html"><code>Questao</code></a> records for multiple classes (turmas) at once.</p>
->>>>>>> sprint-3-documentacao
 
   </section>
 
@@ -196,8 +164,7 @@
 
         <dd>
 
-<<<<<<< HEAD
-          <p><a href="EvaluationBatchCreator.html#Result"><code>Result</code></a> struct containing operation outcome.</p>
+          <p><a href="EvaluationBatchCreator.html#Result"><code>Result</code></a> object containing creation statistics.</p>
 <ul><li>
 <p><code>created</code> - Array of created <a href="Avaliacao.html"><code>Avaliacao</code></a> records</p>
 </li><li>
@@ -205,9 +172,6 @@
 </li><li>
 <p><code>errors</code> - Array of error messages</p>
 </li></ul>
-=======
-          <p><a href="EvaluationBatchCreator.html#Result"><code>Result</code></a> object containing creation statistics.</p>
->>>>>>> sprint-3-documentacao
         </dd>
 
 
@@ -248,32 +212,14 @@
         <div class="method-description">
 
           <div class="method-source-code" id="call-source">
-<<<<<<< HEAD
-            <pre><span class="ruby-comment"># File app/services/evaluation_batch_creator.rb, line 46</span>
+            <pre><span class="ruby-comment"># File app/services/evaluation_batch_creator.rb, line 55</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">call</span>(<span class="ruby-operator">**</span><span class="ruby-identifier">kwargs</span>)
   <span class="ruby-identifier">new</span>(<span class="ruby-operator">**</span><span class="ruby-identifier">kwargs</span>).<span class="ruby-identifier">call</span>
 <span class="ruby-keyword">end</span></pre>
-=======
-            <pre>   <span class="ruby-comment"># File app/services/evaluation_batch_creator.rb</span>
-<span class="line-num">38</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">call</span>(<span class="ruby-operator">**</span><span class="ruby-identifier">kwargs</span>)
-<span class="line-num">39</span>   <span class="ruby-identifier">new</span>(<span class="ruby-operator">**</span><span class="ruby-identifier">kwargs</span>).<span class="ruby-identifier">call</span>
-<span class="line-num">40</span> <span class="ruby-keyword">end</span></pre>
->>>>>>> sprint-3-documentacao
           </div>
 
 
 
-<<<<<<< HEAD
-          <p>Class method to invoke the service.</p>
-
-<h4 id="method-c-call-label-Parameters">Parameters<span><a href="#method-c-call-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p><code>template_id</code> - ID of the template to use</p>
-</li><li>
-<p><code>turma_ids</code> - Array of <a href="Turma.html"><code>Turma</code></a> IDs to create evaluations for</p>
-</li><li>
-<p><code>due_date</code> - Optional due date string (defaults to end of month)</p>
-=======
           <p>Class method to create evaluation batches.</p>
 
 <h4 id="method-c-call-label-Parameters">Parameters<span><a href="#method-c-call-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
@@ -283,14 +229,10 @@
 <p><code>turma_ids:</code> - Array of Integer with <a href="Turma.html"><code>Turma</code></a> IDs to create evaluations for</p>
 </li><li>
 <p><code>due_date:</code> - String or Date with due date (optional, defaults to end of month)</p>
->>>>>>> sprint-3-documentacao
 </li></ul>
 
 <h4 id="method-c-call-label-Returns">Returns<span><a href="#method-c-call-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
 <ul><li>
-<<<<<<< HEAD
-<p><a href="EvaluationBatchCreator.html#Result"><code>Result</code></a> struct with created, skipped, and errors</p>
-=======
 <p><a href="EvaluationBatchCreator.html#Result"><code>Result</code></a> - Object with created, skipped arrays and errors array</p>
 </li></ul>
 
@@ -301,7 +243,6 @@
 <p>Creates <a href="Questao.html"><code>Questao</code></a> records for each avaliacao</p>
 </li><li>
 <p>Skips turmas that already have an evaluation for the given template</p>
->>>>>>> sprint-3-documentacao
 </li></ul>
 
 
@@ -338,28 +279,16 @@
         <div class="method-description">
 
           <div class="method-source-code" id="new-source">
-<<<<<<< HEAD
-            <pre><span class="ruby-comment"># File app/services/evaluation_batch_creator.rb, line 53</span>
+            <pre><span class="ruby-comment"># File app/services/evaluation_batch_creator.rb, line 67</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-value">template_id:</span>, <span class="ruby-value">turma_ids:</span>, <span class="ruby-value">due_date:</span> <span class="ruby-keyword">nil</span>)
   <span class="ruby-ivar">@template_id</span> = <span class="ruby-identifier">template_id</span>
   <span class="ruby-ivar">@turma_ids</span> = <span class="ruby-constant">Array</span>(<span class="ruby-identifier">turma_ids</span>).<span class="ruby-identifier">reject</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:blank?</span>)
   <span class="ruby-ivar">@due_date_param</span> = <span class="ruby-identifier">due_date</span>
 <span class="ruby-keyword">end</span></pre>
-=======
-            <pre>   <span class="ruby-comment"># File app/services/evaluation_batch_creator.rb</span>
-<span class="line-num">50</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-value">template_id:</span>, <span class="ruby-value">turma_ids:</span>, <span class="ruby-value">due_date:</span> <span class="ruby-keyword">nil</span>)
-<span class="line-num">51</span>   <span class="ruby-ivar">@template_id</span> = <span class="ruby-identifier">template_id</span>
-<span class="line-num">52</span>   <span class="ruby-ivar">@turma_ids</span> = <span class="ruby-constant">Array</span>(<span class="ruby-identifier">turma_ids</span>).<span class="ruby-identifier">reject</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:blank?</span>)
-<span class="line-num">53</span>   <span class="ruby-ivar">@due_date_param</span> = <span class="ruby-identifier">due_date</span>
-<span class="line-num">54</span> <span class="ruby-keyword">end</span></pre>
->>>>>>> sprint-3-documentacao
           </div>
 
 
 
-<<<<<<< HEAD
-          <p>Initializes the service with parameters.</p>
-=======
           <p>Initializes a new <a href="EvaluationBatchCreator.html"><code>EvaluationBatchCreator</code></a>.</p>
 
 <h4 id="method-c-new-label-Parameters">Parameters<span><a href="#method-c-new-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
@@ -370,7 +299,6 @@
 </li><li>
 <p><code>due_date:</code> - String or Date with due date (optional)</p>
 </li></ul>
->>>>>>> sprint-3-documentacao
 
 
         </div>
@@ -414,8 +342,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="call-source">
-<<<<<<< HEAD
-            <pre><span class="ruby-comment"># File app/services/evaluation_batch_creator.rb, line 68</span>
+            <pre><span class="ruby-comment"># File app/services/evaluation_batch_creator.rb, line 83</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">call</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">error_result</span>(<span class="ruby-string">&quot;Selecione ao menos um template e uma turma&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">invalid_params?</span>
 
@@ -428,21 +355,6 @@
 <span class="ruby-keyword">rescue</span> <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">RecordNotFound</span>
   <span class="ruby-identifier">error_result</span>(<span class="ruby-string">&quot;Template selecionado não foi encontrado&quot;</span>)
 <span class="ruby-keyword">end</span></pre>
-=======
-            <pre>   <span class="ruby-comment"># File app/services/evaluation_batch_creator.rb</span>
-<span class="line-num">66</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">call</span>
-<span class="line-num">67</span>   <span class="ruby-keyword">return</span> <span class="ruby-identifier">error_result</span>(<span class="ruby-string">&quot;Selecione ao menos um template e uma turma&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">invalid_params?</span>
-<span class="line-num">68</span> 
-<span class="line-num">69</span>   <span class="ruby-identifier">template</span>, <span class="ruby-identifier">turmas</span> = <span class="ruby-identifier">load_template_and_turmas</span>
-<span class="line-num">70</span>   <span class="ruby-identifier">created</span>, <span class="ruby-identifier">skipped</span> = <span class="ruby-identifier">process_turmas</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">turmas</span>)
-<span class="line-num">71</span> 
-<span class="line-num">72</span>   <span class="ruby-constant">Result</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">created:</span>, <span class="ruby-value">skipped:</span>, <span class="ruby-value">errors:</span> [])
-<span class="line-num">73</span> <span class="ruby-keyword">rescue</span> <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">RecordInvalid</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">e</span>
-<span class="line-num">74</span>   <span class="ruby-identifier">handle_record_invalid</span>(<span class="ruby-identifier">e</span>)
-<span class="line-num">75</span> <span class="ruby-keyword">rescue</span> <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">RecordNotFound</span>
-<span class="line-num">76</span>   <span class="ruby-identifier">error_result</span>(<span class="ruby-string">&quot;Template selecionado não foi encontrado&quot;</span>)
-<span class="line-num">77</span> <span class="ruby-keyword">end</span></pre>
->>>>>>> sprint-3-documentacao
           </div>
 
 
@@ -451,756 +363,14 @@
 
 <h4 id="method-i-call-label-Returns">Returns<span><a href="#method-i-call-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
 <ul><li>
-<<<<<<< HEAD
-<p><a href="EvaluationBatchCreator.html#Result"><code>Result</code></a> struct with operation outcome</p>
-=======
 <p><a href="EvaluationBatchCreator.html#Result"><code>Result</code></a> - Object with created, skipped arrays and errors array</p>
->>>>>>> sprint-3-documentacao
 </li></ul>
 
 <h4 id="method-i-call-label-Side+Effects">Side Effects<span><a href="#method-i-call-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
 <ul><li>
-<<<<<<< HEAD
-<p>Creates <a href="Avaliacao.html"><code>Avaliacao</code></a> and <a href="Questao.html"><code>Questao</code></a> records in the database</p>
-=======
 <p>Creates <a href="Avaliacao.html"><code>Avaliacao</code></a> and <a href="Questao.html"><code>Questao</code></a> records in database</p>
 </li><li>
 <p>Wraps operations in a database transaction</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-    </section>
-
-     <section id="private-instance-5Buntitled-5D-method-details" class="method-section anchor-link">
-       <header>
-         <h3>Private Instance Methods</h3>
-       </header>
-
-
-      <div id="method-i-build_evaluation_attributes" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-build_evaluation_attributes" title="Link to this method">
-                <span class="method-name">build_evaluation_attributes</span>
-                <span class="method-args">(template, turma)</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="build_evaluation_attributes-source">
-            <pre>    <span class="ruby-comment"># File app/services/evaluation_batch_creator.rb</span>
-<span class="line-num">231</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_evaluation_attributes</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">turma</span>)
-<span class="line-num">232</span>   {
-<span class="line-num">233</span>     <span class="ruby-value">template:</span> <span class="ruby-identifier">template</span>,
-<span class="line-num">234</span>     <span class="ruby-value">turma:</span> <span class="ruby-identifier">turma</span>,
-<span class="line-num">235</span>     <span class="ruby-value">docente:</span> <span class="ruby-identifier">turma</span>.<span class="ruby-identifier">docente</span>,
-<span class="line-num">236</span>     <span class="ruby-value">title:</span> <span class="ruby-node">&quot;#{template.name} - #{turma.class_code}/#{turma.semester}&quot;</span>,
-<span class="line-num">237</span>     <span class="ruby-value">description:</span> <span class="ruby-identifier">template</span>.<span class="ruby-identifier">description</span>,
-<span class="line-num">238</span>     <span class="ruby-value">due_date:</span> <span class="ruby-identifier">normalized_due_date</span>,
-<span class="line-num">239</span>     <span class="ruby-value">max_score:</span> <span class="ruby-identifier">max_score_for</span>(<span class="ruby-identifier">template</span>)
-<span class="line-num">240</span>   }
-<span class="line-num">241</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Builds attributes hash for creating an <a href="Avaliacao.html"><code>Avaliacao</code></a>.</p>
-
-<h4 id="method-i-build_evaluation_attributes-label-Parameters">Parameters<span><a href="#method-i-build_evaluation_attributes-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p><code>template</code> - <a href="Template.html"><code>Template</code></a> object</p>
-</li><li>
-<p><code>turma</code> - <a href="Turma.html"><code>Turma</code></a> object</p>
-</li></ul>
-
-<h4 id="method-i-build_evaluation_attributes-label-Returns">Returns<span><a href="#method-i-build_evaluation_attributes-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Hash - Attributes hash for <a href="Avaliacao.html"><code>Avaliacao</code></a> creation</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-copy_questions" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-copy_questions" title="Link to this method">
-                <span class="method-name">copy_questions</span>
-                <span class="method-args">(template, avaliacao)</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="copy_questions-source">
-            <pre>    <span class="ruby-comment"># File app/services/evaluation_batch_creator.rb</span>
-<span class="line-num">282</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">copy_questions</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">avaliacao</span>)
-<span class="line-num">283</span>   <span class="ruby-identifier">template</span>.<span class="ruby-identifier">template_questions</span>.<span class="ruby-identifier">order</span>(<span class="ruby-value">:position</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">template_question</span><span class="ruby-operator">|</span>
-<span class="line-num">284</span>     <span class="ruby-identifier">avaliacao</span>.<span class="ruby-identifier">questoes</span>.<span class="ruby-identifier">create!</span>(
-<span class="line-num">285</span>       <span class="ruby-value">prompt:</span> <span class="ruby-identifier">template_question</span>.<span class="ruby-identifier">prompt</span>,
-<span class="line-num">286</span>       <span class="ruby-value">question_type:</span> <span class="ruby-identifier">template_question</span>.<span class="ruby-identifier">question_type</span>,
-<span class="line-num">287</span>       <span class="ruby-value">position:</span> <span class="ruby-identifier">template_question</span>.<span class="ruby-identifier">position</span>,
-<span class="line-num">288</span>       <span class="ruby-value">mandatory:</span> <span class="ruby-identifier">template_question</span>.<span class="ruby-identifier">required</span>,
-<span class="line-num">289</span>       <span class="ruby-value">min_value:</span> <span class="ruby-identifier">template_question</span>.<span class="ruby-identifier">min_value</span>,
-<span class="line-num">290</span>       <span class="ruby-value">max_value:</span> <span class="ruby-identifier">template_question</span>.<span class="ruby-identifier">max_value</span>,
-<span class="line-num">291</span>       <span class="ruby-value">options:</span> <span class="ruby-identifier">template_question</span>.<span class="ruby-identifier">options</span>,
-<span class="line-num">292</span>       <span class="ruby-value">template_question:</span> <span class="ruby-identifier">template_question</span>,
-<span class="line-num">293</span>       <span class="ruby-value">weight:</span> <span class="ruby-value">1</span>
-<span class="line-num">294</span>     )
-<span class="line-num">295</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">296</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Copies questions from template to avaliacao.</p>
-
-<h4 id="method-i-copy_questions-label-Parameters">Parameters<span><a href="#method-i-copy_questions-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p><code>template</code> - <a href="Template.html"><code>Template</code></a> object</p>
-</li><li>
-<p><code>avaliacao</code> - <a href="Avaliacao.html"><code>Avaliacao</code></a> object</p>
-</li></ul>
-
-<h4 id="method-i-copy_questions-label-Returns">Returns<span><a href="#method-i-copy_questions-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>nil</p>
-</li></ul>
-
-<h4 id="method-i-copy_questions-label-Side+Effects">Side Effects<span><a href="#method-i-copy_questions-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Creates <a href="Questao.html"><code>Questao</code></a> records in database</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-create_avaliacao_for_turma" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-create_avaliacao_for_turma" title="Link to this method">
-                <span class="method-name">create_avaliacao_for_turma</span>
-                <span class="method-args">(turma, template)</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="create_avaliacao_for_turma-source">
-            <pre>    <span class="ruby-comment"># File app/services/evaluation_batch_creator.rb</span>
-<span class="line-num">174</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create_avaliacao_for_turma</span>(<span class="ruby-identifier">turma</span>, <span class="ruby-identifier">template</span>)
-<span class="line-num">175</span>   <span class="ruby-identifier">avaliacao</span> = <span class="ruby-constant">Avaliacao</span>.<span class="ruby-identifier">create!</span>(<span class="ruby-identifier">build_evaluation_attributes</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">turma</span>))
-<span class="line-num">176</span>   <span class="ruby-identifier">copy_questions</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">avaliacao</span>)
-<span class="line-num">177</span>   <span class="ruby-identifier">avaliacao</span>
-<span class="line-num">178</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Creates an <a href="Avaliacao.html"><code>Avaliacao</code></a> for a turma and copies questions from template.</p>
-
-<h4 id="method-i-create_avaliacao_for_turma-label-Parameters">Parameters<span><a href="#method-i-create_avaliacao_for_turma-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p><code>turma</code> - <a href="Turma.html"><code>Turma</code></a> object</p>
-</li><li>
-<p><code>template</code> - <a href="Template.html"><code>Template</code></a> object</p>
-</li></ul>
-
-<h4 id="method-i-create_avaliacao_for_turma-label-Returns">Returns<span><a href="#method-i-create_avaliacao_for_turma-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p><a href="Avaliacao.html"><code>Avaliacao</code></a> - Newly created <a href="Avaliacao.html"><code>Avaliacao</code></a> object</p>
-</li></ul>
-
-<h4 id="method-i-create_avaliacao_for_turma-label-Side+Effects">Side Effects<span><a href="#method-i-create_avaliacao_for_turma-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Creates <a href="Avaliacao.html"><code>Avaliacao</code></a> record in database</p>
-</li><li>
-<p>Creates <a href="Questao.html"><code>Questao</code></a> records for the avaliacao</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-duplicate-3F" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-duplicate-3F" title="Link to this method">
-                <span class="method-name">duplicate?</span>
-                <span class="method-args">(turma, template)</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="duplicate-3F-source">
-            <pre>    <span class="ruby-comment"># File app/services/evaluation_batch_creator.rb</span>
-<span class="line-num">217</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">duplicate?</span>(<span class="ruby-identifier">turma</span>, <span class="ruby-identifier">template</span>)
-<span class="line-num">218</span>   <span class="ruby-constant">Avaliacao</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-value">turma_id:</span> <span class="ruby-identifier">turma</span>.<span class="ruby-identifier">id</span>, <span class="ruby-value">template_id:</span> <span class="ruby-identifier">template</span>.<span class="ruby-identifier">id</span>)
-<span class="line-num">219</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Checks if an evaluation already exists for the turma and template.</p>
-
-<h4 id="method-i-duplicate-3F-label-Parameters">Parameters<span><a href="#method-i-duplicate-3F-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p><code>turma</code> - <a href="Turma.html"><code>Turma</code></a> object</p>
-</li><li>
-<p><code>template</code> - <a href="Template.html"><code>Template</code></a> object</p>
-</li></ul>
-
-<h4 id="method-i-duplicate-3F-label-Returns">Returns<span><a href="#method-i-duplicate-3F-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Boolean - true if duplicate exists, false otherwise</p>
-</li></ul>
-
-<h4 id="method-i-duplicate-3F-label-Side+Effects">Side Effects<span><a href="#method-i-duplicate-3F-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Queries database for existing <a href="Avaliacao.html"><code>Avaliacao</code></a></p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-error_result" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-error_result" title="Link to this method">
-                <span class="method-name">error_result</span>
-                <span class="method-args">(message)</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="error_result-source">
-            <pre>   <span class="ruby-comment"># File app/services/evaluation_batch_creator.rb</span>
-<span class="line-num">90</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">error_result</span>(<span class="ruby-identifier">message</span>)
-<span class="line-num">91</span>   <span class="ruby-constant">Result</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">created:</span> [], <span class="ruby-value">skipped:</span> [], <span class="ruby-value">errors:</span> [<span class="ruby-identifier">message</span>])
-<span class="line-num">92</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Creates an error result object.</p>
-
-<h4 id="method-i-error_result-label-Parameters">Parameters<span><a href="#method-i-error_result-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p><code>message</code> - String with error message</p>
-</li></ul>
-
-<h4 id="method-i-error_result-label-Returns">Returns<span><a href="#method-i-error_result-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p><a href="EvaluationBatchCreator.html#Result"><code>Result</code></a> - <a href="EvaluationBatchCreator.html#Result"><code>Result</code></a> object with error message</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-handle_record_invalid" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-handle_record_invalid" title="Link to this method">
-                <span class="method-name">handle_record_invalid</span>
-                <span class="method-args">(error)</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="handle_record_invalid-source">
-            <pre>    <span class="ruby-comment"># File app/services/evaluation_batch_creator.rb</span>
-<span class="line-num">189</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">handle_record_invalid</span>(<span class="ruby-identifier">error</span>)
-<span class="line-num">190</span>   <span class="ruby-identifier">message</span> = <span class="ruby-identifier">error</span>.<span class="ruby-identifier">record</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">full_messages</span>.<span class="ruby-identifier">to_sentence</span>.<span class="ruby-identifier">presence</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">error</span>.<span class="ruby-identifier">message</span>
-<span class="line-num">191</span>   <span class="ruby-identifier">error_result</span>(<span class="ruby-identifier">message</span>)
-<span class="line-num">192</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Handles RecordInvalid exceptions.</p>
-
-<h4 id="method-i-handle_record_invalid-label-Parameters">Parameters<span><a href="#method-i-handle_record_invalid-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p><code>error</code> - ActiveRecord::RecordInvalid exception</p>
-</li></ul>
-
-<h4 id="method-i-handle_record_invalid-label-Returns">Returns<span><a href="#method-i-handle_record_invalid-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p><a href="EvaluationBatchCreator.html#Result"><code>Result</code></a> - <a href="EvaluationBatchCreator.html#Result"><code>Result</code></a> object with error message</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-invalid_params-3F" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-invalid_params-3F" title="Link to this method">
-                <span class="method-name">invalid_params?</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="invalid_params-3F-source">
-            <pre>    <span class="ruby-comment"># File app/services/evaluation_batch_creator.rb</span>
-<span class="line-num">200</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">invalid_params?</span>
-<span class="line-num">201</span>   <span class="ruby-ivar">@template_id</span>.<span class="ruby-identifier">blank?</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@turma_ids</span>.<span class="ruby-identifier">empty?</span>
-<span class="line-num">202</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Checks if parameters are invalid.</p>
-
-<h4 id="method-i-invalid_params-3F-label-Returns">Returns<span><a href="#method-i-invalid_params-3F-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Boolean - true if template_id is blank or turma_ids is empty</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-load_template_and_turmas" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-load_template_and_turmas" title="Link to this method">
-                <span class="method-name">load_template_and_turmas</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="load_template_and_turmas-source">
-            <pre>    <span class="ruby-comment"># File app/services/evaluation_batch_creator.rb</span>
-<span class="line-num">103</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">load_template_and_turmas</span>
-<span class="line-num">104</span>   <span class="ruby-identifier">template</span> = <span class="ruby-constant">Template</span>.<span class="ruby-identifier">includes</span>(<span class="ruby-value">:template_questions</span>).<span class="ruby-identifier">find</span>(<span class="ruby-ivar">@template_id</span>)
-<span class="line-num">105</span>   <span class="ruby-identifier">turmas</span> = <span class="ruby-constant">Turma</span>.<span class="ruby-identifier">includes</span>(<span class="ruby-value">:docente</span>).<span class="ruby-identifier">where</span>(<span class="ruby-value">id:</span> <span class="ruby-ivar">@turma_ids</span>)
-<span class="line-num">106</span>   [<span class="ruby-identifier">template</span>, <span class="ruby-identifier">turmas</span>]
-<span class="line-num">107</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Loads template and turmas from database.</p>
-
-<h4 id="method-i-load_template_and_turmas-label-Returns">Returns<span><a href="#method-i-load_template_and_turmas-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Array - [Template, ActiveRecord::Relation&lt;Turma&gt;]</p>
-</li></ul>
-
-<h4 id="method-i-load_template_and_turmas-label-Side+Effects">Side Effects<span><a href="#method-i-load_template_and_turmas-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Queries database for <a href="Template.html"><code>Template</code></a> and <a href="Turma.html"><code>Turma</code></a> records</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-max_score_for" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-max_score_for" title="Link to this method">
-                <span class="method-name">max_score_for</span>
-                <span class="method-args">(template)</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="max_score_for-source">
-            <pre>    <span class="ruby-comment"># File app/services/evaluation_batch_creator.rb</span>
-<span class="line-num">252</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">max_score_for</span>(<span class="ruby-identifier">template</span>)
-<span class="line-num">253</span>   <span class="ruby-identifier">template</span>.<span class="ruby-identifier">template_questions</span>.<span class="ruby-identifier">count</span> <span class="ruby-operator">*</span> <span class="ruby-value">5</span>
-<span class="line-num">254</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Calculates max score based on number of questions.</p>
-
-<h4 id="method-i-max_score_for-label-Parameters">Parameters<span><a href="#method-i-max_score_for-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p><code>template</code> - <a href="Template.html"><code>Template</code></a> object</p>
-</li></ul>
-
-<h4 id="method-i-max_score_for-label-Returns">Returns<span><a href="#method-i-max_score_for-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Integer - Max score (number of questions * 5)</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-normalized_due_date" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-normalized_due_date" title="Link to this method">
-                <span class="method-name">normalized_due_date</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="normalized_due_date-source">
-            <pre>    <span class="ruby-comment"># File app/services/evaluation_batch_creator.rb</span>
-<span class="line-num">262</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">normalized_due_date</span>
-<span class="line-num">263</span>   <span class="ruby-identifier">parsed</span> = <span class="ruby-keyword">if</span> <span class="ruby-ivar">@due_date_param</span>.<span class="ruby-identifier">present?</span>
-<span class="line-num">264</span>              <span class="ruby-constant">Time</span>.<span class="ruby-identifier">zone</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-ivar">@due_date_param</span>) <span class="ruby-keyword">rescue</span> <span class="ruby-keyword">nil</span>
-<span class="line-num">265</span>            <span class="ruby-keyword">end</span>
-<span class="line-num">266</span>   <span class="ruby-identifier">parsed</span> <span class="ruby-operator">||</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">zone</span>.<span class="ruby-identifier">today</span>.<span class="ruby-identifier">end_of_month</span>
-<span class="line-num">267</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Normalizes due date parameter to a Date object.</p>
-
-<h4 id="method-i-normalized_due_date-label-Returns">Returns<span><a href="#method-i-normalized_due_date-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Date - Parsed due date or end of current month as default</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-process_single_turma" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-process_single_turma" title="Link to this method">
-                <span class="method-name">process_single_turma</span>
-                <span class="method-args">(turma, template, created, skipped)</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="process_single_turma-source">
-            <pre>    <span class="ruby-comment"># File app/services/evaluation_batch_creator.rb</span>
-<span class="line-num">152</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">process_single_turma</span>(<span class="ruby-identifier">turma</span>, <span class="ruby-identifier">template</span>, <span class="ruby-identifier">created</span>, <span class="ruby-identifier">skipped</span>)
-<span class="line-num">153</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">duplicate?</span>(<span class="ruby-identifier">turma</span>, <span class="ruby-identifier">template</span>)
-<span class="line-num">154</span>     <span class="ruby-identifier">skipped</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">turma</span>
-<span class="line-num">155</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">156</span>     <span class="ruby-identifier">created</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">create_avaliacao_for_turma</span>(<span class="ruby-identifier">turma</span>, <span class="ruby-identifier">template</span>)
-<span class="line-num">157</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">158</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Processes a single turma and creates evaluation if needed.</p>
-
-<h4 id="method-i-process_single_turma-label-Parameters">Parameters<span><a href="#method-i-process_single_turma-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p><code>turma</code> - <a href="Turma.html"><code>Turma</code></a> object</p>
-</li><li>
-<p><code>template</code> - <a href="Template.html"><code>Template</code></a> object</p>
-</li><li>
-<p><code>created</code> - Array to append created <a href="Avaliacao.html"><code>Avaliacao</code></a> to</p>
-</li><li>
-<p><code>skipped</code> - Array to append skipped <a href="Turma.html"><code>Turma</code></a> to</p>
-</li></ul>
-
-<h4 id="method-i-process_single_turma-label-Returns">Returns<span><a href="#method-i-process_single_turma-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>nil</p>
-</li></ul>
-
-<h4 id="method-i-process_single_turma-label-Side+Effects">Side Effects<span><a href="#method-i-process_single_turma-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Creates <a href="Avaliacao.html"><code>Avaliacao</code></a> record if not duplicate</p>
-</li><li>
-<p>Modifies created and skipped arrays</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-process_turmas" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-process_turmas" title="Link to this method">
-                <span class="method-name">process_turmas</span>
-                <span class="method-args">(template, turmas)</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="process_turmas-source">
-            <pre>    <span class="ruby-comment"># File app/services/evaluation_batch_creator.rb</span>
-<span class="line-num">123</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">process_turmas</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">turmas</span>)
-<span class="line-num">124</span>   <span class="ruby-identifier">created</span> = []
-<span class="line-num">125</span>   <span class="ruby-identifier">skipped</span> = []
-<span class="line-num">126</span> 
-<span class="line-num">127</span>   <span class="ruby-constant">ApplicationRecord</span>.<span class="ruby-identifier">transaction</span> <span class="ruby-keyword">do</span>
-<span class="line-num">128</span>     <span class="ruby-identifier">turmas</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">turma</span><span class="ruby-operator">|</span>
-<span class="line-num">129</span>       <span class="ruby-identifier">process_single_turma</span>(<span class="ruby-identifier">turma</span>, <span class="ruby-identifier">template</span>, <span class="ruby-identifier">created</span>, <span class="ruby-identifier">skipped</span>)
-<span class="line-num">130</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">131</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">132</span> 
-<span class="line-num">133</span>   [<span class="ruby-identifier">created</span>, <span class="ruby-identifier">skipped</span>]
-<span class="line-num">134</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Processes all turmas and creates evaluations.</p>
-
-<h4 id="method-i-process_turmas-label-Parameters">Parameters<span><a href="#method-i-process_turmas-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p><code>template</code> - <a href="Template.html"><code>Template</code></a> object</p>
-</li><li>
-<p><code>turmas</code> - ActiveRecord::Relation with <a href="Turma.html"><code>Turma</code></a> records</p>
-</li></ul>
-
-<h4 id="method-i-process_turmas-label-Returns">Returns<span><a href="#method-i-process_turmas-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Array - [Array&lt;Avaliacao&gt;, Array&lt;Turma&gt;] with created and skipped records</p>
-</li></ul>
-
-<h4 id="method-i-process_turmas-label-Side+Effects">Side Effects<span><a href="#method-i-process_turmas-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Creates <a href="Avaliacao.html"><code>Avaliacao</code></a> records in database</p>
-</li><li>
-<p>Wraps operations in a transaction</p>
->>>>>>> sprint-3-documentacao
 </li></ul>
 
 

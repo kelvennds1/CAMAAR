@@ -141,10 +141,23 @@ class AvaliacoesController < ApplicationController
     true
   end
 
+  ##
+  # Finds existing response or initializes a new one for the current student.
+  #
+  # ==== Returns
+  # * Resposta - Existing response or new Resposta instance
+  #
   def find_or_initialize_resposta
     @resposta_existente || Resposta.new(avaliacao: @avaliacao, dicente: current_user)
   end
 
+  ##
+  # Processes and submits the student's response.
+  #
+  # ==== Side Effects
+  # * Calls save_submitted_resposta on success
+  # * Calls render_submission_error on failure
+  #
   def submit_resposta
     if processar_respostas(@resposta)
       save_submitted_resposta
@@ -153,6 +166,15 @@ class AvaliacoesController < ApplicationController
     end
   end
 
+  ##
+  # Saves the submitted response with status and timestamp.
+  #
+  # ==== Side Effects
+  # * Updates resposta status to :submitted
+  # * Sets submitted_at timestamp
+  # * Redirects to formularios_pendentes_path on success
+  # * Calls render_submission_error on failure
+  #
   def save_submitted_resposta
     @resposta.status = :submitted
     @resposta.submitted_at = Time.current
@@ -165,6 +187,14 @@ class AvaliacoesController < ApplicationController
     end
   end
 
+  ##
+  # Renders the response form with error messages.
+  #
+  # ==== Side Effects
+  # * Sets @questoes instance variable
+  # * Sets flash[:alert] with error message
+  # * Renders :responder view with unprocessable_entity status
+  #
   def render_submission_error
     @questoes = @avaliacao.questoes.order(:position)
     error_message = @resposta.errors.full_messages.to_sentence.presence ||

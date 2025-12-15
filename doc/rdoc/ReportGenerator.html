@@ -5,17 +5,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>class ReportGenerator - CAMAAR - Documentação</title>
+<title>class ReportGenerator - RDoc Documentation</title>
 
 
   <meta name="keywords" content="ruby,class,ReportGenerator">
 
 
-<<<<<<< HEAD
     <meta name="description" content="class ReportGenerator: Service for generating administrative reports across evaluations. reporting purposes.">
-=======
-    <meta name="description" content="class ReportGenerator: Service for generating reports across multiple evaluations. Aggregates statistics from multiple evaluations for administrative reporting.">
->>>>>>> sprint-3-documentacao
 
 
 
@@ -105,10 +101,6 @@
     <h3>Instance Methods</h3>
     <ul class="link-list" role="directory">
 
-      <li ><a href="#method-i-aggregator_for">aggregator_for</a></li>
-
-      <li ><a href="#method-i-evaluations">evaluations</a></li>
-
       <li ><a href="#method-i-summary">summary</a></li>
 
       <li ><a href="#method-i-totals">totals</a></li>
@@ -136,8 +128,7 @@
 
   <section class="description">
     
-<<<<<<< HEAD
-<p>Service for generating administrative reports across evaluations. Aggregates data from multiple evaluations for dashboard/reporting purposes.</p>
+<p>Service for generating administrative reports across evaluations. Aggregates data from multiple evaluations for dashboard/reporting purposes. Aggregates statistics from multiple evaluations for administrative reporting.</p>
 
 <h4 id="class-ReportGenerator-label-Usage">Usage<span><a href="#class-ReportGenerator-label-Usage">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
@@ -150,9 +141,6 @@
 <span class="ruby-identifier">summary</span> = <span class="ruby-identifier">report</span>.<span class="ruby-identifier">summary</span>  <span class="ruby-comment"># Array of evaluation summaries</span>
 <span class="ruby-identifier">totals</span> = <span class="ruby-identifier">report</span>.<span class="ruby-identifier">totals</span>    <span class="ruby-comment"># Aggregate totals</span>
 </pre>
-=======
-<p>Service for generating reports across multiple evaluations. Aggregates statistics from multiple evaluations for administrative reporting.</p>
->>>>>>> sprint-3-documentacao
 
   </section>
 
@@ -164,30 +152,6 @@
 
 
 
-
-    <section class="attribute-method-details method-section">
-      <header>
-        <h3>Attributes</h3>
-      </header>
-
-
-      <div id="attribute-i-scope" class="method-detail anchor-link">
-        <div class="method-heading attribute-method-heading">
-          <a href="#attribute-i-scope" title="Link to this attribute">
-            <span class="method-name">scope</span>
-            <span class="attribute-access-type">[R]</span>
-          </a>
-        </div>
-
-        <div class="method-description">
-
-
-        
-
-        </div>
-      </div>
-
-    </section>
 
 
 
@@ -221,34 +185,19 @@
         <div class="method-description">
 
           <div class="method-source-code" id="new-source">
-<<<<<<< HEAD
-            <pre><span class="ruby-comment"># File app/services/report_generator.rb, line 22</span>
+            <pre><span class="ruby-comment"># File app/services/report_generator.rb, line 23</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">scope</span> = <span class="ruby-constant">Avaliacao</span>.<span class="ruby-identifier">all</span>)
   <span class="ruby-ivar">@scope</span> = <span class="ruby-identifier">scope</span>
 <span class="ruby-keyword">end</span></pre>
-=======
-            <pre>   <span class="ruby-comment"># File app/services/report_generator.rb</span>
-<span class="line-num">12</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">scope</span> = <span class="ruby-constant">Avaliacao</span>.<span class="ruby-identifier">all</span>)
-<span class="line-num">13</span>   <span class="ruby-ivar">@scope</span> = <span class="ruby-identifier">scope</span>
-<span class="line-num">14</span> <span class="ruby-keyword">end</span></pre>
->>>>>>> sprint-3-documentacao
           </div>
 
 
 
-<<<<<<< HEAD
-          <p>Initializes the generator with an optional scope.</p>
-
-<h4 id="method-c-new-label-Parameters">Parameters<span><a href="#method-c-new-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p><code>scope</code> - ActiveRecord::Relation or Array of <a href="Avaliacao.html"><code>Avaliacao</code></a> (default: all)</p>
-=======
           <p>Initializes a new report generator.</p>
 
 <h4 id="method-c-new-label-Parameters">Parameters<span><a href="#method-c-new-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
 <ul><li>
 <p><code>scope</code> - ActiveRecord::Relation or Array of <a href="Avaliacao.html"><code>Avaliacao</code></a> records (default: Avaliacao.all)</p>
->>>>>>> sprint-3-documentacao
 </li></ul>
 
 
@@ -293,8 +242,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="summary-source">
-<<<<<<< HEAD
-            <pre><span class="ruby-comment"># File app/services/report_generator.rb, line 39</span>
+            <pre><span class="ruby-comment"># File app/services/report_generator.rb, line 43</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">summary</span>
   <span class="ruby-ivar">@summary</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">evaluations</span>.<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">avaliacao</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">metrics</span> = <span class="ruby-identifier">aggregator_for</span>(<span class="ruby-identifier">avaliacao</span>).<span class="ruby-identifier">summary</span>
@@ -310,51 +258,10 @@
     }
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
-=======
-            <pre>   <span class="ruby-comment"># File app/services/report_generator.rb</span>
-<span class="line-num">32</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">summary</span>
-<span class="line-num">33</span>   <span class="ruby-ivar">@summary</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">evaluations</span>.<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">avaliacao</span><span class="ruby-operator">|</span>
-<span class="line-num">34</span>     <span class="ruby-identifier">metrics</span> = <span class="ruby-identifier">aggregator_for</span>(<span class="ruby-identifier">avaliacao</span>).<span class="ruby-identifier">summary</span>
-<span class="line-num">35</span> 
-<span class="line-num">36</span>     {
-<span class="line-num">37</span>       <span class="ruby-value">avaliacao_id:</span> <span class="ruby-identifier">avaliacao</span>.<span class="ruby-identifier">id</span>,
-<span class="line-num">38</span>       <span class="ruby-value">title:</span> <span class="ruby-identifier">avaliacao</span>.<span class="ruby-identifier">title</span>,
-<span class="line-num">39</span>       <span class="ruby-value">docente:</span> <span class="ruby-identifier">avaliacao</span>.<span class="ruby-identifier">docente</span>&amp;.<span class="ruby-identifier">nome</span>,
-<span class="line-num">40</span>       <span class="ruby-value">semester:</span> <span class="ruby-identifier">avaliacao</span>.<span class="ruby-identifier">turma</span>&amp;.<span class="ruby-identifier">semester</span>,
-<span class="line-num">41</span>       <span class="ruby-value">total_responses:</span> <span class="ruby-identifier">metrics</span>[<span class="ruby-value">:total_responses</span>],
-<span class="line-num">42</span>       <span class="ruby-value">average_score:</span> <span class="ruby-identifier">metrics</span>[<span class="ruby-value">:average_score</span>],
-<span class="line-num">43</span>       <span class="ruby-value">completion_rate:</span> <span class="ruby-identifier">metrics</span>[<span class="ruby-value">:completion_rate</span>]
-<span class="line-num">44</span>     }
-<span class="line-num">45</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">46</span> <span class="ruby-keyword">end</span></pre>
->>>>>>> sprint-3-documentacao
           </div>
 
 
 
-<<<<<<< HEAD
-          <p>Generates summary data for each evaluation in scope.</p>
-
-<h4 id="method-i-summary-label-Returns">Returns<span><a href="#method-i-summary-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Array of hashes with evaluation metrics:</p>
-<ul><li>
-<p><code>avaliacao_id</code> - Evaluation ID</p>
-</li><li>
-<p><code>title</code> - Evaluation title</p>
-</li><li>
-<p><code>docente</code> - Teacher name</p>
-</li><li>
-<p><code>semester</code> - Semester identifier</p>
-</li><li>
-<p><code>total_responses</code> - Number of responses</p>
-</li><li>
-<p><code>average_score</code> - Average response score</p>
-</li><li>
-<p><code>completion_rate</code> - Response rate percentage</p>
-</li></ul>
-</li></ul>
-=======
           <p>Generates summary statistics for all evaluations in scope.</p>
 
 <h4 id="method-i-summary-label-Returns">Returns<span><a href="#method-i-summary-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
@@ -381,7 +288,6 @@
 <ul><li>
 <p>None - This is a read-only operation</p>
 </li></ul>
->>>>>>> sprint-3-documentacao
 
 
         </div>
@@ -417,8 +323,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="totals-source">
-<<<<<<< HEAD
-            <pre><span class="ruby-comment"># File app/services/report_generator.rb, line 64</span>
+            <pre><span class="ruby-comment"># File app/services/report_generator.rb, line 71</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">totals</span>
   <span class="ruby-identifier">data</span> = <span class="ruby-identifier">summary</span>
   <span class="ruby-identifier">total_forms</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">size</span>
@@ -435,44 +340,10 @@
     <span class="ruby-value">average_completion_rate:</span> <span class="ruby-identifier">average_completion</span>
   }
 <span class="ruby-keyword">end</span></pre>
-=======
-            <pre>   <span class="ruby-comment"># File app/services/report_generator.rb</span>
-<span class="line-num">60</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">totals</span>
-<span class="line-num">61</span>   <span class="ruby-identifier">data</span> = <span class="ruby-identifier">summary</span>
-<span class="line-num">62</span>   <span class="ruby-identifier">total_forms</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">size</span>
-<span class="line-num">63</span>   <span class="ruby-identifier">total_responses</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">sum</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span> <span class="ruby-identifier">row</span>[<span class="ruby-value">:total_responses</span>].<span class="ruby-identifier">to_i</span> }
-<span class="line-num">64</span>   <span class="ruby-identifier">average_completion</span> = <span class="ruby-keyword">if</span> <span class="ruby-identifier">total_forms</span>.<span class="ruby-identifier">zero?</span>
-<span class="line-num">65</span>     <span class="ruby-value">0</span>
-<span class="line-num">66</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">67</span>     (<span class="ruby-identifier">data</span>.<span class="ruby-identifier">sum</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span> <span class="ruby-identifier">row</span>[<span class="ruby-value">:completion_rate</span>].<span class="ruby-identifier">to_i</span> }.<span class="ruby-identifier">to_f</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">total_forms</span>).<span class="ruby-identifier">round</span>
-<span class="line-num">68</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">69</span> 
-<span class="line-num">70</span>   {
-<span class="line-num">71</span>     <span class="ruby-value">total_forms:</span> <span class="ruby-identifier">total_forms</span>,
-<span class="line-num">72</span>     <span class="ruby-value">total_responses:</span> <span class="ruby-identifier">total_responses</span>,
-<span class="line-num">73</span>     <span class="ruby-value">average_completion_rate:</span> <span class="ruby-identifier">average_completion</span>
-<span class="line-num">74</span>   }
-<span class="line-num">75</span> <span class="ruby-keyword">end</span></pre>
->>>>>>> sprint-3-documentacao
           </div>
 
 
 
-<<<<<<< HEAD
-          <p>Calculates aggregate totals across all evaluations in scope.</p>
-
-<h4 id="method-i-totals-label-Returns">Returns<span><a href="#method-i-totals-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Hash containing:</p>
-<ul><li>
-<p><code>total_forms</code> - Total number of evaluations</p>
-</li><li>
-<p><code>total_responses</code> - Sum of all responses</p>
-</li><li>
-<p><code>average_completion_rate</code> - Average completion rate</p>
-</li></ul>
-</li></ul>
-=======
           <p>Calculates aggregate totals across all evaluations.</p>
 
 <h4 id="method-i-totals-label-Returns">Returns<span><a href="#method-i-totals-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
@@ -491,124 +362,6 @@
 <ul><li>
 <p>None - This is a read-only operation</p>
 </li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-    </section>
-
-     <section id="private-instance-5Buntitled-5D-method-details" class="method-section anchor-link">
-       <header>
-         <h3>Private Instance Methods</h3>
-       </header>
-
-
-      <div id="method-i-aggregator_for" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-aggregator_for" title="Link to this method">
-                <span class="method-name">aggregator_for</span>
-                <span class="method-args">(avaliacao)</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="aggregator_for-source">
-            <pre>    <span class="ruby-comment"># File app/services/report_generator.rb</span>
-<span class="line-num">106</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">aggregator_for</span>(<span class="ruby-identifier">avaliacao</span>)
-<span class="line-num">107</span>   <span class="ruby-constant">EvaluationResultAggregator</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">avaliacao</span>)
-<span class="line-num">108</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Creates an aggregator instance for a specific evaluation.</p>
-
-<h4 id="method-i-aggregator_for-label-Parameters">Parameters<span><a href="#method-i-aggregator_for-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p><code>avaliacao</code> - <a href="Avaliacao.html"><code>Avaliacao</code></a> object</p>
-</li></ul>
-
-<h4 id="method-i-aggregator_for-label-Returns">Returns<span><a href="#method-i-aggregator_for-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p><a href="EvaluationResultAggregator.html"><code>EvaluationResultAggregator</code></a> - Aggregator instance</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-evaluations" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-evaluations" title="Link to this method">
-                <span class="method-name">evaluations</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="evaluations-source">
-            <pre>   <span class="ruby-comment"># File app/services/report_generator.rb</span>
-<span class="line-num">87</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">evaluations</span>
-<span class="line-num">88</span>   <span class="ruby-ivar">@evaluations</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword">begin</span>
-<span class="line-num">89</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:includes</span>)
-<span class="line-num">90</span>       <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">includes</span>(<span class="ruby-value">:docente</span>, <span class="ruby-value">turma:</span> <span class="ruby-value">:materia</span>).<span class="ruby-identifier">to_a</span>
-<span class="line-num">91</span>     <span class="ruby-keyword">else</span>
-<span class="line-num">92</span>       <span class="ruby-constant">Array</span>(<span class="ruby-identifier">scope</span>)
-<span class="line-num">93</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">94</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">95</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Loads evaluations from scope with necessary associations.</p>
-
-<h4 id="method-i-evaluations-label-Returns">Returns<span><a href="#method-i-evaluations-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Array - Array of <a href="Avaliacao.html"><code>Avaliacao</code></a> objects with associations loaded</p>
-</li></ul>
->>>>>>> sprint-3-documentacao
 
 
         </div>

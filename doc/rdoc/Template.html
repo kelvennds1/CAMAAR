@@ -5,17 +5,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>class Template - CAMAAR - Documentação</title>
+<title>class Template - RDoc Documentation</title>
 
 
   <meta name="keywords" content="ruby,class,Template">
 
 
-<<<<<<< HEAD
     <meta name="description" content="class Template: Model representing an evaluation template. Templates define reusable question sets that can be applied to create evaluations.">
-=======
-    <meta name="description" content="class Template: Model representing an evaluation template. Templates define the structure and questions for evaluations that can be reused.">
->>>>>>> sprint-3-documentacao
 
 
 
@@ -121,17 +117,6 @@
   
 
 
-  <div class="nav-section">
-    <h3>Instance Methods</h3>
-    <ul class="link-list" role="directory">
-
-      <li ><a href="#method-i-must_have_questions">must_have_questions</a></li>
-
-      <li ><a href="#method-i-normalize_name">normalize_name</a></li>
-
-    </ul>
-  </div>
-
 
 
   <footer id="validator-badges" role="contentinfo">
@@ -152,8 +137,7 @@
 
   <section class="description">
     
-<<<<<<< HEAD
-<p>Model representing an evaluation template. Templates define reusable question sets that can be applied to create evaluations.</p>
+<p>Model representing an evaluation template. Templates define reusable question sets that can be applied to create evaluations. Templates define the structure and questions for evaluations that can be reused.</p>
 
 <h4 id="class-Template-label-Attributes">Attributes<span><a href="#class-Template-label-Attributes">&para;</a> <a href="#top">&uarr;</a></span></h4>
 <ul><li>
@@ -164,22 +148,11 @@
 
 <h4 id="class-Template-label-Associations">Associations<span><a href="#class-Template-label-Associations">&para;</a> <a href="#top">&uarr;</a></span></h4>
 <ul><li>
-<p><code>docente</code> - Teacher who owns this template</p>
-</li><li>
-<p><code>template_questions</code> - Questions in this template</p>
-</li><li>
-<p><code>avaliacoes</code> - Evaluations created from this template</p>
-=======
-<p>Model representing an evaluation template. Templates define the structure and questions for evaluations that can be reused.</p>
-
-<h4 id="class-Template-label-Associations">Associations<span><a href="#class-Template-label-Associations">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
 <p>belongs_to :docente - The teacher who owns this template</p>
 </li><li>
 <p>has_many :template_questions - Questions defined in this template</p>
 </li><li>
 <p>has_many :avaliacoes - Evaluations created from this template</p>
->>>>>>> sprint-3-documentacao
 </li></ul>
 
   </section>
@@ -201,7 +174,14 @@
 
         <dd>
 
-          
+          <p>Constante com os status possíveis de um template.</p>
+<ul><li>
+<p><code>draft</code> - Rascunho, em edição</p>
+</li><li>
+<p><code>published</code> - Publicado, disponível para uso</p>
+</li><li>
+<p><code>archived</code> - Arquivado, não disponível</p>
+</li></ul>
         </dd>
 
 
@@ -211,114 +191,6 @@
 
 
 
-
-     <section id="private-instance-5Buntitled-5D-method-details" class="method-section anchor-link">
-       <header>
-         <h3>Private Instance Methods</h3>
-       </header>
-
-
-      <div id="method-i-must_have_questions" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-must_have_questions" title="Link to this method">
-                <span class="method-name">must_have_questions</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="must_have_questions-source">
-            <pre>   <span class="ruby-comment"># File app/models/template.rb</span>
-<span class="line-num">50</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">must_have_questions</span>
-<span class="line-num">51</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">template_questions</span>.<span class="ruby-identifier">reject</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:marked_for_destruction?</span>).<span class="ruby-identifier">any?</span>
-<span class="line-num">52</span> 
-<span class="line-num">53</span>   <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-value">:base</span>, <span class="ruby-string">&quot;Adicione pelo menos uma questão&quot;</span>)
-<span class="line-num">54</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Validates that template has at least one question.</p>
-
-<h4 id="method-i-must_have_questions-label-Side+Effects">Side Effects<span><a href="#method-i-must_have_questions-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Adds error to base if no questions exist</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-normalize_name" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-normalize_name" title="Link to this method">
-                <span class="method-name">normalize_name</span>
-                <span class="method-args">()</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-
-
-
-        <div class="method-description">
-
-          <div class="method-source-code" id="normalize_name-source">
-            <pre>   <span class="ruby-comment"># File app/models/template.rb</span>
-<span class="line-num">40</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">normalize_name</span>
-<span class="line-num">41</span>   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">name</span> = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">strip</span>
-<span class="line-num">42</span> <span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-          <p>Normalizes template name by stripping whitespace.</p>
-
-<h4 id="method-i-normalize_name-label-Side+Effects">Side Effects<span><a href="#method-i-normalize_name-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
-<ul><li>
-<p>Modifies self.name attribute</p>
-</li></ul>
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-    </section>
 
   </section>
 

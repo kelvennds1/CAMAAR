@@ -87,6 +87,9 @@ class ReportGenerator
 
   private
 
+  ##
+  # @!attribute [r] scope
+  #   Escopo de avaliações para geração de relatórios.
   attr_reader :scope
 
   ##

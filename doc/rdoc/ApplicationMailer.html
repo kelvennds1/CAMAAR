@@ -11,7 +11,7 @@
   <meta name="keywords" content="ruby,class,ApplicationMailer">
 
 
-    <meta name="description" content="Documentation for the ApplicationMailer class">
+    <meta name="description" content="class ApplicationMailer: Classe base para todos os mailers da aplicação. Esta classe fornece configurações padrão para o envio de e-mails na aplicação CAMAAR.">
 
 
 
@@ -71,6 +71,42 @@
   </div>
 
   
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+
+
+
+
+  <ul class="link-list" role="directory">
+    
+
+
+
+
+          <li>
+      <a href="#class-ApplicationMailer-label-Configura-C3-A7-C3-B5es">Configurações</a>
+</li>
+
+
+
+
+          <li>
+      <a href="#class-ApplicationMailer-label-Heran-C3-A7a">Herança</a>
+</li>
+
+
+
+
+          <li>
+      <a href="#class-ApplicationMailer-label-Exemplo">Exemplo</a>
+</li>
+
+
+
+  </ul>
+</div>
+
 
   
 
@@ -108,6 +144,30 @@
 
   <section class="description">
     
+<p>Classe base para todos os mailers da aplicação.</p>
+
+<p>Esta classe fornece configurações padrão para o envio de e-mails na aplicação CAMAAR.</p>
+
+<h2 id="class-ApplicationMailer-label-Configura-C3-A7-C3-B5es">Configurações<span><a href="#class-ApplicationMailer-label-Configura-C3-A7-C3-B5es">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>from: Endereço de e-mail remetente padrão</p>
+</li><li>
+<p>layout: <a href="Template.html"><code>Template</code></a> de layout para e-mails</p>
+</li></ul>
+
+<h2 id="class-ApplicationMailer-label-Heran-C3-A7a">Herança<span><a href="#class-ApplicationMailer-label-Heran-C3-A7a">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>Todos os mailers da aplicação devem herdar desta classe.</p>
+
+<h2 id="class-ApplicationMailer-label-Exemplo">Exemplo<span><a href="#class-ApplicationMailer-label-Exemplo">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">NotificationMailer</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">ApplicationMailer</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">notify</span>(<span class="ruby-identifier">user</span>)
+    <span class="ruby-identifier">mail</span>(<span class="ruby-value">to:</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">email</span>, <span class="ruby-value">subject:</span> <span class="ruby-string">&#39;Notificação&#39;</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
   </section>
 
 
