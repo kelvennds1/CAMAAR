@@ -23,7 +23,7 @@ class SigaaImportsControllerTest < ActionDispatch::IntegrationTest
   test "should redirect non-admin from new" do
     get new_sigaa_import_url
     assert_redirected_to login_path
-    assert_equal "Please log in to continue", flash[:alert]
+    assert_equal "Por favor, faça login para continuar", flash[:alert]
   end
 
   test "should create import with valid file" do
@@ -34,7 +34,7 @@ class SigaaImportsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to sigaa_imports_path
-    assert_match /Atualização concluída/, flash[:notice]
+    assert_match /Importação concluída/, flash[:notice]
   end
 
   test "should show error with no files" do

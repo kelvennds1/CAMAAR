@@ -19,7 +19,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should login with valid credentials" do
     post login_url, params: { email: @user.email, password: "password123" }
-    assert_redirected_to avaliacoes_path
+    assert_redirected_to formularios_pendentes_path
     assert_equal @user.id, session[:user_id]
   end
 

@@ -2,8 +2,10 @@ require "test_helper"
 
 class ResultadosControllerTest < ActionDispatch::IntegrationTest
   setup do
+    @docente = create_docente(nome: "Prof. Resultados")
     @avaliacao = create_avaliacao(title: "Avaliação Docente")
     create_questao(@avaliacao)
+    sign_in @docente
   end
 
   test "renders index successfully" do

@@ -14,7 +14,8 @@ module ActiveSupport
         email: "prof.teste+#{SecureRandom.hex(4)}@example.com",
         identifier: SecureRandom.uuid,
         departamento: "Departamento",
-        titulacao: "Mestre"
+        titulacao: "Mestre",
+        password: "password"
       }
 
       Docente.create!(defaults.merge(attrs))
@@ -80,7 +81,7 @@ module ActiveSupport
         matricula: "M#{SecureRandom.hex(3)}",
         curso: "Engenharia",
         type: "Dicente",
-        password: "senha123"
+        password: "password"
       }
 
       Dicente.create!(defaults.merge(attrs))

@@ -85,7 +85,7 @@ class SigaaImporterTest < ActiveSupport::TestCase
   test "summary message for successful import" do
     result = SigaaImporter.call(classes_file: @classes_file)
 
-    assert_includes result.summary_message, "Atualização concluída"
+    assert_includes result.summary_message, "Importação concluída"
     assert_includes result.summary_message, "novos registros criados"
   end
 
