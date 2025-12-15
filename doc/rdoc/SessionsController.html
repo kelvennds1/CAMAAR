@@ -5,13 +5,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>class SessionsController - RDoc Documentation</title>
+<title>class SessionsController - CAMAAR - Documentação</title>
 
 
   <meta name="keywords" content="ruby,class,SessionsController">
 
 
-    <meta name="description" content="Documentation for the SessionsController class">
+    <meta name="description" content="class SessionsController: logout). Handles authentication and session management.">
 
 
 
@@ -98,6 +98,8 @@
 
       <li ><a href="#method-i-new">new</a></li>
 
+      <li ><a href="#method-i-redirect_to_appropriate_page">redirect_to_appropriate_page</a></li>
+
     </ul>
   </div>
 
@@ -121,6 +123,8 @@
 
   <section class="description">
     
+<p>Controller for managing user sessions (login/logout). Handles authentication and session management.</p>
+
   </section>
 
 
@@ -164,28 +168,51 @@
         <div class="method-description">
 
           <div class="method-source-code" id="create-source">
-            <pre><span class="ruby-comment"># File app/controllers/sessions_controller.rb, line 13</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create</span>
-  <span class="ruby-identifier">user</span> = <span class="ruby-constant">Usuario</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">email:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:email</span>])
-
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">user</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">authenticate</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:password</span>])
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:pending_activation</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">pending_activation</span>
-      <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Por favor, ative sua conta primeiro&quot;</span>
-      <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">login_path</span>
-    <span class="ruby-keyword">else</span>
-      <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>] = <span class="ruby-identifier">user</span>.<span class="ruby-identifier">id</span>
-      <span class="ruby-identifier">redirect_to_appropriate_page</span>(<span class="ruby-identifier">user</span>)
-    <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Invalid email or password&quot;</span>
-    <span class="ruby-identifier">render</span> <span class="ruby-value">:new</span>, <span class="ruby-value">status:</span> <span class="ruby-value">:unprocessable_entity</span>
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span></pre>
+            <pre>   <span class="ruby-comment"># File app/controllers/sessions_controller.rb</span>
+<span class="line-num">43</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create</span>
+<span class="line-num">44</span>   <span class="ruby-identifier">user</span> = <span class="ruby-constant">Usuario</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">email:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:email</span>])
+<span class="line-num">45</span> 
+<span class="line-num">46</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">user</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">authenticate</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:password</span>])
+<span class="line-num">47</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:pending_activation</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">pending_activation</span>
+<span class="line-num">48</span>       <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Por favor, ative sua conta primeiro&quot;</span>
+<span class="line-num">49</span>       <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">login_path</span>
+<span class="line-num">50</span>     <span class="ruby-keyword">else</span>
+<span class="line-num">51</span>       <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>] = <span class="ruby-identifier">user</span>.<span class="ruby-identifier">id</span>
+<span class="line-num">52</span>       <span class="ruby-identifier">redirect_to_appropriate_page</span>(<span class="ruby-identifier">user</span>)
+<span class="line-num">53</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">54</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">55</span>     <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Invalid email or password&quot;</span>
+<span class="line-num">56</span>     <span class="ruby-identifier">render</span> <span class="ruby-value">:new</span>, <span class="ruby-value">status:</span> <span class="ruby-value">:unprocessable_entity</span>
+<span class="line-num">57</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">58</span> <span class="ruby-keyword">end</span></pre>
           </div>
 
 
 
-          
+          <p>Authenticates user and creates a session.</p>
+
+<h4 id="method-i-create-label-Parameters">Parameters<span><a href="#method-i-create-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>params[:email]</code> - String with user email</p>
+</li><li>
+<p><code>params[:password]</code> - String with user password</p>
+</li></ul>
+
+<h4 id="method-i-create-label-Returns">Returns<span><a href="#method-i-create-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Redirects to appropriate page on success</p>
+</li><li>
+<p>Renders new view with error on failure</p>
+</li></ul>
+
+<h4 id="method-i-create-label-Side+Effects">Side Effects<span><a href="#method-i-create-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Sets <a href=":user_id">session</a> on successful authentication</p>
+</li><li>
+<p>Sets <a href=":alert">flash</a> on failure or if account is pending activation</p>
+</li><li>
+<p>Redirects to login_path if account is pending activation</p>
+</li></ul>
 
 
         </div>
@@ -221,16 +248,28 @@
         <div class="method-description">
 
           <div class="method-source-code" id="destroy-source">
-            <pre><span class="ruby-comment"># File app/controllers/sessions_controller.rb, line 30</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">destroy</span>
-  <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>] = <span class="ruby-keyword">nil</span>
-  <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">login_path</span>, <span class="ruby-value">notice:</span> <span class="ruby-string">&quot;Sessão encerrada com sucesso&quot;</span>
-<span class="ruby-keyword">end</span></pre>
+            <pre>   <span class="ruby-comment"># File app/controllers/sessions_controller.rb</span>
+<span class="line-num">70</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">destroy</span>
+<span class="line-num">71</span>   <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>] = <span class="ruby-keyword">nil</span>
+<span class="line-num">72</span>   <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">login_path</span>, <span class="ruby-value">notice:</span> <span class="ruby-string">&quot;Sessão encerrada com sucesso&quot;</span>
+<span class="line-num">73</span> <span class="ruby-keyword">end</span></pre>
           </div>
 
 
 
-          
+          <p>Destroys the current session and logs out the user.</p>
+
+<h4 id="method-i-destroy-label-Returns">Returns<span><a href="#method-i-destroy-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Redirects to login_path with success notice</p>
+</li></ul>
+
+<h4 id="method-i-destroy-label-Side+Effects">Side Effects<span><a href="#method-i-destroy-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Clears <a href=":user_id">session</a></p>
+</li><li>
+<p>Sets <a href=":notice">flash</a> with logout confirmation message</p>
+</li></ul>
 
 
         </div>
@@ -266,18 +305,107 @@
         <div class="method-description">
 
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File app/controllers/sessions_controller.rb, line 6</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">new</span>
-  <span class="ruby-comment"># Redirect se já estiver logado</span>
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">logged_in?</span>
-    <span class="ruby-identifier">redirect_to_appropriate_page</span>(<span class="ruby-identifier">current_user</span>)
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span></pre>
+            <pre>   <span class="ruby-comment"># File app/controllers/sessions_controller.rb</span>
+<span class="line-num">20</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">new</span>
+<span class="line-num">21</span>   <span class="ruby-comment"># Redirect se já estiver logado</span>
+<span class="line-num">22</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">logged_in?</span>
+<span class="line-num">23</span>     <span class="ruby-identifier">redirect_to_appropriate_page</span>(<span class="ruby-identifier">current_user</span>)
+<span class="line-num">24</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">25</span> <span class="ruby-keyword">end</span></pre>
           </div>
 
 
 
-          
+          <p>Displays the login form.</p>
+
+<h4 id="method-i-new-label-Returns">Returns<span><a href="#method-i-new-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Renders new view with login form</p>
+</li><li>
+<p>Redirects to appropriate page if already logged in</p>
+</li></ul>
+
+<h4 id="method-i-new-label-Side+Effects">Side Effects<span><a href="#method-i-new-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Redirects to appropriate page based on user type if already logged in</p>
+</li></ul>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+    </section>
+
+     <section id="private-instance-5Buntitled-5D-method-details" class="method-section anchor-link">
+       <header>
+         <h3>Private Instance Methods</h3>
+       </header>
+
+
+      <div id="method-i-redirect_to_appropriate_page" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-redirect_to_appropriate_page" title="Link to this method">
+                <span class="method-name">redirect_to_appropriate_page</span>
+                <span class="method-args">(user)</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="redirect_to_appropriate_page-source">
+            <pre>   <span class="ruby-comment"># File app/controllers/sessions_controller.rb</span>
+<span class="line-num">91</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">redirect_to_appropriate_page</span>(<span class="ruby-identifier">user</span>)
+<span class="line-num">92</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">dicente?</span>
+<span class="line-num">93</span>     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">formularios_pendentes_path</span>
+<span class="line-num">94</span>   <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">docente?</span>
+<span class="line-num">95</span>     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">templates_path</span>
+<span class="line-num">96</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">97</span>     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">root_path</span>
+<span class="line-num">98</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">99</span> <span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+          <p>Redirects user to the appropriate page based on their role.</p>
+
+<h4 id="method-i-redirect_to_appropriate_page-label-Parameters">Parameters<span><a href="#method-i-redirect_to_appropriate_page-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>user</code> - <a href="Usuario.html"><code>Usuario</code></a> object (can be <a href="Dicente.html"><code>Dicente</code></a> or <a href="Docente.html"><code>Docente</code></a>)</p>
+</li></ul>
+
+<h4 id="method-i-redirect_to_appropriate_page-label-Returns">Returns<span><a href="#method-i-redirect_to_appropriate_page-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Redirects to formularios_pendentes_path for dicentes</p>
+</li><li>
+<p>Redirects to templates_path for docentes</p>
+</li><li>
+<p>Redirects to root_path for other user types</p>
+</li></ul>
+
+<h4 id="method-i-redirect_to_appropriate_page-label-Side+Effects">Side Effects<span><a href="#method-i-redirect_to_appropriate_page-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Performs HTTP redirect</p>
+</li></ul>
 
 
         </div>

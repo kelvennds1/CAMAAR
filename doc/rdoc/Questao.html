@@ -5,13 +5,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>class Questao - RDoc Documentation</title>
+<title>class Questao - CAMAAR - Documentação</title>
 
 
   <meta name="keywords" content="ruby,class,Questao">
 
 
-    <meta name="description" content="Documentation for the Questao class">
+    <meta name="description" content="class Questao: Model representing a question in an evaluation. Questions are created from template questions when an evaluation is generated.">
 
 
 
@@ -117,6 +117,17 @@
 
   <section class="description">
     
+<p>Model representing a question in an evaluation. Questions are created from template questions when an evaluation is generated.</p>
+
+<h4 id="class-Questao-label-Associations">Associations<span><a href="#class-Questao-label-Associations">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>belongs_to :avaliacao - The evaluation this question belongs to</p>
+</li><li>
+<p>belongs_to :template_question - The template question this was created from (optional)</p>
+</li><li>
+<p>has_many :resposta_items - Student responses to this question</p>
+</li></ul>
+
   </section>
 
 
@@ -177,15 +188,20 @@
         <div class="method-description">
 
           <div class="method-source-code" id="numeric-3F-source">
-            <pre><span class="ruby-comment"># File app/models/questao.rb, line 15</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">numeric?</span>
-  <span class="ruby-identifier">question_type</span> <span class="ruby-operator">==</span> <span class="ruby-constant">QUESTION_TYPES</span>[<span class="ruby-value">:likert</span>]
-<span class="ruby-keyword">end</span></pre>
+            <pre>   <span class="ruby-comment"># File app/models/questao.rb</span>
+<span class="line-num">30</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">numeric?</span>
+<span class="line-num">31</span>   <span class="ruby-identifier">question_type</span> <span class="ruby-operator">==</span> <span class="ruby-constant">QUESTION_TYPES</span>[<span class="ruby-value">:likert</span>]
+<span class="line-num">32</span> <span class="ruby-keyword">end</span></pre>
           </div>
 
 
 
-          
+          <p>Checks if this question accepts numeric responses (Likert scale).</p>
+
+<h4 id="method-i-numeric-3F-label-Returns">Returns<span><a href="#method-i-numeric-3F-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Boolean - true if question_type is likert, false otherwise</p>
+</li></ul>
 
 
         </div>

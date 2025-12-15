@@ -5,13 +5,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>class SigaaImportsController - RDoc Documentation</title>
+<title>class SigaaImportsController - CAMAAR - Documentação</title>
 
 
   <meta name="keywords" content="ruby,class,SigaaImportsController">
 
 
-    <meta name="description" content="class SigaaImportsController: sigaa_imports_controller.">
+    <meta name="description" content="class SigaaImportsController: sigaa_imports_controller. rb Controller for importing data from SIGAA JSON files.">
 
 
 
@@ -98,6 +98,8 @@
 
       <li ><a href="#method-i-new">new</a></li>
 
+      <li ><a href="#method-i-require_admin">require_admin</a></li>
+
       <li ><a href="#method-i-update_database">update_database</a></li>
 
     </ul>
@@ -124,6 +126,8 @@
   <section class="description">
     
 <p><a href="app/controllers/sigaa_imports_controller_rb.html">app/controllers/sigaa_imports_controller.rb</a></p>
+
+<p>Controller for importing data from SIGAA JSON files. Handles file uploads and database updates from SIGAA system.</p>
 
   </section>
 
@@ -168,27 +172,50 @@
         <div class="method-description">
 
           <div class="method-source-code" id="create-source">
-            <pre><span class="ruby-comment"># File app/controllers/sigaa_imports_controller.rb, line 13</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create</span>
-  <span class="ruby-identifier">result</span> = <span class="ruby-constant">SigaaImporter</span>.<span class="ruby-identifier">call</span>(
-    <span class="ruby-value">classes_file:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:classes_file</span>],
-    <span class="ruby-value">class_members_file:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:class_members_file</span>],
-    <span class="ruby-value">operation_type:</span> <span class="ruby-string">&#39;Importação&#39;</span>
-  )
-
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">success?</span>
-      <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-identifier">result</span>.<span class="ruby-identifier">summary_message</span>
-      <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">sigaa_imports_path</span>
-    <span class="ruby-keyword">else</span>
-      <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-identifier">result</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">to_sentence</span>
-      <span class="ruby-identifier">render</span> <span class="ruby-value">:new</span>, <span class="ruby-value">status:</span> <span class="ruby-value">:unprocessable_entity</span>
-    <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">end</span></pre>
+            <pre>   <span class="ruby-comment"># File app/controllers/sigaa_imports_controller.rb</span>
+<span class="line-num">51</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create</span>
+<span class="line-num">52</span>   <span class="ruby-identifier">result</span> = <span class="ruby-constant">SigaaImporter</span>.<span class="ruby-identifier">call</span>(
+<span class="line-num">53</span>     <span class="ruby-value">classes_file:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:classes_file</span>],
+<span class="line-num">54</span>     <span class="ruby-value">class_members_file:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:class_members_file</span>],
+<span class="line-num">55</span>     <span class="ruby-value">operation_type:</span> <span class="ruby-string">&#39;Importação&#39;</span>
+<span class="line-num">56</span>   )
+<span class="line-num">57</span> 
+<span class="line-num">58</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">success?</span>
+<span class="line-num">59</span>       <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-identifier">result</span>.<span class="ruby-identifier">summary_message</span>
+<span class="line-num">60</span>       <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">sigaa_imports_path</span>
+<span class="line-num">61</span>     <span class="ruby-keyword">else</span>
+<span class="line-num">62</span>       <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-identifier">result</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">to_sentence</span>
+<span class="line-num">63</span>       <span class="ruby-identifier">render</span> <span class="ruby-value">:new</span>, <span class="ruby-value">status:</span> <span class="ruby-value">:unprocessable_entity</span>
+<span class="line-num">64</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">65</span>   <span class="ruby-keyword">end</span></pre>
           </div>
 
 
 
-          
+          <p>Processes uploaded SIGAA files and imports data into the database.</p>
+
+<h4 id="method-i-create-label-Parameters">Parameters<span><a href="#method-i-create-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>params[:classes_file]</code> - UploadedFile with classes JSON data</p>
+</li><li>
+<p><code>params[:class_members_file]</code> - UploadedFile with class members JSON data</p>
+</li></ul>
+
+<h4 id="method-i-create-label-Returns">Returns<span><a href="#method-i-create-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Redirects to sigaa_imports_path on success</p>
+</li><li>
+<p>Renders new view with errors on failure</p>
+</li></ul>
+
+<h4 id="method-i-create-label-Side+Effects">Side Effects<span><a href="#method-i-create-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Creates/updates records in database (<a href="Materia.html"><code>Materia</code></a>, <a href="Turma.html"><code>Turma</code></a>, <a href="Docente.html"><code>Docente</code></a>, <a href="Dicente.html"><code>Dicente</code></a>, <a href="Matricula.html"><code>Matricula</code></a>)</p>
+</li><li>
+<p>Sends password setup emails to newly created users</p>
+</li><li>
+<p>Sets <a href=":notice">flash</a> on success or <a href=":alert">flash</a> on failure</p>
+</li></ul>
 
 
         </div>
@@ -224,15 +251,25 @@
         <div class="method-description">
 
           <div class="method-source-code" id="index-source">
-            <pre><span class="ruby-comment"># File app/controllers/sigaa_imports_controller.rb, line 9</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">index</span>
-  <span class="ruby-comment"># Renderiza página de listagem/histórico de importações</span>
-<span class="ruby-keyword">end</span></pre>
+            <pre>   <span class="ruby-comment"># File app/controllers/sigaa_imports_controller.rb</span>
+<span class="line-num">31</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">index</span>
+<span class="line-num">32</span>   <span class="ruby-comment"># Renderiza página de listagem/histórico de importações</span>
+<span class="line-num">33</span> <span class="ruby-keyword">end</span></pre>
           </div>
 
 
 
-          
+          <p>Lists import history and status.</p>
+
+<h4 id="method-i-index-label-Returns">Returns<span><a href="#method-i-index-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Renders index view with import history</p>
+</li></ul>
+
+<h4 id="method-i-index-label-Side+Effects">Side Effects<span><a href="#method-i-index-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>None</p>
+</li></ul>
 
 
         </div>
@@ -268,15 +305,25 @@
         <div class="method-description">
 
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File app/controllers/sigaa_imports_controller.rb, line 5</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">new</span>
-  <span class="ruby-comment"># Renderiza formulário de importação</span>
-<span class="ruby-keyword">end</span></pre>
+            <pre>   <span class="ruby-comment"># File app/controllers/sigaa_imports_controller.rb</span>
+<span class="line-num">18</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">new</span>
+<span class="line-num">19</span>   <span class="ruby-comment"># Renderiza formulário de importação</span>
+<span class="line-num">20</span> <span class="ruby-keyword">end</span></pre>
           </div>
 
 
 
-          
+          <p>Displays the form for uploading SIGAA import files.</p>
+
+<h4 id="method-i-new-label-Returns">Returns<span><a href="#method-i-new-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Renders new view with import form</p>
+</li></ul>
+
+<h4 id="method-i-new-label-Side+Effects">Side Effects<span><a href="#method-i-new-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>None</p>
+</li></ul>
 
 
         </div>
@@ -312,39 +359,120 @@
         <div class="method-description">
 
           <div class="method-source-code" id="update_database-source">
-            <pre><span class="ruby-comment"># File app/controllers/sigaa_imports_controller.rb, line 29</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">update_database</span>
-  <span class="ruby-comment"># Caminhos dos arquivos JSON no repositório</span>
-  <span class="ruby-identifier">classes_file</span> = <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">root</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;classes.json&#39;</span>)
-  <span class="ruby-identifier">members_file</span> = <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">root</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;class_members.json&#39;</span>)
-  
-  <span class="ruby-comment"># Verificar se os arquivos existem</span>
-  <span class="ruby-keyword">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">classes_file</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">members_file</span>)
-    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Arquivos JSON não encontrados no repositório. Certifique-se de que classes.json e class_members.json estão na raiz do projeto.&quot;</span>
-    <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">sigaa_imports_path</span>
-    <span class="ruby-keyword">return</span>
-  <span class="ruby-keyword">end</span>
-  
-  <span class="ruby-comment"># Executar a atualização</span>
-  <span class="ruby-identifier">result</span> = <span class="ruby-constant">SigaaImporter</span>.<span class="ruby-identifier">call</span>(
-    <span class="ruby-value">classes_file:</span> <span class="ruby-identifier">classes_file</span>.<span class="ruby-identifier">to_s</span>,
-    <span class="ruby-value">class_members_file:</span> <span class="ruby-identifier">members_file</span>.<span class="ruby-identifier">to_s</span>,
-    <span class="ruby-value">operation_type:</span> <span class="ruby-string">&#39;Atualização&#39;</span>
-  )
-  
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">success?</span>
-    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-identifier">result</span>.<span class="ruby-identifier">summary_message</span>
-  <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-node">&quot;Erro durante atualização: #{result.errors.join(&#39;, &#39;)}&quot;</span>
-  <span class="ruby-keyword">end</span>
-  
-  <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">sigaa_imports_path</span>
-<span class="ruby-keyword">end</span></pre>
+            <pre>    <span class="ruby-comment"># File app/controllers/sigaa_imports_controller.rb</span>
+<span class="line-num"> 78</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">update_database</span>
+<span class="line-num"> 79</span>   <span class="ruby-comment"># Caminhos dos arquivos JSON no repositório</span>
+<span class="line-num"> 80</span>   <span class="ruby-identifier">classes_file</span> = <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">root</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;classes.json&#39;</span>)
+<span class="line-num"> 81</span>   <span class="ruby-identifier">members_file</span> = <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">root</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;class_members.json&#39;</span>)
+<span class="line-num"> 82</span>   
+<span class="line-num"> 83</span>   <span class="ruby-comment"># Verificar se os arquivos existem</span>
+<span class="line-num"> 84</span>   <span class="ruby-keyword">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">classes_file</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">members_file</span>)
+<span class="line-num"> 85</span>     <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Arquivos JSON não encontrados no repositório. Certifique-se de que classes.json e class_members.json estão na raiz do projeto.&quot;</span>
+<span class="line-num"> 86</span>     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">sigaa_imports_path</span>
+<span class="line-num"> 87</span>     <span class="ruby-keyword">return</span>
+<span class="line-num"> 88</span>   <span class="ruby-keyword">end</span>
+<span class="line-num"> 89</span>   
+<span class="line-num"> 90</span>   <span class="ruby-comment"># Executar a atualização</span>
+<span class="line-num"> 91</span>   <span class="ruby-identifier">result</span> = <span class="ruby-constant">SigaaImporter</span>.<span class="ruby-identifier">call</span>(
+<span class="line-num"> 92</span>     <span class="ruby-value">classes_file:</span> <span class="ruby-identifier">classes_file</span>.<span class="ruby-identifier">to_s</span>,
+<span class="line-num"> 93</span>     <span class="ruby-value">class_members_file:</span> <span class="ruby-identifier">members_file</span>.<span class="ruby-identifier">to_s</span>,
+<span class="line-num"> 94</span>     <span class="ruby-value">operation_type:</span> <span class="ruby-string">&#39;Atualização&#39;</span>
+<span class="line-num"> 95</span>   )
+<span class="line-num"> 96</span>   
+<span class="line-num"> 97</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">success?</span>
+<span class="line-num"> 98</span>     <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-identifier">result</span>.<span class="ruby-identifier">summary_message</span>
+<span class="line-num"> 99</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">100</span>     <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-node">&quot;Erro durante atualização: #{result.errors.join(&#39;, &#39;)}&quot;</span>
+<span class="line-num">101</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">102</span>   
+<span class="line-num">103</span>   <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">sigaa_imports_path</span>
+<span class="line-num">104</span> <span class="ruby-keyword">end</span></pre>
           </div>
 
 
 
-          
+          <p>Updates database using JSON files from the repository root.</p>
+
+<h4 id="method-i-update_database-label-Returns">Returns<span><a href="#method-i-update_database-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Redirects to sigaa_imports_path</p>
+</li></ul>
+
+<h4 id="method-i-update_database-label-Side+Effects">Side Effects<span><a href="#method-i-update_database-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Reads classes.json and class_members.json from repository root</p>
+</li><li>
+<p>Creates/updates records in database</p>
+</li><li>
+<p>Sets <a href=":notice">flash</a> on success or <a href=":alert">flash</a> on failure</p>
+</li></ul>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+    </section>
+
+     <section id="private-instance-5Buntitled-5D-method-details" class="method-section anchor-link">
+       <header>
+         <h3>Private Instance Methods</h3>
+       </header>
+
+
+      <div id="method-i-require_admin" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-require_admin" title="Link to this method">
+                <span class="method-name">require_admin</span>
+                <span class="method-args">()</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="require_admin-source">
+            <pre>    <span class="ruby-comment"># File app/controllers/sigaa_imports_controller.rb</span>
+<span class="line-num">118</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">require_admin</span>
+<span class="line-num">119</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">current_user</span>&amp;.<span class="ruby-identifier">admin?</span>
+<span class="line-num">120</span>     <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Acesso negado&quot;</span>
+<span class="line-num">121</span>     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">root_path</span>
+<span class="line-num">122</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">123</span> <span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+          <p>Requires current user to be an admin.</p>
+
+<h4 id="method-i-require_admin-label-Returns">Returns<span><a href="#method-i-require_admin-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Redirects to root_path if user is not admin</p>
+</li></ul>
+
+<h4 id="method-i-require_admin-label-Side+Effects">Side Effects<span><a href="#method-i-require_admin-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Sets <a href=":alert">flash</a> with access denied message</p>
+</li><li>
+<p>Redirects to root_path if user is not admin</p>
+</li></ul>
 
 
         </div>
