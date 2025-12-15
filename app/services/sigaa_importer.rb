@@ -80,20 +80,30 @@ class SigaaImporter
     # * String - summary message with operation results or errors
     #
     def summary_message
-      if success?
-        parts = []
-        parts << "#{total_created} novos registros criados" if total_created > 0
-        parts << "#{total_updated} registros atualizados" if total_updated > 0
-        parts << "#{total_skipped} registros ignorados por já existirem" if total_skipped > 0
-        
-        if parts.any?
-          "#{@operation_type} concluída: #{parts.join(', ')}"
-        else
-          "#{@operation_type} concluída: nenhuma alteração necessária"
-        end
-      else
-        "Erros na #{@operation_type.downcase}: #{@errors.join(', ')}"
+      success? ? success_summary : error_summary
+    end
+
+    private
+
+    def success_summary
+      parts = build_summary_parts
+      parts.any? ? "#{@operation_type} concluída: #{parts.join(', ')}" : no_changes_message
+    end
+
+    def build_summary_parts
+      [].tap do |parts|
+        parts << "#{total_created} novos registros criados" if total_created.positive?
+        parts << "#{total_updated} registros atualizados" if total_updated.positive?
+        parts << "#{total_skipped} registros ignorados por já existirem" if total_skipped.positive?
       end
+    end
+
+    def no_changes_message
+      "#{@operation_type} concluída: nenhuma alteração necessária"
+    end
+
+    def error_summary
+      "Erros na #{@operation_type.downcase}: #{@errors.join(', ')}"
     end
   end
 
@@ -274,11 +284,32 @@ class SigaaImporter
     end
   end
 
+  ##
+  # Imports docente, dicentes, and their matriculas for a given class.
+  #
+  # ==== Parameters
+  # * +member_data+ - Hash containing code, classCode, semester, docente, dicente arrays
+  #
+  # ==== Side Effects
+  # * Creates/updates Docente, Dicente, and Matricula records
+  # * Updates @result counters
+  #
   def import_docente_dicentes_and_matriculas(member_data)
+    turma = find_turma_for_member_data(member_data)
+    return unless turma
+
+    import_docente_for_turma(member_data, turma)
+    import_dicentes_for_turma(member_data, turma)
+  end
+
+  ##
+  # Finds the turma for the given member data.
+  #
+  def find_turma_for_member_data(member_data)
     materia = Materia.find_by(code: member_data['code'])
     unless materia
       @result.errors << "Matéria #{member_data['code']} não encontrada"
-      return
+      return nil
     end
 
     turma = Turma.find_by(
@@ -286,26 +317,43 @@ class SigaaImporter
       class_code: member_data['classCode'],
       semester: member_data['semester']
     )
-    
+
     unless turma
       @result.errors << "Turma #{member_data['code']}-#{member_data['classCode']} não encontrada"
-      return
+      return nil
     end
 
-    # Importar docente
-    if member_data['docente']
-      docente = import_docente(member_data['docente'])
-      if docente && turma.docente != docente
-        turma.update(docente: docente)
-        @result.updated[:turmas] += 1
-      end
-    end
+    turma
+  end
 
-    # Importar dicentes
-    if member_data['dicente']
-      member_data['dicente'].each do |dicente_data|
-        import_dicente_and_matricula(dicente_data, turma)
-      end
+  ##
+  # Imports/updates docente for a turma if present in member_data.
+  #
+  def import_docente_for_turma(member_data, turma)
+    return unless member_data['docente']
+
+    docente = import_docente(member_data['docente'])
+    update_turma_docente(turma, docente) if docente
+  end
+
+  ##
+  # Updates turma docente if different from current.
+  #
+  def update_turma_docente(turma, docente)
+    return if turma.docente == docente
+
+    turma.update(docente: docente)
+    @result.updated[:turmas] += 1
+  end
+
+  ##
+  # Imports dicentes and their matriculas for a turma.
+  #
+  def import_dicentes_for_turma(member_data, turma)
+    return unless member_data['dicente']
+
+    member_data['dicente'].each do |dicente_data|
+      import_dicente_and_matricula(dicente_data, turma)
     end
   end
 

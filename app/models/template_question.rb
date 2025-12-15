@@ -29,24 +29,69 @@ class TemplateQuestion < ApplicationRecord
 
   private
 
+  ##
+  # Normalizes and cleans field values before validation.
+  # Delegates to type-specific normalizers.
+  #
   def normalize_fields
-    self.question_type = question_type.presence&.downcase
-    self.position ||= template&.template_questions&.size.to_i + 1
+    normalize_basic_fields
+    normalize_by_question_type
+  end
 
+  ##
+  # Normalizes common fields for all question types.
+  #
+  def normalize_basic_fields
+    self.question_type = question_type.presence&.downcase
+    self.position ||= calculate_default_position
+  end
+
+  ##
+  # Calculates default position based on existing questions.
+  #
+  def calculate_default_position
+    template&.template_questions&.size.to_i + 1
+  end
+
+  ##
+  # Normalizes fields based on question type.
+  #
+  def normalize_by_question_type
     case question_type
     when QUESTION_TYPES[:multiple_choice]
-      store_options_payload
-      self.min_value = nil
-      self.max_value = nil
+      normalize_multiple_choice_fields
     when QUESTION_TYPES[:likert]
-      self.min_value = (min_value.presence || 1).to_i
-      self.max_value = (max_value.presence || 5).to_i
-      self.options = nil
+      normalize_likert_fields
     else
-      self.options = nil
-      self.min_value = nil
-      self.max_value = nil
+      clear_type_specific_fields
     end
+  end
+
+  ##
+  # Normalizes fields for multiple choice questions.
+  #
+  def normalize_multiple_choice_fields
+    store_options_payload
+    self.min_value = nil
+    self.max_value = nil
+  end
+
+  ##
+  # Normalizes fields for Likert scale questions.
+  #
+  def normalize_likert_fields
+    self.min_value = (min_value.presence || 1).to_i
+    self.max_value = (max_value.presence || 5).to_i
+    self.options = nil
+  end
+
+  ##
+  # Clears type-specific fields (for text questions).
+  #
+  def clear_type_specific_fields
+    self.options = nil
+    self.min_value = nil
+    self.max_value = nil
   end
 
   def store_options_payload
@@ -72,11 +117,33 @@ class TemplateQuestion < ApplicationRecord
     end
   end
 
+  ##
+  # Validates Likert scale configuration.
+  # Delegates to specific validators for clarity.
+  #
   def validate_likert_scale
     return unless question_type == QUESTION_TYPES[:likert]
+    return if valid_likert_configuration?
 
-    unless min_value.present? && max_value.present? && min_value >= 1 && max_value <= 5 && min_value < max_value
-      errors.add(:base, "A escala numérica deve ser de 1 a 5")
-    end
+    errors.add(:base, "A escala numérica deve ser de 1 a 5")
+  end
+
+  ##
+  # Checks if Likert scale has valid configuration.
+  #
+  def valid_likert_configuration?
+    values_present? && values_in_range? && min_less_than_max?
+  end
+
+  def values_present?
+    min_value.present? && max_value.present?
+  end
+
+  def values_in_range?
+    min_value >= 1 && max_value <= 5
+  end
+
+  def min_less_than_max?
+    min_value < max_value
   end
 end

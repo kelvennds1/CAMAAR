@@ -11,7 +11,7 @@
   <meta name="keywords" content="ruby,class,RespostaItem">
 
 
-    <meta name="description" content="Documentation for the RespostaItem class">
+    <meta name="description" content="class RespostaItem: Model representing an individual answer to a question. Each RespostaItem corresponds to one question&#39;s answer in a Resposta.">
 
 
 
@@ -71,6 +71,42 @@
   </div>
 
   
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+
+
+
+
+  <ul class="link-list" role="directory">
+    
+
+
+
+
+          <li>
+      <a href="#class-RespostaItem-label-Attributes">Attributes</a>
+</li>
+
+
+
+
+          <li>
+      <a href="#class-RespostaItem-label-Associations">Associations</a>
+</li>
+
+
+
+
+          <li>
+      <a href="#class-RespostaItem-label-Validations">Validations</a>
+</li>
+
+
+
+  </ul>
+</div>
+
 
   
 
@@ -108,6 +144,25 @@
 
   <section class="description">
     
+<p>Model representing an individual answer to a question. Each <a href="RespostaItem.html"><code>RespostaItem</code></a> corresponds to one question’s answer in a <a href="Resposta.html"><code>Resposta</code></a>.</p>
+
+<h4 id="class-RespostaItem-label-Attributes">Attributes<span><a href="#class-RespostaItem-label-Attributes">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>valor</code> - The answer value (text, number, or selected option)</p>
+</li></ul>
+
+<h4 id="class-RespostaItem-label-Associations">Associations<span><a href="#class-RespostaItem-label-Associations">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>resposta</code> - Parent response this answer belongs to</p>
+</li><li>
+<p><code>questao</code> - Question being answered</p>
+</li></ul>
+
+<h4 id="class-RespostaItem-label-Validations">Validations<span><a href="#class-RespostaItem-label-Validations">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>One answer per question per response (unique questao_id + resposta_id)</p>
+</li></ul>
+
   </section>
 
 

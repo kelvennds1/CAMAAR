@@ -1,3 +1,16 @@
+##
+# Model representing an evaluation template.
+# Templates define reusable question sets that can be applied to create evaluations.
+#
+# ==== Attributes
+# * +name+ - Template name (unique per docente)
+# * +status+ - Current status (draft, published, archived)
+#
+# ==== Associations
+# * +docente+ - Teacher who owns this template
+# * +template_questions+ - Questions in this template
+# * +avaliacoes+ - Evaluations created from this template
+#
 class Template < ApplicationRecord
   STATUS = {
     draft: "draft",
@@ -22,10 +35,16 @@ class Template < ApplicationRecord
 
   private
 
+  ##
+  # Normalizes template name by stripping whitespace.
+  #
   def normalize_name
     self.name = name.to_s.strip
   end
 
+  ##
+  # Validates that template has at least one non-destroyed question.
+  #
   def must_have_questions
     return if template_questions.reject(&:marked_for_destruction?).any?
 

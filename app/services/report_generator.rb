@@ -1,8 +1,41 @@
+##
+# Service for generating administrative reports across evaluations.
+# Aggregates data from multiple evaluations for dashboard/reporting purposes.
+#
+# ==== Usage
+#   # All evaluations
+#   report = ReportGenerator.new
+#   
+#   # Specific scope
+#   report = ReportGenerator.new(Avaliacao.where(status: :published))
+#   
+#   summary = report.summary  # Array of evaluation summaries
+#   totals = report.totals    # Aggregate totals
+#
 class ReportGenerator
+  ##
+  # Initializes the generator with an optional scope.
+  #
+  # ==== Parameters
+  # * +scope+ - ActiveRecord::Relation or Array of Avaliacao (default: all)
+  #
   def initialize(scope = Avaliacao.all)
     @scope = scope
   end
 
+  ##
+  # Generates summary data for each evaluation in scope.
+  #
+  # ==== Returns
+  # * Array of hashes with evaluation metrics:
+  #   - +avaliacao_id+ - Evaluation ID
+  #   - +title+ - Evaluation title
+  #   - +docente+ - Teacher name
+  #   - +semester+ - Semester identifier
+  #   - +total_responses+ - Number of responses
+  #   - +average_score+ - Average response score
+  #   - +completion_rate+ - Response rate percentage
+  #
   def summary
     @summary ||= evaluations.map do |avaliacao|
       metrics = aggregator_for(avaliacao).summary
@@ -19,6 +52,15 @@ class ReportGenerator
     end
   end
 
+  ##
+  # Calculates aggregate totals across all evaluations in scope.
+  #
+  # ==== Returns
+  # * Hash containing:
+  #   - +total_forms+ - Total number of evaluations
+  #   - +total_responses+ - Sum of all responses
+  #   - +average_completion_rate+ - Average completion rate
+  #
   def totals
     data = summary
     total_forms = data.size
@@ -40,6 +82,9 @@ class ReportGenerator
 
   attr_reader :scope
 
+  ##
+  # Loads evaluations with eager loading for performance.
+  #
   def evaluations
     @evaluations ||= begin
       if scope.respond_to?(:includes)
@@ -50,6 +95,9 @@ class ReportGenerator
     end
   end
 
+  ##
+  # Creates aggregator instance for a single evaluation.
+  #
   def aggregator_for(avaliacao)
     EvaluationResultAggregator.new(avaliacao)
   end

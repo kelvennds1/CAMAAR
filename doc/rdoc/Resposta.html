@@ -11,7 +11,7 @@
   <meta name="keywords" content="ruby,class,Resposta">
 
 
-    <meta name="description" content="Documentation for the Resposta class">
+    <meta name="description" content="class Resposta: Model representing a student&#39;s response to an evaluation. Contains the submission metadata and links to individual answer items.">
 
 
 
@@ -71,6 +71,42 @@
   </div>
 
   
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+
+
+
+
+  <ul class="link-list" role="directory">
+    
+
+
+
+
+          <li>
+      <a href="#class-Resposta-label-Attributes">Attributes</a>
+</li>
+
+
+
+
+          <li>
+      <a href="#class-Resposta-label-Associations">Associations</a>
+</li>
+
+
+
+
+          <li>
+      <a href="#class-Resposta-label-Validations">Validations</a>
+</li>
+
+
+
+  </ul>
+</div>
+
 
   
 
@@ -108,6 +144,29 @@
 
   <section class="description">
     
+<p>Model representing a student’s response to an evaluation. Contains the submission metadata and links to individual answer items.</p>
+
+<h4 id="class-Resposta-label-Attributes">Attributes<span><a href="#class-Resposta-label-Attributes">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>status</code> - Response status (pending, submitted, reviewed)</p>
+</li><li>
+<p><code>submitted_at</code> - Timestamp when response was submitted</p>
+</li></ul>
+
+<h4 id="class-Resposta-label-Associations">Associations<span><a href="#class-Resposta-label-Associations">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>avaliacao</code> - Evaluation being responded to</p>
+</li><li>
+<p><code>dicente</code> - Student who submitted the response</p>
+</li><li>
+<p><code>resposta_items</code> - Individual answers to each question</p>
+</li></ul>
+
+<h4 id="class-Resposta-label-Validations">Validations<span><a href="#class-Resposta-label-Validations">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>One response per student per evaluation (unique dicente_id + avaliacao_id)</p>
+</li></ul>
+
   </section>
 
 

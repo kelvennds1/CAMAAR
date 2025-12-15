@@ -34,36 +34,64 @@ class AvaliacoesController < ApplicationController
     end
   end
 
+  ##
+  # Displays the form for a student to respond to an evaluation.
+  #
+  # ==== Parameters
+  # * +id+ - Avaliacao ID (from params)
+  #
+  # ==== Returns
+  # * Renders responder view with the evaluation form
+  # * Redirects to formularios_pendentes_path if user lacks permission
+  #
+  # ==== Side Effects
+  # * Sets @avaliacao, @questoes, @resposta instance variables
+  #
   def responder
     @avaliacao = Avaliacao.find(params[:id])
-    
-    unless current_user.dicente?
-      flash[:alert] = "Você não tem permissão para responder este formulário"
-      redirect_to formularios_pendentes_path
-      return
-    end
 
-    # Verificar se o dicente está matriculado na turma
-    unless current_user.turmas.include?(@avaliacao.turma)
-      flash[:alert] = "Você não tem permissão para responder este formulário"
-      redirect_to formularios_pendentes_path
-      return
-    end
+    return unless validate_responder_permission
+    return unless validate_enrollment_in_turma
+    return unless validate_not_already_responded
 
-    # Verificar se já respondeu
+    load_responder_data
+  end
+
+  private
+
+  def validate_responder_permission
+    return true if current_user.dicente?
+
+    redirect_with_alert("Você não tem permissão para responder este formulário")
+    false
+  end
+
+  def validate_enrollment_in_turma
+    return true if current_user.turmas.include?(@avaliacao.turma)
+
+    redirect_with_alert("Você não tem permissão para responder este formulário")
+    false
+  end
+
+  def validate_not_already_responded
     @resposta_existente = Resposta.find_by(avaliacao: @avaliacao, dicente: current_user)
-    if @resposta_existente&.submitted?
-      flash[:alert] = "Você já respondeu este formulário"
-      redirect_to formularios_pendentes_path
-      return
-    end
+    return true unless @resposta_existente&.submitted?
 
-    # Carregar questões ordenadas
+    redirect_with_alert("Você já respondeu este formulário")
+    false
+  end
+
+  def redirect_with_alert(message)
+    flash[:alert] = message
+    redirect_to formularios_pendentes_path
+  end
+
+  def load_responder_data
     @questoes = @avaliacao.questoes.order(:position)
-    
-    # Criar ou carregar resposta pendente
     @resposta = @resposta_existente || Resposta.new(avaliacao: @avaliacao, dicente: current_user, status: :pending)
   end
+
+  public
 
   ##
   # Submits a student's response to an evaluation.
@@ -91,28 +119,21 @@ class AvaliacoesController < ApplicationController
     submit_resposta
   end
 
+  ##
+  # Refactored validation: checks if user is a dicente
+  #
   def validate_submission_permissions
-    unless current_user.dicente?
-      flash[:alert] = "Você não tem permissão para responder este formulário"
-      redirect_to formularios_pendentes_path
-      return false
-    end
-
-    unless current_user.turmas.include?(@avaliacao.turma)
-      flash[:alert] = "Você não tem permissão para responder este formulário"
-      redirect_to formularios_pendentes_path
-      return false
-    end
-
-    true
+    return validate_responder_permission && validate_enrollment_in_turma
   end
 
+  ##
+  # Checks if the current user has already submitted a response
+  #
   def validate_not_already_submitted
     resposta_existente = Resposta.find_by(avaliacao: @avaliacao, dicente: current_user)
 
     if resposta_existente&.submitted?
-      flash[:alert] = "Você já respondeu este formulário"
-      redirect_to formularios_pendentes_path
+      redirect_with_alert("Você já respondeu este formulário")
       return false
     end
 
@@ -152,20 +173,36 @@ class AvaliacoesController < ApplicationController
     render :responder, status: :unprocessable_entity
   end
 
+  ##
+  # Creates evaluation batches for multiple turmas.
+  #
+  # ==== Parameters
+  # * +avaliacao_batch+ - Hash with template_id, due_date, turma_ids
+  #
+  # ==== Side Effects
+  # * Creates Avaliacao records for each selected turma
+  #
   def create
     @avaliacao_batch = OpenStruct.new(batch_params.to_h)
-    result = EvaluationBatchCreator.call(**batch_params.to_h.symbolize_keys)
+    result = execute_batch_creation
 
+    handle_batch_result(result)
+  end
+
+  private
+
+  def execute_batch_creation
+    EvaluationBatchCreator.call(**batch_params.to_h.symbolize_keys)
+  end
+
+  def handle_batch_result(result)
     if result.success?
-      flash[:notice] = success_message(result)
-      redirect_to avaliacoes_path
+      redirect_to avaliacoes_path, notice: success_message(result)
     else
       flash.now[:alert] = result.errors.to_sentence
       render :index, status: :unprocessable_entity
     end
   end
-
-  private
 
   def batch_params
     params.require(:avaliacao_batch).permit(:template_id, :due_date, turma_ids: [])

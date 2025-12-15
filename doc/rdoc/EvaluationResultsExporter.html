@@ -11,7 +11,7 @@
   <meta name="keywords" content="ruby,class,EvaluationResultsExporter">
 
 
-    <meta name="description" content="Documentation for the EvaluationResultsExporter class">
+    <meta name="description" content="class EvaluationResultsExporter: Service for exporting evaluation results to CSV format. Generates a downloadable report with all responses.">
 
 
 
@@ -71,6 +71,35 @@
   </div>
 
   
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+
+
+
+
+  <ul class="link-list" role="directory">
+    
+
+
+
+
+          <li>
+      <a href="#class-EvaluationResultsExporter-label-Usage">Usage</a>
+</li>
+
+
+
+
+          <li>
+      <a href="#class-EvaluationResultsExporter-label-Raises">Raises</a>
+</li>
+
+
+
+  </ul>
+</div>
+
 
   
 
@@ -128,6 +157,20 @@
 
   <section class="description">
     
+<p>Service for exporting evaluation results to CSV format. Generates a downloadable report with all responses.</p>
+
+<h4 id="class-EvaluationResultsExporter-label-Usage">Usage<span><a href="#class-EvaluationResultsExporter-label-Usage">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre class="ruby"><span class="ruby-identifier">exporter</span> = <span class="ruby-constant">EvaluationResultsExporter</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">avaliacao</span>)
+<span class="ruby-identifier">csv_content</span> = <span class="ruby-identifier">exporter</span>.<span class="ruby-identifier">call</span>
+<span class="ruby-identifier">filename</span> = <span class="ruby-identifier">exporter</span>.<span class="ruby-identifier">filename</span>
+</pre>
+
+<h4 id="class-EvaluationResultsExporter-label-Raises">Raises<span><a href="#class-EvaluationResultsExporter-label-Raises">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><a href="EvaluationResultsExporter/ExportError.html"><code>ExportError</code></a> - When there are no responses or export fails</p>
+</li></ul>
+
   </section>
 
 
@@ -195,7 +238,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File app/services/evaluation_results_exporter.rb, line 10</span>
+            <pre><span class="ruby-comment"># File app/services/evaluation_results_exporter.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">avaliacao</span>)
   <span class="ruby-ivar">@avaliacao</span> = <span class="ruby-identifier">avaliacao</span>
 <span class="ruby-keyword">end</span></pre>
@@ -203,7 +246,12 @@
 
 
 
-          
+          <p>Initializes exporter with an evaluation.</p>
+
+<h4 id="method-c-new-label-Parameters">Parameters<span><a href="#method-c-new-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>avaliacao</code> - <a href="Avaliacao.html"><code>Avaliacao</code></a> instance to export results from</p>
+</li></ul>
 
 
         </div>
@@ -247,19 +295,10 @@
         <div class="method-description">
 
           <div class="method-source-code" id="call-source">
-            <pre><span class="ruby-comment"># File app/services/evaluation_results_exporter.rb, line 14</span>
+            <pre><span class="ruby-comment"># File app/services/evaluation_results_exporter.rb, line 44</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">call</span>
-  <span class="ruby-identifier">raise</span> <span class="ruby-constant">StandardError</span>, <span class="ruby-string">&quot;Serviço de exportação indisponível&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">force_failure</span>
-  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ExportError</span>, <span class="ruby-string">&quot;Ainda não há respostas disponíveis&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@avaliacao</span>.<span class="ruby-identifier">respostas</span>.<span class="ruby-identifier">none?</span>
-
-  <span class="ruby-constant">CSV</span>.<span class="ruby-identifier">generate</span>(<span class="ruby-value">headers:</span> <span class="ruby-keyword">true</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">csv</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">csv</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-string">&quot;Questão&quot;</span>, <span class="ruby-string">&quot;Aluno&quot;</span>, <span class="ruby-string">&quot;Resposta&quot;</span>, <span class="ruby-string">&quot;Enviado em&quot;</span>]
-    <span class="ruby-ivar">@avaliacao</span>.<span class="ruby-identifier">questoes</span>.<span class="ruby-identifier">includes</span>(<span class="ruby-value">resposta_items:</span> <span class="ruby-value">:resposta</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">questao</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">questao</span>.<span class="ruby-identifier">resposta_items</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">item</span><span class="ruby-operator">|</span>
-        <span class="ruby-identifier">csv</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">questao</span>.<span class="ruby-identifier">prompt</span>, <span class="ruby-identifier">item</span>.<span class="ruby-identifier">resposta</span>.<span class="ruby-identifier">dicente</span>.<span class="ruby-identifier">nome</span>, <span class="ruby-identifier">item</span>.<span class="ruby-identifier">valor</span>, <span class="ruby-identifier">item</span>.<span class="ruby-identifier">resposta</span>.<span class="ruby-identifier">submitted_at</span>]
-      <span class="ruby-keyword">end</span>
-    <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">validate_export_conditions</span>
+  <span class="ruby-identifier">generate_csv_report</span>
 <span class="ruby-keyword">rescue</span> <span class="ruby-constant">ExportError</span>
   <span class="ruby-identifier">raise</span>
 <span class="ruby-keyword">rescue</span> <span class="ruby-constant">StandardError</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">e</span>
@@ -271,7 +310,17 @@
 
 
 
-          
+          <p>Executes the CSV export.</p>
+
+<h4 id="method-i-call-label-Returns">Returns<span><a href="#method-i-call-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>String - CSV formatted content</p>
+</li></ul>
+
+<h4 id="method-i-call-label-Raises">Raises<span><a href="#method-i-call-label-Raises">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><a href="EvaluationResultsExporter/ExportError.html"><code>ExportError</code></a> - If no responses or export fails</p>
+</li></ul>
 
 
         </div>
@@ -307,7 +356,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="filename-source">
-            <pre><span class="ruby-comment"># File app/services/evaluation_results_exporter.rb, line 34</span>
+            <pre><span class="ruby-comment"># File app/services/evaluation_results_exporter.rb, line 115</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">filename</span>
   <span class="ruby-identifier">parameterized</span> = <span class="ruby-ivar">@avaliacao</span>.<span class="ruby-identifier">title</span>.<span class="ruby-identifier">parameterize</span>
   <span class="ruby-node">&quot;#{parameterized}-resultados.csv&quot;</span>
@@ -316,7 +365,12 @@
 
 
 
-          
+          <p>Generates the filename for the CSV download.</p>
+
+<h4 id="method-i-filename-label-Returns">Returns<span><a href="#method-i-filename-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>String - Parameterized filename with .csv extension</p>
+</li></ul>
 
 
         </div>

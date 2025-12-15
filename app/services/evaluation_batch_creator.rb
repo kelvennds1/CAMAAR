@@ -1,20 +1,70 @@
+##
+# Service for creating evaluation batches from a template.
+# Creates one Avaliacao per selected Turma, copying questions from the template.
+#
+# ==== Usage
+#   result = EvaluationBatchCreator.call(
+#     template_id: 1,
+#     turma_ids: [1, 2, 3],
+#     due_date: "2024-12-31"
+#   )
+#
+#   if result.success?
+#     puts "Created: #{result.created.size}, Skipped: #{result.skipped.size}"
+#   else
+#     puts "Errors: #{result.errors.join(', ')}"
+#   end
+#
 class EvaluationBatchCreator
+  ##
+  # Result struct containing operation outcome.
+  # * +created+ - Array of created Avaliacao records
+  # * +skipped+ - Array of Turma records skipped (already had evaluation)
+  # * +errors+ - Array of error messages
+  #
   Result = Struct.new(:created, :skipped, :errors, keyword_init: true) do
+    ##
+    # Checks if operation was successful.
+    # @return [Boolean] true if no errors occurred
+    #
     def success?
       errors.blank?
     end
   end
 
+  ##
+  # Class method to invoke the service.
+  #
+  # ==== Parameters
+  # * +template_id+ - ID of the template to use
+  # * +turma_ids+ - Array of Turma IDs to create evaluations for
+  # * +due_date+ - Optional due date string (defaults to end of month)
+  #
+  # ==== Returns
+  # * Result struct with created, skipped, and errors
+  #
   def self.call(**kwargs)
     new(**kwargs).call
   end
 
+  ##
+  # Initializes the service with parameters.
+  #
   def initialize(template_id:, turma_ids:, due_date: nil)
     @template_id = template_id
     @turma_ids = Array(turma_ids).reject(&:blank?)
     @due_date_param = due_date
   end
 
+  ##
+  # Executes the batch creation process.
+  #
+  # ==== Returns
+  # * Result struct with operation outcome
+  #
+  # ==== Side Effects
+  # * Creates Avaliacao and Questao records in the database
+  #
   def call
     return error_result("Selecione ao menos um template e uma turma") if invalid_params?
 

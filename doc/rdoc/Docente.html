@@ -11,7 +11,7 @@
   <meta name="keywords" content="ruby,class,Docente">
 
 
-    <meta name="description" content="Documentation for the Docente class">
+    <meta name="description" content="class Docente: professor in the system. Inherits from Usuario (STI).">
 
 
 
@@ -71,6 +71,35 @@
   </div>
 
   
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+
+
+
+
+  <ul class="link-list" role="directory">
+    
+
+
+
+
+          <li>
+      <a href="#class-Docente-label-Attributes">Attributes</a>
+</li>
+
+
+
+
+          <li>
+      <a href="#class-Docente-label-Associations">Associations</a>
+</li>
+
+
+
+  </ul>
+</div>
+
 
   
 
@@ -108,6 +137,24 @@
 
   <section class="description">
     
+<p>Model representing a teacher/professor in the system. Inherits from <a href="Usuario.html"><code>Usuario</code></a> (STI).</p>
+
+<h4 id="class-Docente-label-Attributes">Attributes<span><a href="#class-Docente-label-Attributes">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>departamento</code> - Teacher’s department</p>
+</li><li>
+<p><code>titulacao</code> - Academic title/degree</p>
+</li></ul>
+
+<h4 id="class-Docente-label-Associations">Associations<span><a href="#class-Docente-label-Associations">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>turmas</code> - Classes taught by this teacher</p>
+</li><li>
+<p><code>templates</code> - Evaluation templates created by this teacher</p>
+</li><li>
+<p><code>avaliacoes</code> - Evaluations associated with this teacher</p>
+</li></ul>
+
   </section>
 
 

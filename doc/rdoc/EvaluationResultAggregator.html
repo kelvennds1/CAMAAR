@@ -11,7 +11,7 @@
   <meta name="keywords" content="ruby,class,EvaluationResultAggregator">
 
 
-    <meta name="description" content="Documentation for the EvaluationResultAggregator class">
+    <meta name="description" content="class EvaluationResultAggregator: Service for aggregating evaluation results and statistics. Provides summary data for a single evaluation including response rates, average scores, and">
 
 
 
@@ -126,6 +126,15 @@
 
   <section class="description">
     
+<p>Service for aggregating evaluation results and statistics. Provides summary data for a single evaluation including response rates, average scores, and per-question statistics.</p>
+
+<h4 id="class-EvaluationResultAggregator-label-Usage">Usage<span><a href="#class-EvaluationResultAggregator-label-Usage">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre class="ruby"><span class="ruby-identifier">aggregator</span> = <span class="ruby-constant">EvaluationResultAggregator</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">avaliacao</span>)
+<span class="ruby-identifier">summary</span> = <span class="ruby-identifier">aggregator</span>.<span class="ruby-identifier">summary</span>
+<span class="ruby-comment"># =&gt; { total_responses: 25, completion_rate: 80, average_score: 4.2, question_stats: [...] }</span>
+</pre>
+
   </section>
 
 
@@ -193,7 +202,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File app/services/evaluation_result_aggregator.rb, line 4</span>
+            <pre><span class="ruby-comment"># File app/services/evaluation_result_aggregator.rb, line 20</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">avaliacao</span>)
   <span class="ruby-ivar">@avaliacao</span> = <span class="ruby-identifier">avaliacao</span>
 <span class="ruby-keyword">end</span></pre>
@@ -201,7 +210,12 @@
 
 
 
-          
+          <p>Initializes the aggregator with an evaluation.</p>
+
+<h4 id="method-c-new-label-Parameters">Parameters<span><a href="#method-c-new-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>avaliacao</code> - <a href="Avaliacao.html"><code>Avaliacao</code></a> instance to aggregate results for</p>
+</li></ul>
 
 
         </div>
@@ -245,7 +259,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="summary-source">
-            <pre><span class="ruby-comment"># File app/services/evaluation_result_aggregator.rb, line 8</span>
+            <pre><span class="ruby-comment"># File app/services/evaluation_result_aggregator.rb, line 34</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">summary</span>
   {
     <span class="ruby-value">total_responses:</span> <span class="ruby-identifier">total_responses</span>,
@@ -258,7 +272,21 @@
 
 
 
-          
+          <p>Generates a complete summary of evaluation results.</p>
+
+<h4 id="method-i-summary-label-Returns">Returns<span><a href="#method-i-summary-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Hash containing:</p>
+<ul><li>
+<p><code>total_responses</code> - Number of submitted responses</p>
+</li><li>
+<p><code>completion_rate</code> - Percentage of enrolled students who responded</p>
+</li><li>
+<p><code>average_score</code> - Average score across all responses</p>
+</li><li>
+<p><code>question_stats</code> - Array of per-question statistics</p>
+</li></ul>
+</li></ul>
 
 
         </div>

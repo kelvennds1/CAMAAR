@@ -11,7 +11,7 @@
   <meta name="keywords" content="ruby,class,Usuario">
 
 
-    <meta name="description" content="Documentation for the Usuario class">
+    <meta name="description" content="class Usuario: Base model for all system users (STI parent class). Uses Single Table Inheritance (STI) with Docente and Dicente subclasses.">
 
 
 
@@ -119,6 +119,29 @@
 
   <section class="description">
     
+<p>Base model for all system users (STI parent class). Uses Single Table Inheritance (STI) with <a href="Docente.html"><code>Docente</code></a> and <a href="Dicente.html"><code>Dicente</code></a> subclasses.</p>
+
+<h4 id="class-Usuario-label-Attributes">Attributes<span><a href="#class-Usuario-label-Attributes">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>identifier</code> - Unique user identifier (login/username)</p>
+</li><li>
+<p><code>nome</code> - User’s full name</p>
+</li><li>
+<p><code>email</code> - User’s email address (must be unique)</p>
+</li><li>
+<p><code>matricula</code> - Registration number (optional, unique if present)</p>
+</li><li>
+<p><code>type</code> - STI discriminator column (<a href="Docente.html"><code>Docente</code></a> or <a href="Dicente.html"><code>Dicente</code></a>)</p>
+</li><li>
+<p><code>password_digest</code> - Encrypted password (via has_secure_password)</p>
+</li><li>
+<p><code>pending_activation</code> - Whether user needs to set up password</p>
+</li><li>
+<p><code>activation_token</code> - Token for password setup</p>
+</li><li>
+<p><code>activation_token_expires_at</code> - Token expiration datetime</p>
+</li></ul>
+
   </section>
 
 
@@ -162,7 +185,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="dicente-3F-source">
-            <pre><span class="ruby-comment"># File app/models/usuario.rb, line 18</span>
+            <pre><span class="ruby-comment"># File app/models/usuario.rb, line 45</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">dicente?</span>
         <span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Dicente</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -170,7 +193,12 @@
 
 
 
-          
+          <p>Checks if user is a student.</p>
+
+<h4 id="method-i-dicente-3F-label-Returns">Returns<span><a href="#method-i-dicente-3F-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Boolean - true if user is a <a href="Dicente.html"><code>Dicente</code></a> instance</p>
+</li></ul>
 
 
         </div>
@@ -206,7 +234,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="docente-3F-source">
-            <pre><span class="ruby-comment"># File app/models/usuario.rb, line 14</span>
+            <pre><span class="ruby-comment"># File app/models/usuario.rb, line 35</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">docente?</span>
         <span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Docente</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -214,7 +242,12 @@
 
 
 
-          
+          <p>Checks if user is a teacher.</p>
+
+<h4 id="method-i-docente-3F-label-Returns">Returns<span><a href="#method-i-docente-3F-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Boolean - true if user is a <a href="Docente.html"><code>Docente</code></a> instance</p>
+</li></ul>
 
 
         </div>

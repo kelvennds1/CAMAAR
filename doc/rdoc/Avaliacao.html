@@ -11,7 +11,7 @@
   <meta name="keywords" content="ruby,class,Avaliacao">
 
 
-    <meta name="description" content="Documentation for the Avaliacao class">
+    <meta name="description" content="class Avaliacao: assessment form. Contains questions that students must answer.">
 
 
 
@@ -71,6 +71,35 @@
   </div>
 
   
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+
+
+
+
+  <ul class="link-list" role="directory">
+    
+
+
+
+
+          <li>
+      <a href="#class-Avaliacao-label-Attributes">Attributes</a>
+</li>
+
+
+
+
+          <li>
+      <a href="#class-Avaliacao-label-Associations">Associations</a>
+</li>
+
+
+
+  </ul>
+</div>
+
 
   
 
@@ -87,6 +116,15 @@
 
   
 
+
+  <div class="nav-section">
+    <h3>Instance Methods</h3>
+    <ul class="link-list" role="directory">
+
+      <li ><a href="#method-i-pending_for_dicente">pending_for_dicente</a></li>
+
+    </ul>
+  </div>
 
 
 
@@ -108,6 +146,32 @@
 
   <section class="description">
     
+<p>Model representing an evaluation/assessment form. Contains questions that students must answer.</p>
+
+<h4 id="class-Avaliacao-label-Attributes">Attributes<span><a href="#class-Avaliacao-label-Attributes">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>title</code> - Evaluation title</p>
+</li><li>
+<p><code>due_date</code> - Deadline for responses</p>
+</li><li>
+<p><code>status</code> - Current status (draft, published, closed)</p>
+</li><li>
+<p><code>max_score</code> - Maximum possible score</p>
+</li></ul>
+
+<h4 id="class-Avaliacao-label-Associations">Associations<span><a href="#class-Avaliacao-label-Associations">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>turma</code> - Class this evaluation belongs to</p>
+</li><li>
+<p><code>docente</code> - Teacher responsible for this evaluation</p>
+</li><li>
+<p><code>template</code> - <a href="Template.html"><code>Template</code></a> used to create this evaluation (optional)</p>
+</li><li>
+<p><code>questoes</code> - Questions in this evaluation</p>
+</li><li>
+<p><code>respostas</code> - Student responses to this evaluation</p>
+</li></ul>
+
   </section>
 
 
@@ -120,6 +184,72 @@
 
 
 
+
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section anchor-link">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+
+      <div id="method-i-pending_for_dicente" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-pending_for_dicente" title="Link to this method">
+                <span class="method-name">pending_for_dicente</span>
+                <span class="method-args">()</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="pending_for_dicente-source">
+            <pre><span class="ruby-comment"># File app/models/avaliacao.rb, line 48</span>
+<span class="ruby-identifier">scope</span> <span class="ruby-value">:pending_for_dicente</span>, <span class="ruby-identifier">lambda</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">dicente</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">published</span>
+    .<span class="ruby-identifier">joins</span>(<span class="ruby-value">turma:</span> <span class="ruby-value">:matriculas</span>)
+    .<span class="ruby-identifier">where</span>(<span class="ruby-value">matriculas:</span> { <span class="ruby-value">dicente_id:</span> <span class="ruby-identifier">dicente</span>.<span class="ruby-identifier">id</span> })
+    .<span class="ruby-identifier">where</span>.<span class="ruby-identifier">not</span>(
+      <span class="ruby-value">id:</span> <span class="ruby-constant">Resposta</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">dicente_id:</span> <span class="ruby-identifier">dicente</span>.<span class="ruby-identifier">id</span>).<span class="ruby-identifier">select</span>(<span class="ruby-value">:avaliacao_id</span>)
+</pre>
+          </div>
+
+
+
+          <p>Scope to find evaluations pending for a specific student.</p>
+
+<h4 id="method-i-pending_for_dicente-label-Parameters">Parameters<span><a href="#method-i-pending_for_dicente-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>dicente</code> - <a href="Dicente.html"><code>Dicente</code></a> instance to check pending evaluations for</p>
+</li></ul>
+
+<h4 id="method-i-pending_for_dicente-label-Returns">Returns<span><a href="#method-i-pending_for_dicente-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>ActiveRecord::Relation of pending <a href="Avaliacao.html"><code>Avaliacao</code></a> records</p>
+</li></ul>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+    </section>
 
   </section>
 

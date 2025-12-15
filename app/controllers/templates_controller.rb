@@ -92,20 +92,48 @@ class TemplatesController < ApplicationController
     end
   end
 
+  ##
+  # Builds placeholder questions for the template form.
+  # Ensures minimum number of question slots are available.
+  #
   def build_placeholder_question
-    base_slots = @template.persisted? ? 1 : 3
-    active_questions = @template.template_questions.reject(&:marked_for_destruction?).size
-    total_needed = [active_questions, base_slots].max
+    slots_needed = calculate_slots_needed
+    add_placeholder_questions(slots_needed)
+  end
 
-    while active_questions < total_needed
-      @template.template_questions.build(
-        question_type: TemplateQuestion::QUESTION_TYPES[:likert],
-        position: @template.template_questions.size + 1,
-        required: true,
-        min_value: 1,
-        max_value: 5
-      )
-      active_questions += 1
-    end
+  ##
+  # Calculates how many question slots are needed.
+  #
+  def calculate_slots_needed
+    base_slots = @template.persisted? ? 1 : 3
+    active_count = count_active_questions
+    [active_count, base_slots].max - active_count
+  end
+
+  ##
+  # Counts non-destroyed questions.
+  #
+  def count_active_questions
+    @template.template_questions.reject(&:marked_for_destruction?).size
+  end
+
+  ##
+  # Adds the specified number of placeholder questions.
+  #
+  def add_placeholder_questions(count)
+    count.times { build_single_placeholder_question }
+  end
+
+  ##
+  # Builds a single placeholder question with default values.
+  #
+  def build_single_placeholder_question
+    @template.template_questions.build(
+      question_type: TemplateQuestion::QUESTION_TYPES[:likert],
+      position: @template.template_questions.size + 1,
+      required: true,
+      min_value: 1,
+      max_value: 5
+    )
   end
 end

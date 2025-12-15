@@ -11,7 +11,7 @@
   <meta name="keywords" content="ruby,class,Template">
 
 
-    <meta name="description" content="Documentation for the Template class">
+    <meta name="description" content="class Template: Model representing an evaluation template. Templates define reusable question sets that can be applied to create evaluations.">
 
 
 
@@ -71,6 +71,35 @@
   </div>
 
   
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+
+
+
+
+  <ul class="link-list" role="directory">
+    
+
+
+
+
+          <li>
+      <a href="#class-Template-label-Attributes">Attributes</a>
+</li>
+
+
+
+
+          <li>
+      <a href="#class-Template-label-Associations">Associations</a>
+</li>
+
+
+
+  </ul>
+</div>
+
 
   
 
@@ -108,6 +137,24 @@
 
   <section class="description">
     
+<p>Model representing an evaluation template. Templates define reusable question sets that can be applied to create evaluations.</p>
+
+<h4 id="class-Template-label-Attributes">Attributes<span><a href="#class-Template-label-Attributes">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>name</code> - <a href="Template.html"><code>Template</code></a> name (unique per docente)</p>
+</li><li>
+<p><code>status</code> - Current status (draft, published, archived)</p>
+</li></ul>
+
+<h4 id="class-Template-label-Associations">Associations<span><a href="#class-Template-label-Associations">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>docente</code> - Teacher who owns this template</p>
+</li><li>
+<p><code>template_questions</code> - Questions in this template</p>
+</li><li>
+<p><code>avaliacoes</code> - Evaluations created from this template</p>
+</li></ul>
+
   </section>
 
 

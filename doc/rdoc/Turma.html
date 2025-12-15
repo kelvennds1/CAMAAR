@@ -11,7 +11,7 @@
   <meta name="keywords" content="ruby,class,Turma">
 
 
-    <meta name="description" content="Documentation for the Turma class">
+    <meta name="description" content="class Turma: Model representing a class section (turma). A turma is a specific offering of a subject in a given semester.">
 
 
 
@@ -71,6 +71,42 @@
   </div>
 
   
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+
+
+
+
+  <ul class="link-list" role="directory">
+    
+
+
+
+
+          <li>
+      <a href="#class-Turma-label-Attributes">Attributes</a>
+</li>
+
+
+
+
+          <li>
+      <a href="#class-Turma-label-Associations">Associations</a>
+</li>
+
+
+
+
+          <li>
+      <a href="#class-Turma-label-Validations">Validations</a>
+</li>
+
+
+
+  </ul>
+</div>
+
 
   
 
@@ -108,6 +144,33 @@
 
   <section class="description">
     
+<p>Model representing a class section (turma). A turma is a specific offering of a subject in a given semester.</p>
+
+<h4 id="class-Turma-label-Attributes">Attributes<span><a href="#class-Turma-label-Attributes">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>class_code</code> - Class section code (e.g., “A”, “B”, “01”)</p>
+</li><li>
+<p><code>semester</code> - Semester identifier (e.g., “2024.1”, “2024.2”)</p>
+</li></ul>
+
+<h4 id="class-Turma-label-Associations">Associations<span><a href="#class-Turma-label-Associations">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>materia</code> - Subject this class belongs to</p>
+</li><li>
+<p><code>docente</code> - Teacher assigned to this class</p>
+</li><li>
+<p><code>matriculas</code> - Student enrollments in this class</p>
+</li><li>
+<p><code>dicentes</code> - Students enrolled in this class (through matriculas)</p>
+</li><li>
+<p><code>avaliacoes</code> - Evaluations for this class</p>
+</li></ul>
+
+<h4 id="class-Turma-label-Validations">Validations<span><a href="#class-Turma-label-Validations">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Unique class_code per materia per semester</p>
+</li></ul>
+
   </section>
 
 

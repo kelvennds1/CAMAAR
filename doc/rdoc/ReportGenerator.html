@@ -11,7 +11,7 @@
   <meta name="keywords" content="ruby,class,ReportGenerator">
 
 
-    <meta name="description" content="Documentation for the ReportGenerator class">
+    <meta name="description" content="class ReportGenerator: Service for generating administrative reports across evaluations. reporting purposes.">
 
 
 
@@ -128,6 +128,20 @@
 
   <section class="description">
     
+<p>Service for generating administrative reports across evaluations. Aggregates data from multiple evaluations for dashboard/reporting purposes.</p>
+
+<h4 id="class-ReportGenerator-label-Usage">Usage<span><a href="#class-ReportGenerator-label-Usage">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre class="ruby"><span class="ruby-comment"># All evaluations</span>
+<span class="ruby-identifier">report</span> = <span class="ruby-constant">ReportGenerator</span>.<span class="ruby-identifier">new</span>
+
+<span class="ruby-comment"># Specific scope</span>
+<span class="ruby-identifier">report</span> = <span class="ruby-constant">ReportGenerator</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">Avaliacao</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">status:</span> <span class="ruby-value">:published</span>))
+
+<span class="ruby-identifier">summary</span> = <span class="ruby-identifier">report</span>.<span class="ruby-identifier">summary</span>  <span class="ruby-comment"># Array of evaluation summaries</span>
+<span class="ruby-identifier">totals</span> = <span class="ruby-identifier">report</span>.<span class="ruby-identifier">totals</span>    <span class="ruby-comment"># Aggregate totals</span>
+</pre>
+
   </section>
 
 
@@ -171,7 +185,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File app/services/report_generator.rb, line 2</span>
+            <pre><span class="ruby-comment"># File app/services/report_generator.rb, line 22</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">scope</span> = <span class="ruby-constant">Avaliacao</span>.<span class="ruby-identifier">all</span>)
   <span class="ruby-ivar">@scope</span> = <span class="ruby-identifier">scope</span>
 <span class="ruby-keyword">end</span></pre>
@@ -179,7 +193,12 @@
 
 
 
-          
+          <p>Initializes the generator with an optional scope.</p>
+
+<h4 id="method-c-new-label-Parameters">Parameters<span><a href="#method-c-new-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>scope</code> - ActiveRecord::Relation or Array of <a href="Avaliacao.html"><code>Avaliacao</code></a> (default: all)</p>
+</li></ul>
 
 
         </div>
@@ -223,7 +242,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="summary-source">
-            <pre><span class="ruby-comment"># File app/services/report_generator.rb, line 6</span>
+            <pre><span class="ruby-comment"># File app/services/report_generator.rb, line 39</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">summary</span>
   <span class="ruby-ivar">@summary</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">evaluations</span>.<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">avaliacao</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">metrics</span> = <span class="ruby-identifier">aggregator_for</span>(<span class="ruby-identifier">avaliacao</span>).<span class="ruby-identifier">summary</span>
@@ -243,7 +262,27 @@
 
 
 
-          
+          <p>Generates summary data for each evaluation in scope.</p>
+
+<h4 id="method-i-summary-label-Returns">Returns<span><a href="#method-i-summary-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Array of hashes with evaluation metrics:</p>
+<ul><li>
+<p><code>avaliacao_id</code> - Evaluation ID</p>
+</li><li>
+<p><code>title</code> - Evaluation title</p>
+</li><li>
+<p><code>docente</code> - Teacher name</p>
+</li><li>
+<p><code>semester</code> - Semester identifier</p>
+</li><li>
+<p><code>total_responses</code> - Number of responses</p>
+</li><li>
+<p><code>average_score</code> - Average response score</p>
+</li><li>
+<p><code>completion_rate</code> - Response rate percentage</p>
+</li></ul>
+</li></ul>
 
 
         </div>
@@ -279,7 +318,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="totals-source">
-            <pre><span class="ruby-comment"># File app/services/report_generator.rb, line 22</span>
+            <pre><span class="ruby-comment"># File app/services/report_generator.rb, line 64</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">totals</span>
   <span class="ruby-identifier">data</span> = <span class="ruby-identifier">summary</span>
   <span class="ruby-identifier">total_forms</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">size</span>
@@ -300,7 +339,19 @@
 
 
 
-          
+          <p>Calculates aggregate totals across all evaluations in scope.</p>
+
+<h4 id="method-i-totals-label-Returns">Returns<span><a href="#method-i-totals-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Hash containing:</p>
+<ul><li>
+<p><code>total_forms</code> - Total number of evaluations</p>
+</li><li>
+<p><code>total_responses</code> - Sum of all responses</p>
+</li><li>
+<p><code>average_completion_rate</code> - Average completion rate</p>
+</li></ul>
+</li></ul>
 
 
         </div>

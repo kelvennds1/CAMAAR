@@ -11,7 +11,7 @@
   <meta name="keywords" content="ruby,class,Dicente">
 
 
-    <meta name="description" content="Documentation for the Dicente class">
+    <meta name="description" content="class Dicente: Model representing a student in the system. Inherits from Usuario (STI).">
 
 
 
@@ -71,6 +71,35 @@
   </div>
 
   
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+
+
+
+
+  <ul class="link-list" role="directory">
+    
+
+
+
+
+          <li>
+      <a href="#class-Dicente-label-Attributes">Attributes</a>
+</li>
+
+
+
+
+          <li>
+      <a href="#class-Dicente-label-Associations">Associations</a>
+</li>
+
+
+
+  </ul>
+</div>
+
 
   
 
@@ -108,6 +137,26 @@
 
   <section class="description">
     
+<p>Model representing a student in the system. Inherits from <a href="Usuario.html"><code>Usuario</code></a> (STI).</p>
+
+<h4 id="class-Dicente-label-Attributes">Attributes<span><a href="#class-Dicente-label-Attributes">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>matricula</code> - Student registration number</p>
+</li><li>
+<p><code>curso</code> - Student’s course/program</p>
+</li></ul>
+
+<h4 id="class-Dicente-label-Associations">Associations<span><a href="#class-Dicente-label-Associations">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>matriculas</code> - Enrollments in classes</p>
+</li><li>
+<p><code>turmas</code> - Classes the student is enrolled in (through matriculas)</p>
+</li><li>
+<p><code>avaliacoes</code> - Evaluations available to this student (through turmas)</p>
+</li><li>
+<p><code>respostas</code> - Responses submitted by this student</p>
+</li></ul>
+
   </section>
 
 

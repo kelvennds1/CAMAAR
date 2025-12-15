@@ -11,7 +11,7 @@
   <meta name="keywords" content="ruby,class,SessionsController">
 
 
-    <meta name="description" content="Documentation for the SessionsController class">
+    <meta name="description" content="class SessionsController: Controller for handling user authentication sessions. Manages login, logout, and session management.">
 
 
 
@@ -121,6 +121,8 @@
 
   <section class="description">
     
+<p>Controller for handling user authentication sessions. Manages login, logout, and session management.</p>
+
   </section>
 
 
@@ -164,28 +166,34 @@
         <div class="method-description">
 
           <div class="method-source-code" id="create-source">
-            <pre><span class="ruby-comment"># File app/controllers/sessions_controller.rb, line 13</span>
+            <pre><span class="ruby-comment"># File app/controllers/sessions_controller.rb, line 29</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create</span>
-  <span class="ruby-identifier">user</span> = <span class="ruby-constant">Usuario</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">email:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:email</span>])
+  <span class="ruby-identifier">user</span> = <span class="ruby-identifier">find_user_by_email</span>
 
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">user</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">authenticate</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:password</span>])
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:pending_activation</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">pending_activation</span>
-      <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Por favor, ative sua conta primeiro&quot;</span>
-      <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">login_path</span>
-    <span class="ruby-keyword">else</span>
-      <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>] = <span class="ruby-identifier">user</span>.<span class="ruby-identifier">id</span>
-      <span class="ruby-identifier">redirect_to_appropriate_page</span>(<span class="ruby-identifier">user</span>)
-    <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Invalid email or password&quot;</span>
-    <span class="ruby-identifier">render</span> <span class="ruby-value">:new</span>, <span class="ruby-value">status:</span> <span class="ruby-value">:unprocessable_entity</span>
-  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">render_invalid_credentials</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">user</span>&amp;.<span class="ruby-identifier">authenticate</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:password</span>])
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">render_pending_activation</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">pending_activation?</span>(<span class="ruby-identifier">user</span>)
+
+  <span class="ruby-identifier">login_user</span>(<span class="ruby-identifier">user</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
 
 
 
-          
+          <p>Authenticates user and creates session.</p>
+
+<h4 id="method-i-create-label-Parameters">Parameters<span><a href="#method-i-create-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>email</code> - User email (from params)</p>
+</li><li>
+<p><code>password</code> - User password (from params)</p>
+</li></ul>
+
+<h4 id="method-i-create-label-Returns">Returns<span><a href="#method-i-create-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Redirects to appropriate page on success</p>
+</li><li>
+<p>Renders login form with error on failure</p>
+</li></ul>
 
 
         </div>
@@ -221,7 +229,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="destroy-source">
-            <pre><span class="ruby-comment"># File app/controllers/sessions_controller.rb, line 30</span>
+            <pre><span class="ruby-comment"># File app/controllers/sessions_controller.rb, line 45</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">destroy</span>
   <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>] = <span class="ruby-keyword">nil</span>
   <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">login_path</span>, <span class="ruby-value">notice:</span> <span class="ruby-string">&quot;Sessão encerrada com sucesso&quot;</span>
@@ -230,7 +238,14 @@
 
 
 
-          
+          <p>Destroys user session (logout).</p>
+
+<h4 id="method-i-destroy-label-Side+Effects">Side Effects<span><a href="#method-i-destroy-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Clears <a href=":user_id">session</a></p>
+</li><li>
+<p>Redirects to login page</p>
+</li></ul>
 
 
         </div>
@@ -266,18 +281,15 @@
         <div class="method-description">
 
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File app/controllers/sessions_controller.rb, line 6</span>
+            <pre><span class="ruby-comment"># File app/controllers/sessions_controller.rb, line 14</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">new</span>
-  <span class="ruby-comment"># Redirect se já estiver logado</span>
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">logged_in?</span>
-    <span class="ruby-identifier">redirect_to_appropriate_page</span>(<span class="ruby-identifier">current_user</span>)
-  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">redirect_to_appropriate_page</span>(<span class="ruby-identifier">current_user</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">logged_in?</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
 
 
 
-          
+          <p>Displays the login form. Redirects to appropriate page if already logged in.</p>
 
 
         </div>

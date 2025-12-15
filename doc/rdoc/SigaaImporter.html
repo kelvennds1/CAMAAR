@@ -184,7 +184,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="call-source">
-            <pre><span class="ruby-comment"># File app/services/sigaa_importer.rb, line 115</span>
+            <pre><span class="ruby-comment"># File app/services/sigaa_importer.rb, line 125</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">call</span>(<span class="ruby-value">classes_file:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-value">class_members_file:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-value">operation_type:</span> <span class="ruby-string">&#39;Importação&#39;</span>)
   <span class="ruby-identifier">new</span>(<span class="ruby-identifier">classes_file</span>, <span class="ruby-identifier">class_members_file</span>, <span class="ruby-identifier">operation_type</span>).<span class="ruby-identifier">import</span>
 <span class="ruby-keyword">end</span></pre>
@@ -249,7 +249,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File app/services/sigaa_importer.rb, line 127</span>
+            <pre><span class="ruby-comment"># File app/services/sigaa_importer.rb, line 137</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">classes_file</span>, <span class="ruby-identifier">class_members_file</span>, <span class="ruby-identifier">operation_type</span> = <span class="ruby-string">&#39;Importação&#39;</span>)
   <span class="ruby-ivar">@classes_file</span> = <span class="ruby-identifier">classes_file</span>
   <span class="ruby-ivar">@class_members_file</span> = <span class="ruby-identifier">class_members_file</span>
@@ -312,7 +312,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="import-source">
-            <pre><span class="ruby-comment"># File app/services/sigaa_importer.rb, line 144</span>
+            <pre><span class="ruby-comment"># File app/services/sigaa_importer.rb, line 154</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">import</span>
   <span class="ruby-identifier">validate_files</span>
   <span class="ruby-keyword">return</span> <span class="ruby-ivar">@result</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@result</span>.<span class="ruby-identifier">success?</span>

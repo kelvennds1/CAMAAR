@@ -11,7 +11,7 @@
   <meta name="keywords" content="ruby,class,EvaluationBatchCreator">
 
 
-    <meta name="description" content="Documentation for the EvaluationBatchCreator class">
+    <meta name="description" content="class EvaluationBatchCreator: Service for creating evaluation batches from a template. Creates one Avaliacao per selected Turma, copying questions from the template.">
 
 
 
@@ -128,6 +128,23 @@
 
   <section class="description">
     
+<p>Service for creating evaluation batches from a template. Creates one <a href="Avaliacao.html"><code>Avaliacao</code></a> per selected <a href="Turma.html"><code>Turma</code></a>, copying questions from the template.</p>
+
+<h4 id="class-EvaluationBatchCreator-label-Usage">Usage<span><a href="#class-EvaluationBatchCreator-label-Usage">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre class="ruby"><span class="ruby-identifier">result</span> = <span class="ruby-constant">EvaluationBatchCreator</span>.<span class="ruby-identifier">call</span>(
+  <span class="ruby-value">template_id:</span> <span class="ruby-value">1</span>,
+  <span class="ruby-value">turma_ids:</span> [<span class="ruby-value">1</span>, <span class="ruby-value">2</span>, <span class="ruby-value">3</span>],
+  <span class="ruby-value">due_date:</span> <span class="ruby-string">&quot;2024-12-31&quot;</span>
+)
+
+<span class="ruby-keyword">if</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">success?</span>
+  <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Created: #{result.created.size}, Skipped: #{result.skipped.size}&quot;</span>
+<span class="ruby-keyword">else</span>
+  <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Errors: #{result.errors.join(&#39;, &#39;)}&quot;</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
   </section>
 
 
@@ -147,7 +164,14 @@
 
         <dd>
 
-          
+          <p><a href="EvaluationBatchCreator.html#Result"><code>Result</code></a> struct containing operation outcome.</p>
+<ul><li>
+<p><code>created</code> - Array of created <a href="Avaliacao.html"><code>Avaliacao</code></a> records</p>
+</li><li>
+<p><code>skipped</code> - Array of <a href="Turma.html"><code>Turma</code></a> records skipped (already had evaluation)</p>
+</li><li>
+<p><code>errors</code> - Array of error messages</p>
+</li></ul>
         </dd>
 
 
@@ -188,7 +212,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="call-source">
-            <pre><span class="ruby-comment"># File app/services/evaluation_batch_creator.rb, line 8</span>
+            <pre><span class="ruby-comment"># File app/services/evaluation_batch_creator.rb, line 46</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">call</span>(<span class="ruby-operator">**</span><span class="ruby-identifier">kwargs</span>)
   <span class="ruby-identifier">new</span>(<span class="ruby-operator">**</span><span class="ruby-identifier">kwargs</span>).<span class="ruby-identifier">call</span>
 <span class="ruby-keyword">end</span></pre>
@@ -196,7 +220,21 @@
 
 
 
-          
+          <p>Class method to invoke the service.</p>
+
+<h4 id="method-c-call-label-Parameters">Parameters<span><a href="#method-c-call-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>template_id</code> - ID of the template to use</p>
+</li><li>
+<p><code>turma_ids</code> - Array of <a href="Turma.html"><code>Turma</code></a> IDs to create evaluations for</p>
+</li><li>
+<p><code>due_date</code> - Optional due date string (defaults to end of month)</p>
+</li></ul>
+
+<h4 id="method-c-call-label-Returns">Returns<span><a href="#method-c-call-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><a href="EvaluationBatchCreator.html#Result"><code>Result</code></a> struct with created, skipped, and errors</p>
+</li></ul>
 
 
         </div>
@@ -232,7 +270,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File app/services/evaluation_batch_creator.rb, line 12</span>
+            <pre><span class="ruby-comment"># File app/services/evaluation_batch_creator.rb, line 53</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-value">template_id:</span>, <span class="ruby-value">turma_ids:</span>, <span class="ruby-value">due_date:</span> <span class="ruby-keyword">nil</span>)
   <span class="ruby-ivar">@template_id</span> = <span class="ruby-identifier">template_id</span>
   <span class="ruby-ivar">@turma_ids</span> = <span class="ruby-constant">Array</span>(<span class="ruby-identifier">turma_ids</span>).<span class="ruby-identifier">reject</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:blank?</span>)
@@ -242,7 +280,7 @@
 
 
 
-          
+          <p>Initializes the service with parameters.</p>
 
 
         </div>
@@ -286,40 +324,34 @@
         <div class="method-description">
 
           <div class="method-source-code" id="call-source">
-            <pre><span class="ruby-comment"># File app/services/evaluation_batch_creator.rb, line 18</span>
+            <pre><span class="ruby-comment"># File app/services/evaluation_batch_creator.rb, line 68</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">call</span>
-  <span class="ruby-keyword">return</span> <span class="ruby-constant">Result</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">created:</span> [], <span class="ruby-value">skipped:</span> [], <span class="ruby-value">errors:</span> [<span class="ruby-string">&quot;Selecione ao menos um template e uma turma&quot;</span>]) <span class="ruby-keyword">if</span> <span class="ruby-identifier">invalid_params?</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">error_result</span>(<span class="ruby-string">&quot;Selecione ao menos um template e uma turma&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">invalid_params?</span>
 
-  <span class="ruby-identifier">template</span> = <span class="ruby-constant">Template</span>.<span class="ruby-identifier">includes</span>(<span class="ruby-value">:template_questions</span>).<span class="ruby-identifier">find</span>(<span class="ruby-ivar">@template_id</span>)
-  <span class="ruby-identifier">turmas</span> = <span class="ruby-constant">Turma</span>.<span class="ruby-identifier">includes</span>(<span class="ruby-value">:docente</span>).<span class="ruby-identifier">where</span>(<span class="ruby-value">id:</span> <span class="ruby-ivar">@turma_ids</span>)
-
-  <span class="ruby-identifier">created</span> = []
-  <span class="ruby-identifier">skipped</span> = []
-
-  <span class="ruby-constant">ApplicationRecord</span>.<span class="ruby-identifier">transaction</span> <span class="ruby-keyword">do</span>
-    <span class="ruby-identifier">turmas</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">turma</span><span class="ruby-operator">|</span>
-      <span class="ruby-keyword">if</span> <span class="ruby-identifier">duplicate?</span>(<span class="ruby-identifier">turma</span>, <span class="ruby-identifier">template</span>)
-        <span class="ruby-identifier">skipped</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">turma</span>
-        <span class="ruby-keyword">next</span>
-      <span class="ruby-keyword">end</span>
-
-      <span class="ruby-identifier">avaliacao</span> = <span class="ruby-constant">Avaliacao</span>.<span class="ruby-identifier">create!</span>(<span class="ruby-identifier">build_evaluation_attributes</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">turma</span>))
-      <span class="ruby-identifier">copy_questions</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">avaliacao</span>)
-      <span class="ruby-identifier">created</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">avaliacao</span>
-    <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">template</span>, <span class="ruby-identifier">turmas</span> = <span class="ruby-identifier">load_template_and_turmas</span>
+  <span class="ruby-identifier">created</span>, <span class="ruby-identifier">skipped</span> = <span class="ruby-identifier">process_turmas</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">turmas</span>)
 
   <span class="ruby-constant">Result</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">created:</span>, <span class="ruby-value">skipped:</span>, <span class="ruby-value">errors:</span> [])
 <span class="ruby-keyword">rescue</span> <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">RecordInvalid</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">e</span>
-  <span class="ruby-constant">Result</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">created:</span> [], <span class="ruby-value">skipped:</span> [], <span class="ruby-value">errors:</span> [<span class="ruby-identifier">e</span>.<span class="ruby-identifier">record</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">full_messages</span>.<span class="ruby-identifier">to_sentence</span>.<span class="ruby-identifier">presence</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">message</span>])
+  <span class="ruby-identifier">handle_record_invalid</span>(<span class="ruby-identifier">e</span>)
 <span class="ruby-keyword">rescue</span> <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">RecordNotFound</span>
-  <span class="ruby-constant">Result</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">created:</span> [], <span class="ruby-value">skipped:</span> [], <span class="ruby-value">errors:</span> [<span class="ruby-string">&quot;Template selecionado não foi encontrado&quot;</span>])
+  <span class="ruby-identifier">error_result</span>(<span class="ruby-string">&quot;Template selecionado não foi encontrado&quot;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
 
 
 
-          
+          <p>Executes the batch creation process.</p>
+
+<h4 id="method-i-call-label-Returns">Returns<span><a href="#method-i-call-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><a href="EvaluationBatchCreator.html#Result"><code>Result</code></a> struct with operation outcome</p>
+</li></ul>
+
+<h4 id="method-i-call-label-Side+Effects">Side Effects<span><a href="#method-i-call-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Creates <a href="Avaliacao.html"><code>Avaliacao</code></a> and <a href="Questao.html"><code>Questao</code></a> records in the database</p>
+</li></ul>
 
 
         </div>

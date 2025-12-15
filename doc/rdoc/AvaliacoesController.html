@@ -182,24 +182,28 @@
         <div class="method-description">
 
           <div class="method-source-code" id="create-source">
-            <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 155</span>
+            <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 185</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create</span>
   <span class="ruby-ivar">@avaliacao_batch</span> = <span class="ruby-constant">OpenStruct</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">batch_params</span>.<span class="ruby-identifier">to_h</span>)
-  <span class="ruby-identifier">result</span> = <span class="ruby-constant">EvaluationBatchCreator</span>.<span class="ruby-identifier">call</span>(<span class="ruby-operator">**</span><span class="ruby-identifier">batch_params</span>.<span class="ruby-identifier">to_h</span>.<span class="ruby-identifier">symbolize_keys</span>)
+  <span class="ruby-identifier">result</span> = <span class="ruby-identifier">execute_batch_creation</span>
 
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">success?</span>
-    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-identifier">success_message</span>(<span class="ruby-identifier">result</span>)
-    <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">avaliacoes_path</span>
-  <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-identifier">result</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">to_sentence</span>
-    <span class="ruby-identifier">render</span> <span class="ruby-value">:index</span>, <span class="ruby-value">status:</span> <span class="ruby-value">:unprocessable_entity</span>
-  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">handle_batch_result</span>(<span class="ruby-identifier">result</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
 
 
 
-          
+          <p>Creates evaluation batches for multiple turmas.</p>
+
+<h4 id="method-i-create-label-Parameters">Parameters<span><a href="#method-i-create-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>avaliacao_batch</code> - Hash with template_id, due_date, turma_ids</p>
+</li></ul>
+
+<h4 id="method-i-create-label-Side+Effects">Side Effects<span><a href="#method-i-create-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Creates <a href="Avaliacao.html"><code>Avaliacao</code></a> records for each selected turma</p>
+</li></ul>
 
 
         </div>
@@ -235,7 +239,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="find_or_initialize_resposta-source">
-            <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 123</span>
+            <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 144</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">find_or_initialize_resposta</span>
   <span class="ruby-ivar">@resposta_existente</span> <span class="ruby-operator">||</span> <span class="ruby-constant">Resposta</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">avaliacao:</span> <span class="ruby-ivar">@avaliacao</span>, <span class="ruby-value">dicente:</span> <span class="ruby-identifier">current_user</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -382,7 +386,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="render_submission_error-source">
-            <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 147</span>
+            <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 168</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">render_submission_error</span>
   <span class="ruby-ivar">@questoes</span> = <span class="ruby-ivar">@avaliacao</span>.<span class="ruby-identifier">questoes</span>.<span class="ruby-identifier">order</span>(<span class="ruby-value">:position</span>)
   <span class="ruby-identifier">error_message</span> = <span class="ruby-ivar">@resposta</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">full_messages</span>.<span class="ruby-identifier">to_sentence</span>.<span class="ruby-identifier">presence</span> <span class="ruby-operator">||</span>
@@ -430,42 +434,38 @@
         <div class="method-description">
 
           <div class="method-source-code" id="responder-source">
-            <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 37</span>
+            <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 50</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">responder</span>
   <span class="ruby-ivar">@avaliacao</span> = <span class="ruby-constant">Avaliacao</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
-  
-  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">dicente?</span>
-    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Você não tem permissão para responder este formulário&quot;</span>
-    <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">formularios_pendentes_path</span>
-    <span class="ruby-keyword">return</span>
-  <span class="ruby-keyword">end</span>
 
-  <span class="ruby-comment"># Verificar se o dicente está matriculado na turma</span>
-  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">turmas</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-ivar">@avaliacao</span>.<span class="ruby-identifier">turma</span>)
-    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Você não tem permissão para responder este formulário&quot;</span>
-    <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">formularios_pendentes_path</span>
-    <span class="ruby-keyword">return</span>
-  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">validate_responder_permission</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">validate_enrollment_in_turma</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">validate_not_already_responded</span>
 
-  <span class="ruby-comment"># Verificar se já respondeu</span>
-  <span class="ruby-ivar">@resposta_existente</span> = <span class="ruby-constant">Resposta</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">avaliacao:</span> <span class="ruby-ivar">@avaliacao</span>, <span class="ruby-value">dicente:</span> <span class="ruby-identifier">current_user</span>)
-  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@resposta_existente</span>&amp;.<span class="ruby-identifier">submitted?</span>
-    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Você já respondeu este formulário&quot;</span>
-    <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">formularios_pendentes_path</span>
-    <span class="ruby-keyword">return</span>
-  <span class="ruby-keyword">end</span>
-
-  <span class="ruby-comment"># Carregar questões ordenadas</span>
-  <span class="ruby-ivar">@questoes</span> = <span class="ruby-ivar">@avaliacao</span>.<span class="ruby-identifier">questoes</span>.<span class="ruby-identifier">order</span>(<span class="ruby-value">:position</span>)
-  
-  <span class="ruby-comment"># Criar ou carregar resposta pendente</span>
-  <span class="ruby-ivar">@resposta</span> = <span class="ruby-ivar">@resposta_existente</span> <span class="ruby-operator">||</span> <span class="ruby-constant">Resposta</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">avaliacao:</span> <span class="ruby-ivar">@avaliacao</span>, <span class="ruby-value">dicente:</span> <span class="ruby-identifier">current_user</span>, <span class="ruby-value">status:</span> <span class="ruby-value">:pending</span>)
+  <span class="ruby-identifier">load_responder_data</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
 
 
 
-          
+          <p>Displays the form for a student to respond to an evaluation.</p>
+
+<h4 id="method-i-responder-label-Parameters">Parameters<span><a href="#method-i-responder-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>id</code> - <a href="Avaliacao.html"><code>Avaliacao</code></a> ID (from params)</p>
+</li></ul>
+
+<h4 id="method-i-responder-label-Returns">Returns<span><a href="#method-i-responder-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Renders responder view with the evaluation form</p>
+</li><li>
+<p>Redirects to formularios_pendentes_path if user lacks permission</p>
+</li></ul>
+
+<h4 id="method-i-responder-label-Side+Effects">Side Effects<span><a href="#method-i-responder-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Sets @avaliacao, @questoes, @resposta instance variables</p>
+</li></ul>
 
 
         </div>
@@ -501,7 +501,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="save_submitted_resposta-source">
-            <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 135</span>
+            <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 156</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">save_submitted_resposta</span>
   <span class="ruby-ivar">@resposta</span>.<span class="ruby-identifier">status</span> = <span class="ruby-value">:submitted</span>
   <span class="ruby-ivar">@resposta</span>.<span class="ruby-identifier">submitted_at</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">current</span>
@@ -553,7 +553,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="submeter-source">
-            <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 84</span>
+            <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 112</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">submeter</span>
   <span class="ruby-ivar">@avaliacao</span> = <span class="ruby-constant">Avaliacao</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 
@@ -626,7 +626,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="submit_resposta-source">
-            <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 127</span>
+            <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 148</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">submit_resposta</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">processar_respostas</span>(<span class="ruby-ivar">@resposta</span>)
     <span class="ruby-identifier">save_submitted_resposta</span>
@@ -674,13 +674,12 @@
         <div class="method-description">
 
           <div class="method-source-code" id="validate_not_already_submitted-source">
-            <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 110</span>
+            <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 132</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">validate_not_already_submitted</span>
   <span class="ruby-identifier">resposta_existente</span> = <span class="ruby-constant">Resposta</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">avaliacao:</span> <span class="ruby-ivar">@avaliacao</span>, <span class="ruby-value">dicente:</span> <span class="ruby-identifier">current_user</span>)
 
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">resposta_existente</span>&amp;.<span class="ruby-identifier">submitted?</span>
-    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Você já respondeu este formulário&quot;</span>
-    <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">formularios_pendentes_path</span>
+    <span class="ruby-identifier">redirect_with_alert</span>(<span class="ruby-string">&quot;Você já respondeu este formulário&quot;</span>)
     <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
   <span class="ruby-keyword">end</span>
 
@@ -691,7 +690,7 @@
 
 
 
-          
+          <p>Checks if the current user has already submitted a response</p>
 
 
         </div>
@@ -727,27 +726,15 @@
         <div class="method-description">
 
           <div class="method-source-code" id="validate_submission_permissions-source">
-            <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 94</span>
+            <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 125</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">validate_submission_permissions</span>
-  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">dicente?</span>
-    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Você não tem permissão para responder este formulário&quot;</span>
-    <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">formularios_pendentes_path</span>
-    <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
-  <span class="ruby-keyword">end</span>
-
-  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">turmas</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-ivar">@avaliacao</span>.<span class="ruby-identifier">turma</span>)
-    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Você não tem permissão para responder este formulário&quot;</span>
-    <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">formularios_pendentes_path</span>
-    <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
-  <span class="ruby-keyword">end</span>
-
-  <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">validate_responder_permission</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">validate_enrollment_in_turma</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
 
 
 
-          
+          <p>Refactored validation: checks if user is a dicente</p>
 
 
         </div>
