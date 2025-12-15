@@ -1,5 +1,4 @@
 ##
-<<<<<<< HEAD
 # Base model for all system users (STI parent class).
 # Uses Single Table Inheritance (STI) with Docente and Dicente subclasses.
 #
@@ -13,10 +12,6 @@
 # * +pending_activation+ - Whether user needs to set up password
 # * +activation_token+ - Token for password setup
 # * +activation_token_expires_at+ - Token expiration datetime
-=======
-# Base model for all users in the system.
-# Uses Single Table Inheritance (STI) to represent different user types (Docente, Dicente).
->>>>>>> sprint-3-documentacao
 #
 class Usuario < ApplicationRecord
 	self.inheritance_column = :type
@@ -45,34 +40,20 @@ class Usuario < ApplicationRecord
 	scope :dicentes, -> { where(type: "Dicente") }
 
 	##
-<<<<<<< HEAD
-	# Checks if user is a teacher.
-	#
-	# ==== Returns
-	# * Boolean - true if user is a Docente instance
-=======
 	# Checks if user is a teacher (docente).
 	#
 	# ==== Returns
 	# * Boolean - true if user is a Docente, false otherwise
->>>>>>> sprint-3-documentacao
 	#
 	def docente?
 		is_a?(Docente)
 	end
 
 	##
-<<<<<<< HEAD
-	# Checks if user is a student.
-	#
-	# ==== Returns
-	# * Boolean - true if user is a Dicente instance
-=======
 	# Checks if user is a student (dicente).
 	#
 	# ==== Returns
 	# * Boolean - true if user is a Dicente, false otherwise
->>>>>>> sprint-3-documentacao
 	#
 	def dicente?
 		is_a?(Dicente)

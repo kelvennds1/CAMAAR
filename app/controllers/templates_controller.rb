@@ -205,13 +205,10 @@ class TemplatesController < ApplicationController
 
   ##
   # Builds placeholder questions for the template form.
-<<<<<<< HEAD
   # Ensures minimum number of question slots are available.
-=======
   #
   # ==== Side Effects
   # * Adds TemplateQuestion objects to @template.template_questions
->>>>>>> sprint-3-documentacao
   #
   def build_placeholder_question
     slots_needed = calculate_slots_needed

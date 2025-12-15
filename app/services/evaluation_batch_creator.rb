@@ -1,7 +1,8 @@
 ##
-<<<<<<< HEAD
 # Service for creating evaluation batches from a template.
 # Creates one Avaliacao per selected Turma, copying questions from the template.
+# Creates multiple Avaliacao records and their associated Questao records
+# for multiple classes (turmas) at once.
 #
 # ==== Usage
 #   result = EvaluationBatchCreator.call(
@@ -18,23 +19,10 @@
 #
 class EvaluationBatchCreator
   ##
-  # Result struct containing operation outcome.
+  # Result object containing creation statistics.
   # * +created+ - Array of created Avaliacao records
   # * +skipped+ - Array of Turma records skipped (already had evaluation)
   # * +errors+ - Array of error messages
-  #
-  Result = Struct.new(:created, :skipped, :errors, keyword_init: true) do
-    ##
-    # Checks if operation was successful.
-    # @return [Boolean] true if no errors occurred
-=======
-# Service for creating batches of evaluations from templates.
-# Creates multiple Avaliacao records and their associated Questao records
-# for multiple classes (turmas) at once.
-#
-class EvaluationBatchCreator
-  ##
-  # Result object containing creation statistics.
   #
   Result = Struct.new(:created, :skipped, :errors, keyword_init: true) do
     ##
@@ -42,7 +30,6 @@ class EvaluationBatchCreator
     #
     # ==== Returns
     # * Boolean - true if no errors occurred, false otherwise
->>>>>>> sprint-3-documentacao
     #
     def success?
       errors.blank?
@@ -50,17 +37,6 @@ class EvaluationBatchCreator
   end
 
   ##
-<<<<<<< HEAD
-  # Class method to invoke the service.
-  #
-  # ==== Parameters
-  # * +template_id+ - ID of the template to use
-  # * +turma_ids+ - Array of Turma IDs to create evaluations for
-  # * +due_date+ - Optional due date string (defaults to end of month)
-  #
-  # ==== Returns
-  # * Result struct with created, skipped, and errors
-=======
   # Class method to create evaluation batches.
   #
   # ==== Parameters
@@ -75,23 +51,18 @@ class EvaluationBatchCreator
   # * Creates Avaliacao records in database
   # * Creates Questao records for each avaliacao
   # * Skips turmas that already have an evaluation for the given template
->>>>>>> sprint-3-documentacao
   #
   def self.call(**kwargs)
     new(**kwargs).call
   end
 
   ##
-<<<<<<< HEAD
-  # Initializes the service with parameters.
-=======
   # Initializes a new EvaluationBatchCreator.
   #
   # ==== Parameters
   # * +template_id:+ - Integer with Template ID
   # * +turma_ids:+ - Array of Integer with Turma IDs
   # * +due_date:+ - String or Date with due date (optional)
->>>>>>> sprint-3-documentacao
   #
   def initialize(template_id:, turma_ids:, due_date: nil)
     @template_id = template_id
@@ -103,18 +74,11 @@ class EvaluationBatchCreator
   # Executes the batch creation process.
   #
   # ==== Returns
-<<<<<<< HEAD
-  # * Result struct with operation outcome
-  #
-  # ==== Side Effects
-  # * Creates Avaliacao and Questao records in the database
-=======
   # * Result - Object with created, skipped arrays and errors array
   #
   # ==== Side Effects
   # * Creates Avaliacao and Questao records in database
   # * Wraps operations in a database transaction
->>>>>>> sprint-3-documentacao
   #
   def call
     return error_result("Selecione ao menos um template e uma turma") if invalid_params?

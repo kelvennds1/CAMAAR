@@ -1,7 +1,6 @@
 ##
 # Model representing a question in an evaluation.
-<<<<<<< HEAD
-# Questions are created from template_questions when an evaluation is generated.
+# Questions are created from template questions when an evaluation is generated.
 #
 # ==== Attributes
 # * +prompt+ - Question text/statement
@@ -13,17 +12,9 @@
 # * +min_value+ / +max_value+ - Scale range (for likert)
 #
 # ==== Associations
-# * +avaliacao+ - Evaluation this question belongs to
-# * +template_question+ - Original template question (optional)
-# * +resposta_items+ - Student answers to this question
-=======
-# Questions are created from template questions when an evaluation is generated.
-#
-# ==== Associations
 # * belongs_to :avaliacao - The evaluation this question belongs to
 # * belongs_to :template_question - The template question this was created from (optional)
 # * has_many :resposta_items - Student responses to this question
->>>>>>> sprint-3-documentacao
 #
 class Questao < ApplicationRecord
   self.table_name = "questoes"
@@ -40,17 +31,10 @@ class Questao < ApplicationRecord
   validates :position, numericality: { greater_than: 0 }
 
   ##
-<<<<<<< HEAD
-  # Checks if question uses numeric (Likert) scale.
-  #
-  # ==== Returns
-  # * Boolean - true if question is Likert type
-=======
   # Checks if this question accepts numeric responses (Likert scale).
   #
   # ==== Returns
   # * Boolean - true if question_type is likert, false otherwise
->>>>>>> sprint-3-documentacao
   #
   def numeric?
     question_type == QUESTION_TYPES[:likert]

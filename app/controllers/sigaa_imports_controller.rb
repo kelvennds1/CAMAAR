@@ -65,13 +65,6 @@ class SigaaImportsController < ApplicationController
     end
 
     ##
-<<<<<<< HEAD
-    # Updates database from JSON files in repository.
-    #
-    # ==== Side Effects
-    # * Imports data from classes.json and class_members.json
-    # * Redirects with success or error message
-=======
     # Updates database using JSON files from the repository root.
     #
     # ==== Returns
@@ -81,7 +74,6 @@ class SigaaImportsController < ApplicationController
     # * Reads classes.json and class_members.json from repository root
     # * Creates/updates records in database
     # * Sets flash[:notice] on success or flash[:alert] on failure
->>>>>>> sprint-3-documentacao
     #
     def update_database
       return unless validate_json_files_exist
@@ -146,11 +138,7 @@ class SigaaImportsController < ApplicationController
         flash[:alert] = "Erro durante atualização: #{result.errors.join(', ')}"
       end
     end
-  
-<<<<<<< HEAD
-=======
-    private
-  
+
     ##
     # Requires current user to be an admin.
     #
@@ -161,7 +149,6 @@ class SigaaImportsController < ApplicationController
     # * Sets flash[:alert] with access denied message
     # * Redirects to root_path if user is not admin
     #
->>>>>>> sprint-3-documentacao
     def require_admin
       unless current_user&.admin?
         flash[:alert] = "Acesso negado"

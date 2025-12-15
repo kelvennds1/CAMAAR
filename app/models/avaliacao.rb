@@ -1,7 +1,7 @@
 ##
-<<<<<<< HEAD
 # Model representing an evaluation/assessment form.
 # Contains questions that students must answer.
+# An evaluation is created from a template and assigned to one or more classes (turmas).
 #
 # ==== Attributes
 # * +title+ - Evaluation title
@@ -10,22 +10,11 @@
 # * +max_score+ - Maximum possible score
 #
 # ==== Associations
-# * +turma+ - Class this evaluation belongs to
-# * +docente+ - Teacher responsible for this evaluation
-# * +template+ - Template used to create this evaluation (optional)
-# * +questoes+ - Questions in this evaluation
-# * +respostas+ - Student responses to this evaluation
-=======
-# Model representing an evaluation form (Avaliacao).
-# An evaluation is created from a template and assigned to one or more classes (turmas).
-#
-# ==== Associations
 # * belongs_to :turma - The class this evaluation is assigned to
 # * belongs_to :docente - The teacher who created this evaluation
 # * belongs_to :template - The template used to create this evaluation (optional)
 # * has_many :questoes - Questions in this evaluation
 # * has_many :respostas - Student responses to this evaluation
->>>>>>> sprint-3-documentacao
 #
 class Avaliacao < ApplicationRecord
   self.table_name = "avaliacoes"
@@ -49,15 +38,6 @@ class Avaliacao < ApplicationRecord
   validates :max_score, numericality: { greater_than_or_equal_to: 0 }
 
   ##
-<<<<<<< HEAD
-  # Scope to find evaluations pending for a specific student.
-  #
-  # ==== Parameters
-  # * +dicente+ - Dicente instance to check pending evaluations for
-  #
-  # ==== Returns
-  # * ActiveRecord::Relation of pending Avaliacao records
-=======
   # Finds all pending evaluations for a given student.
   #
   # ==== Parameters
@@ -69,7 +49,6 @@ class Avaliacao < ApplicationRecord
   #
   # ==== Side Effects
   # * None - This is a query scope
->>>>>>> sprint-3-documentacao
   #
   scope :pending_for_dicente, lambda { |dicente|
     published

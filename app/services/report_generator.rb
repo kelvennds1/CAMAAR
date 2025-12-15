@@ -1,7 +1,7 @@
 ##
-<<<<<<< HEAD
 # Service for generating administrative reports across evaluations.
 # Aggregates data from multiple evaluations for dashboard/reporting purposes.
+# Aggregates statistics from multiple evaluations for administrative reporting.
 #
 # ==== Usage
 #   # All evaluations
@@ -15,40 +15,16 @@
 #
 class ReportGenerator
   ##
-  # Initializes the generator with an optional scope.
-  #
-  # ==== Parameters
-  # * +scope+ - ActiveRecord::Relation or Array of Avaliacao (default: all)
-=======
-# Service for generating reports across multiple evaluations.
-# Aggregates statistics from multiple evaluations for administrative reporting.
-#
-class ReportGenerator
-  ##
   # Initializes a new report generator.
   #
   # ==== Parameters
   # * +scope+ - ActiveRecord::Relation or Array of Avaliacao records (default: Avaliacao.all)
->>>>>>> sprint-3-documentacao
   #
   def initialize(scope = Avaliacao.all)
     @scope = scope
   end
 
   ##
-<<<<<<< HEAD
-  # Generates summary data for each evaluation in scope.
-  #
-  # ==== Returns
-  # * Array of hashes with evaluation metrics:
-  #   - +avaliacao_id+ - Evaluation ID
-  #   - +title+ - Evaluation title
-  #   - +docente+ - Teacher name
-  #   - +semester+ - Semester identifier
-  #   - +total_responses+ - Number of responses
-  #   - +average_score+ - Average response score
-  #   - +completion_rate+ - Response rate percentage
-=======
   # Generates summary statistics for all evaluations in scope.
   #
   # ==== Returns
@@ -63,7 +39,6 @@ class ReportGenerator
   #
   # ==== Side Effects
   # * None - This is a read-only operation
->>>>>>> sprint-3-documentacao
   #
   def summary
     @summary ||= evaluations.map do |avaliacao|
@@ -82,15 +57,6 @@ class ReportGenerator
   end
 
   ##
-<<<<<<< HEAD
-  # Calculates aggregate totals across all evaluations in scope.
-  #
-  # ==== Returns
-  # * Hash containing:
-  #   - +total_forms+ - Total number of evaluations
-  #   - +total_responses+ - Sum of all responses
-  #   - +average_completion_rate+ - Average completion rate
-=======
   # Calculates aggregate totals across all evaluations.
   #
   # ==== Returns
@@ -101,7 +67,6 @@ class ReportGenerator
   #
   # ==== Side Effects
   # * None - This is a read-only operation
->>>>>>> sprint-3-documentacao
   #
   def totals
     data = summary
@@ -125,14 +90,10 @@ class ReportGenerator
   attr_reader :scope
 
   ##
-<<<<<<< HEAD
-  # Loads evaluations with eager loading for performance.
-=======
   # Loads evaluations from scope with necessary associations.
   #
   # ==== Returns
   # * Array - Array of Avaliacao objects with associations loaded
->>>>>>> sprint-3-documentacao
   #
   def evaluations
     @evaluations ||= begin
@@ -145,9 +106,6 @@ class ReportGenerator
   end
 
   ##
-<<<<<<< HEAD
-  # Creates aggregator instance for a single evaluation.
-=======
   # Creates an aggregator instance for a specific evaluation.
   #
   # ==== Parameters
@@ -155,7 +113,6 @@ class ReportGenerator
   #
   # ==== Returns
   # * EvaluationResultAggregator - Aggregator instance
->>>>>>> sprint-3-documentacao
   #
   def aggregator_for(avaliacao)
     EvaluationResultAggregator.new(avaliacao)
