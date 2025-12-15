@@ -5,13 +5,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>class Avaliacao - RDoc Documentation</title>
+<title>class Avaliacao - CAMAAR - Documentação</title>
 
 
   <meta name="keywords" content="ruby,class,Avaliacao">
 
 
+<<<<<<< HEAD
     <meta name="description" content="class Avaliacao: assessment form. Contains questions that students must answer.">
+=======
+    <meta name="description" content="class Avaliacao: Model representing an evaluation form (Avaliacao). An evaluation is created from a template and assigned to one or more classes (turmas).">
+>>>>>>> sprint-3-documentacao
 
 
 
@@ -146,6 +150,7 @@
 
   <section class="description">
     
+<<<<<<< HEAD
 <p>Model representing an evaluation/assessment form. Contains questions that students must answer.</p>
 
 <h4 id="class-Avaliacao-label-Attributes">Attributes<span><a href="#class-Avaliacao-label-Attributes">&para;</a> <a href="#top">&uarr;</a></span></h4>
@@ -170,6 +175,21 @@
 <p><code>questoes</code> - Questions in this evaluation</p>
 </li><li>
 <p><code>respostas</code> - Student responses to this evaluation</p>
+=======
+<p>Model representing an evaluation form (<a href="Avaliacao.html"><code>Avaliacao</code></a>). An evaluation is created from a template and assigned to one or more classes (turmas).</p>
+
+<h4 id="class-Avaliacao-label-Associations">Associations<span><a href="#class-Avaliacao-label-Associations">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>belongs_to :turma - The class this evaluation is assigned to</p>
+</li><li>
+<p>belongs_to :docente - The teacher who created this evaluation</p>
+</li><li>
+<p>belongs_to :template - The template used to create this evaluation (optional)</p>
+</li><li>
+<p>has_many :questoes - Questions in this evaluation</p>
+</li><li>
+<p>has_many :respostas - Student responses to this evaluation</p>
+>>>>>>> sprint-3-documentacao
 </li></ul>
 
   </section>
@@ -215,6 +235,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="pending_for_dicente-source">
+<<<<<<< HEAD
             <pre><span class="ruby-comment"># File app/models/avaliacao.rb, line 48</span>
 <span class="ruby-identifier">scope</span> <span class="ruby-value">:pending_for_dicente</span>, <span class="ruby-identifier">lambda</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">dicente</span><span class="ruby-operator">|</span>
   <span class="ruby-identifier">published</span>
@@ -222,21 +243,47 @@
     .<span class="ruby-identifier">where</span>(<span class="ruby-value">matriculas:</span> { <span class="ruby-value">dicente_id:</span> <span class="ruby-identifier">dicente</span>.<span class="ruby-identifier">id</span> })
     .<span class="ruby-identifier">where</span>.<span class="ruby-identifier">not</span>(
       <span class="ruby-value">id:</span> <span class="ruby-constant">Resposta</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">dicente_id:</span> <span class="ruby-identifier">dicente</span>.<span class="ruby-identifier">id</span>).<span class="ruby-identifier">select</span>(<span class="ruby-value">:avaliacao_id</span>)
+=======
+            <pre>   <span class="ruby-comment"># File app/models/avaliacao.rb</span>
+<span class="line-num">46</span> <span class="ruby-identifier">scope</span> <span class="ruby-value">:pending_for_dicente</span>, <span class="ruby-identifier">lambda</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">dicente</span><span class="ruby-operator">|</span>
+<span class="line-num">47</span>   <span class="ruby-identifier">published</span>
+<span class="line-num">48</span>     .<span class="ruby-identifier">joins</span>(<span class="ruby-value">turma:</span> <span class="ruby-value">:matriculas</span>)
+<span class="line-num">49</span>     .<span class="ruby-identifier">where</span>(<span class="ruby-value">matriculas:</span> { <span class="ruby-value">dicente_id:</span> <span class="ruby-identifier">dicente</span>.<span class="ruby-identifier">id</span> })
+<span class="line-num">50</span>     .<span class="ruby-identifier">where</span>.<span class="ruby-identifier">not</span>(
+<span class="line-num">51</span>       <span class="ruby-value">id:</span> <span class="ruby-constant">Resposta</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">dicente_id:</span> <span class="ruby-identifier">dicente</span>.<span class="ruby-identifier">id</span>).<span class="ruby-identifier">select</span>(<span class="ruby-value">:avaliacao_id</span>)
+>>>>>>> sprint-3-documentacao
 </pre>
           </div>
 
 
 
+<<<<<<< HEAD
           <p>Scope to find evaluations pending for a specific student.</p>
 
 <h4 id="method-i-pending_for_dicente-label-Parameters">Parameters<span><a href="#method-i-pending_for_dicente-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
 <ul><li>
 <p><code>dicente</code> - <a href="Dicente.html"><code>Dicente</code></a> instance to check pending evaluations for</p>
+=======
+          <p>Finds all pending evaluations for a given student.</p>
+
+<h4 id="method-i-pending_for_dicente-label-Parameters">Parameters<span><a href="#method-i-pending_for_dicente-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>dicente</code> - <a href="Dicente.html"><code>Dicente</code></a> object representing the student</p>
+>>>>>>> sprint-3-documentacao
 </li></ul>
 
 <h4 id="method-i-pending_for_dicente-label-Returns">Returns<span><a href="#method-i-pending_for_dicente-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
 <ul><li>
+<<<<<<< HEAD
 <p>ActiveRecord::Relation of pending <a href="Avaliacao.html"><code>Avaliacao</code></a> records</p>
+=======
+<p>ActiveRecord::Relation - Collection of published <a href="Avaliacao.html"><code>Avaliacao</code></a> records that the student is enrolled in but hasn’t responded to yet</p>
+</li></ul>
+
+<h4 id="method-i-pending_for_dicente-label-Side+Effects">Side Effects<span><a href="#method-i-pending_for_dicente-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>None - This is a query scope</p>
+>>>>>>> sprint-3-documentacao
 </li></ul>
 
 

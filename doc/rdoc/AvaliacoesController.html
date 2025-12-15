@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>class AvaliacoesController - RDoc Documentation</title>
+<title>class AvaliacoesController - CAMAAR - Documentação</title>
 
 
   <meta name="keywords" content="ruby,class,AvaliacoesController">
@@ -92,23 +92,47 @@
     <h3>Instance Methods</h3>
     <ul class="link-list" role="directory">
 
+      <li ><a href="#method-i-batch_params">batch_params</a></li>
+
+      <li ><a href="#method-i-build_form_object">build_form_object</a></li>
+
       <li ><a href="#method-i-create">create</a></li>
+
+      <li ><a href="#method-i-current_semester">current_semester</a></li>
+
+      <li ><a href="#method-i-default_due_date">default_due_date</a></li>
 
       <li ><a href="#method-i-find_or_initialize_resposta">find_or_initialize_resposta</a></li>
 
       <li ><a href="#method-i-index">index</a></li>
 
+      <li ><a href="#method-i-load_collections">load_collections</a></li>
+
       <li ><a href="#method-i-pendentes">pendentes</a></li>
+
+      <li ><a href="#method-i-processar_respostas">processar_respostas</a></li>
 
       <li ><a href="#method-i-render_submission_error">render_submission_error</a></li>
 
       <li ><a href="#method-i-responder">responder</a></li>
 
+      <li ><a href="#method-i-save_all_resposta_items">save_all_resposta_items</a></li>
+
+      <li ><a href="#method-i-save_resposta_item">save_resposta_item</a></li>
+
       <li ><a href="#method-i-save_submitted_resposta">save_submitted_resposta</a></li>
+
+      <li ><a href="#method-i-skip_blank_optional_questao-3F">skip_blank_optional_questao?</a></li>
 
       <li ><a href="#method-i-submeter">submeter</a></li>
 
       <li ><a href="#method-i-submit_resposta">submit_resposta</a></li>
+
+      <li ><a href="#method-i-success_message">success_message</a></li>
+
+      <li ><a href="#method-i-valid_questao_for_avaliacao-3F">valid_questao_for_avaliacao?</a></li>
+
+      <li ><a href="#method-i-validate_mandatory_questions">validate_mandatory_questions</a></li>
 
       <li ><a href="#method-i-validate_not_already_submitted">validate_not_already_submitted</a></li>
 
@@ -182,6 +206,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="create-source">
+<<<<<<< HEAD
             <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 185</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create</span>
   <span class="ruby-ivar">@avaliacao_batch</span> = <span class="ruby-constant">OpenStruct</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">batch_params</span>.<span class="ruby-identifier">to_h</span>)
@@ -189,6 +214,21 @@
 
   <span class="ruby-identifier">handle_batch_result</span>(<span class="ruby-identifier">result</span>)
 <span class="ruby-keyword">end</span></pre>
+=======
+            <pre>    <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">155</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create</span>
+<span class="line-num">156</span>   <span class="ruby-ivar">@avaliacao_batch</span> = <span class="ruby-constant">OpenStruct</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">batch_params</span>.<span class="ruby-identifier">to_h</span>)
+<span class="line-num">157</span>   <span class="ruby-identifier">result</span> = <span class="ruby-constant">EvaluationBatchCreator</span>.<span class="ruby-identifier">call</span>(<span class="ruby-operator">**</span><span class="ruby-identifier">batch_params</span>.<span class="ruby-identifier">to_h</span>.<span class="ruby-identifier">symbolize_keys</span>)
+<span class="line-num">158</span> 
+<span class="line-num">159</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">success?</span>
+<span class="line-num">160</span>     <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-identifier">success_message</span>(<span class="ruby-identifier">result</span>)
+<span class="line-num">161</span>     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">avaliacoes_path</span>
+<span class="line-num">162</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">163</span>     <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-identifier">result</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">to_sentence</span>
+<span class="line-num">164</span>     <span class="ruby-identifier">render</span> <span class="ruby-value">:index</span>, <span class="ruby-value">status:</span> <span class="ruby-value">:unprocessable_entity</span>
+<span class="line-num">165</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">166</span> <span class="ruby-keyword">end</span></pre>
+>>>>>>> sprint-3-documentacao
           </div>
 
 
@@ -239,10 +279,17 @@
         <div class="method-description">
 
           <div class="method-source-code" id="find_or_initialize_resposta-source">
+<<<<<<< HEAD
             <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 144</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">find_or_initialize_resposta</span>
   <span class="ruby-ivar">@resposta_existente</span> <span class="ruby-operator">||</span> <span class="ruby-constant">Resposta</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">avaliacao:</span> <span class="ruby-ivar">@avaliacao</span>, <span class="ruby-value">dicente:</span> <span class="ruby-identifier">current_user</span>)
 <span class="ruby-keyword">end</span></pre>
+=======
+            <pre>    <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">123</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">find_or_initialize_resposta</span>
+<span class="line-num">124</span>   <span class="ruby-ivar">@resposta_existente</span> <span class="ruby-operator">||</span> <span class="ruby-constant">Resposta</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">avaliacao:</span> <span class="ruby-ivar">@avaliacao</span>, <span class="ruby-value">dicente:</span> <span class="ruby-identifier">current_user</span>)
+<span class="line-num">125</span> <span class="ruby-keyword">end</span></pre>
+>>>>>>> sprint-3-documentacao
           </div>
 
 
@@ -283,8 +330,8 @@
         <div class="method-description">
 
           <div class="method-source-code" id="index-source">
-            <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 18</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">index</span>; <span class="ruby-keyword">end</span></pre>
+            <pre>   <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">18</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">index</span>; <span class="ruby-keyword">end</span></pre>
           </div>
 
 
@@ -330,17 +377,17 @@
         <div class="method-description">
 
           <div class="method-source-code" id="pendentes-source">
-            <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 26</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">pendentes</span>
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">current_user</span>&amp;.<span class="ruby-identifier">dicente?</span>
-    <span class="ruby-ivar">@avaliacoes_pendentes</span> = <span class="ruby-constant">Avaliacao</span>.<span class="ruby-identifier">pending_for_dicente</span>(<span class="ruby-identifier">current_user</span>)
-                                      .<span class="ruby-identifier">includes</span>(<span class="ruby-value">:turma</span>, <span class="ruby-value">:docente</span>, <span class="ruby-value">:template</span>, <span class="ruby-value">turma:</span> <span class="ruby-value">:materia</span>)
-                                      .<span class="ruby-identifier">order</span>(<span class="ruby-string">&quot;avaliacoes.due_date ASC&quot;</span>)
-                                      .<span class="ruby-identifier">distinct</span>
-  <span class="ruby-keyword">else</span>
-    <span class="ruby-ivar">@avaliacoes_pendentes</span> = []
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span></pre>
+            <pre>   <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">26</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">pendentes</span>
+<span class="line-num">27</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">current_user</span>&amp;.<span class="ruby-identifier">dicente?</span>
+<span class="line-num">28</span>     <span class="ruby-ivar">@avaliacoes_pendentes</span> = <span class="ruby-constant">Avaliacao</span>.<span class="ruby-identifier">pending_for_dicente</span>(<span class="ruby-identifier">current_user</span>)
+<span class="line-num">29</span>                                       .<span class="ruby-identifier">includes</span>(<span class="ruby-value">:turma</span>, <span class="ruby-value">:docente</span>, <span class="ruby-value">:template</span>, <span class="ruby-value">turma:</span> <span class="ruby-value">:materia</span>)
+<span class="line-num">30</span>                                       .<span class="ruby-identifier">order</span>(<span class="ruby-string">&quot;avaliacoes.due_date ASC&quot;</span>)
+<span class="line-num">31</span>                                       .<span class="ruby-identifier">distinct</span>
+<span class="line-num">32</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">33</span>     <span class="ruby-ivar">@avaliacoes_pendentes</span> = []
+<span class="line-num">34</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">35</span> <span class="ruby-keyword">end</span></pre>
           </div>
 
 
@@ -386,6 +433,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="render_submission_error-source">
+<<<<<<< HEAD
             <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 168</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">render_submission_error</span>
   <span class="ruby-ivar">@questoes</span> = <span class="ruby-ivar">@avaliacao</span>.<span class="ruby-identifier">questoes</span>.<span class="ruby-identifier">order</span>(<span class="ruby-value">:position</span>)
@@ -394,6 +442,16 @@
   <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-identifier">error_message</span>
   <span class="ruby-identifier">render</span> <span class="ruby-value">:responder</span>, <span class="ruby-value">status:</span> <span class="ruby-value">:unprocessable_entity</span>
 <span class="ruby-keyword">end</span></pre>
+=======
+            <pre>    <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">147</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">render_submission_error</span>
+<span class="line-num">148</span>   <span class="ruby-ivar">@questoes</span> = <span class="ruby-ivar">@avaliacao</span>.<span class="ruby-identifier">questoes</span>.<span class="ruby-identifier">order</span>(<span class="ruby-value">:position</span>)
+<span class="line-num">149</span>   <span class="ruby-identifier">error_message</span> = <span class="ruby-ivar">@resposta</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">full_messages</span>.<span class="ruby-identifier">to_sentence</span>.<span class="ruby-identifier">presence</span> <span class="ruby-operator">||</span>
+<span class="line-num">150</span>                   <span class="ruby-string">&quot;Erro ao enviar o formulário. Verifique se todas as perguntas obrigatórias foram respondidas.&quot;</span>
+<span class="line-num">151</span>   <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-identifier">error_message</span>
+<span class="line-num">152</span>   <span class="ruby-identifier">render</span> <span class="ruby-value">:responder</span>, <span class="ruby-value">status:</span> <span class="ruby-value">:unprocessable_entity</span>
+<span class="line-num">153</span> <span class="ruby-keyword">end</span></pre>
+>>>>>>> sprint-3-documentacao
           </div>
 
 
@@ -434,6 +492,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="responder-source">
+<<<<<<< HEAD
             <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 50</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">responder</span>
   <span class="ruby-ivar">@avaliacao</span> = <span class="ruby-constant">Avaliacao</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
@@ -444,6 +503,39 @@
 
   <span class="ruby-identifier">load_responder_data</span>
 <span class="ruby-keyword">end</span></pre>
+=======
+            <pre>   <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">37</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">responder</span>
+<span class="line-num">38</span>   <span class="ruby-ivar">@avaliacao</span> = <span class="ruby-constant">Avaliacao</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+<span class="line-num">39</span>   
+<span class="line-num">40</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">dicente?</span>
+<span class="line-num">41</span>     <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Você não tem permissão para responder este formulário&quot;</span>
+<span class="line-num">42</span>     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">formularios_pendentes_path</span>
+<span class="line-num">43</span>     <span class="ruby-keyword">return</span>
+<span class="line-num">44</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">45</span> 
+<span class="line-num">46</span>   <span class="ruby-comment"># Verificar se o dicente está matriculado na turma</span>
+<span class="line-num">47</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">turmas</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-ivar">@avaliacao</span>.<span class="ruby-identifier">turma</span>)
+<span class="line-num">48</span>     <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Você não tem permissão para responder este formulário&quot;</span>
+<span class="line-num">49</span>     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">formularios_pendentes_path</span>
+<span class="line-num">50</span>     <span class="ruby-keyword">return</span>
+<span class="line-num">51</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">52</span> 
+<span class="line-num">53</span>   <span class="ruby-comment"># Verificar se já respondeu</span>
+<span class="line-num">54</span>   <span class="ruby-ivar">@resposta_existente</span> = <span class="ruby-constant">Resposta</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">avaliacao:</span> <span class="ruby-ivar">@avaliacao</span>, <span class="ruby-value">dicente:</span> <span class="ruby-identifier">current_user</span>)
+<span class="line-num">55</span>   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@resposta_existente</span>&amp;.<span class="ruby-identifier">submitted?</span>
+<span class="line-num">56</span>     <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Você já respondeu este formulário&quot;</span>
+<span class="line-num">57</span>     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">formularios_pendentes_path</span>
+<span class="line-num">58</span>     <span class="ruby-keyword">return</span>
+<span class="line-num">59</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">60</span> 
+<span class="line-num">61</span>   <span class="ruby-comment"># Carregar questões ordenadas</span>
+<span class="line-num">62</span>   <span class="ruby-ivar">@questoes</span> = <span class="ruby-ivar">@avaliacao</span>.<span class="ruby-identifier">questoes</span>.<span class="ruby-identifier">order</span>(<span class="ruby-value">:position</span>)
+<span class="line-num">63</span>   
+<span class="line-num">64</span>   <span class="ruby-comment"># Criar ou carregar resposta pendente</span>
+<span class="line-num">65</span>   <span class="ruby-ivar">@resposta</span> = <span class="ruby-ivar">@resposta_existente</span> <span class="ruby-operator">||</span> <span class="ruby-constant">Resposta</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">avaliacao:</span> <span class="ruby-ivar">@avaliacao</span>, <span class="ruby-value">dicente:</span> <span class="ruby-identifier">current_user</span>, <span class="ruby-value">status:</span> <span class="ruby-value">:pending</span>)
+<span class="line-num">66</span> <span class="ruby-keyword">end</span></pre>
+>>>>>>> sprint-3-documentacao
           </div>
 
 
@@ -501,6 +593,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="save_submitted_resposta-source">
+<<<<<<< HEAD
             <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 156</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">save_submitted_resposta</span>
   <span class="ruby-ivar">@resposta</span>.<span class="ruby-identifier">status</span> = <span class="ruby-value">:submitted</span>
@@ -513,6 +606,20 @@
     <span class="ruby-identifier">render_submission_error</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
+=======
+            <pre>    <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">135</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">save_submitted_resposta</span>
+<span class="line-num">136</span>   <span class="ruby-ivar">@resposta</span>.<span class="ruby-identifier">status</span> = <span class="ruby-value">:submitted</span>
+<span class="line-num">137</span>   <span class="ruby-ivar">@resposta</span>.<span class="ruby-identifier">submitted_at</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">current</span>
+<span class="line-num">138</span> 
+<span class="line-num">139</span>   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@resposta</span>.<span class="ruby-identifier">save</span>
+<span class="line-num">140</span>     <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-string">&quot;Avaliação enviada com sucesso!&quot;</span>
+<span class="line-num">141</span>     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">formularios_pendentes_path</span>
+<span class="line-num">142</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">143</span>     <span class="ruby-identifier">render_submission_error</span>
+<span class="line-num">144</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">145</span> <span class="ruby-keyword">end</span></pre>
+>>>>>>> sprint-3-documentacao
           </div>
 
 
@@ -553,6 +660,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="submeter-source">
+<<<<<<< HEAD
             <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 112</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">submeter</span>
   <span class="ruby-ivar">@avaliacao</span> = <span class="ruby-constant">Avaliacao</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
@@ -563,6 +671,18 @@
   <span class="ruby-ivar">@resposta</span> = <span class="ruby-identifier">find_or_initialize_resposta</span>
   <span class="ruby-identifier">submit_resposta</span>
 <span class="ruby-keyword">end</span></pre>
+=======
+            <pre>   <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">84</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">submeter</span>
+<span class="line-num">85</span>   <span class="ruby-ivar">@avaliacao</span> = <span class="ruby-constant">Avaliacao</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+<span class="line-num">86</span> 
+<span class="line-num">87</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">validate_submission_permissions</span>
+<span class="line-num">88</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">validate_not_already_submitted</span>
+<span class="line-num">89</span> 
+<span class="line-num">90</span>   <span class="ruby-ivar">@resposta</span> = <span class="ruby-identifier">find_or_initialize_resposta</span>
+<span class="line-num">91</span>   <span class="ruby-identifier">submit_resposta</span>
+<span class="line-num">92</span> <span class="ruby-keyword">end</span></pre>
+>>>>>>> sprint-3-documentacao
           </div>
 
 
@@ -626,6 +746,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="submit_resposta-source">
+<<<<<<< HEAD
             <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 148</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">submit_resposta</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">processar_respostas</span>(<span class="ruby-ivar">@resposta</span>)
@@ -634,6 +755,16 @@
     <span class="ruby-identifier">render_submission_error</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
+=======
+            <pre>    <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">127</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">submit_resposta</span>
+<span class="line-num">128</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">processar_respostas</span>(<span class="ruby-ivar">@resposta</span>)
+<span class="line-num">129</span>     <span class="ruby-identifier">save_submitted_resposta</span>
+<span class="line-num">130</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">131</span>     <span class="ruby-identifier">render_submission_error</span>
+<span class="line-num">132</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">133</span> <span class="ruby-keyword">end</span></pre>
+>>>>>>> sprint-3-documentacao
           </div>
 
 
@@ -674,6 +805,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="validate_not_already_submitted-source">
+<<<<<<< HEAD
             <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 132</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">validate_not_already_submitted</span>
   <span class="ruby-identifier">resposta_existente</span> = <span class="ruby-constant">Resposta</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">avaliacao:</span> <span class="ruby-ivar">@avaliacao</span>, <span class="ruby-value">dicente:</span> <span class="ruby-identifier">current_user</span>)
@@ -686,6 +818,21 @@
   <span class="ruby-ivar">@resposta_existente</span> = <span class="ruby-identifier">resposta_existente</span>
   <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
+=======
+            <pre>    <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">110</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">validate_not_already_submitted</span>
+<span class="line-num">111</span>   <span class="ruby-identifier">resposta_existente</span> = <span class="ruby-constant">Resposta</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">avaliacao:</span> <span class="ruby-ivar">@avaliacao</span>, <span class="ruby-value">dicente:</span> <span class="ruby-identifier">current_user</span>)
+<span class="line-num">112</span> 
+<span class="line-num">113</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">resposta_existente</span>&amp;.<span class="ruby-identifier">submitted?</span>
+<span class="line-num">114</span>     <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Você já respondeu este formulário&quot;</span>
+<span class="line-num">115</span>     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">formularios_pendentes_path</span>
+<span class="line-num">116</span>     <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+<span class="line-num">117</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">118</span> 
+<span class="line-num">119</span>   <span class="ruby-ivar">@resposta_existente</span> = <span class="ruby-identifier">resposta_existente</span>
+<span class="line-num">120</span>   <span class="ruby-keyword">true</span>
+<span class="line-num">121</span> <span class="ruby-keyword">end</span></pre>
+>>>>>>> sprint-3-documentacao
           </div>
 
 
@@ -726,10 +873,603 @@
         <div class="method-description">
 
           <div class="method-source-code" id="validate_submission_permissions-source">
+<<<<<<< HEAD
             <pre><span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb, line 125</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">validate_submission_permissions</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">validate_responder_permission</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">validate_enrollment_in_turma</span>
 <span class="ruby-keyword">end</span></pre>
+=======
+            <pre>    <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num"> 94</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">validate_submission_permissions</span>
+<span class="line-num"> 95</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">dicente?</span>
+<span class="line-num"> 96</span>     <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Você não tem permissão para responder este formulário&quot;</span>
+<span class="line-num"> 97</span>     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">formularios_pendentes_path</span>
+<span class="line-num"> 98</span>     <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+<span class="line-num"> 99</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">100</span> 
+<span class="line-num">101</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">turmas</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-ivar">@avaliacao</span>.<span class="ruby-identifier">turma</span>)
+<span class="line-num">102</span>     <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Você não tem permissão para responder este formulário&quot;</span>
+<span class="line-num">103</span>     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">formularios_pendentes_path</span>
+<span class="line-num">104</span>     <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+<span class="line-num">105</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">106</span> 
+<span class="line-num">107</span>   <span class="ruby-keyword">true</span>
+<span class="line-num">108</span> <span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+    </section>
+
+     <section id="private-instance-5Buntitled-5D-method-details" class="method-section anchor-link">
+       <header>
+         <h3>Private Instance Methods</h3>
+       </header>
+
+
+      <div id="method-i-batch_params" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-batch_params" title="Link to this method">
+                <span class="method-name">batch_params</span>
+                <span class="method-args">()</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="batch_params-source">
+            <pre>    <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">170</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">batch_params</span>
+<span class="line-num">171</span>   <span class="ruby-identifier">params</span>.<span class="ruby-identifier">require</span>(<span class="ruby-value">:avaliacao_batch</span>).<span class="ruby-identifier">permit</span>(<span class="ruby-value">:template_id</span>, <span class="ruby-value">:due_date</span>, <span class="ruby-value">turma_ids:</span> [])
+<span class="line-num">172</span> <span class="ruby-keyword">rescue</span> <span class="ruby-constant">ActionController</span><span class="ruby-operator">::</span><span class="ruby-constant">ParameterMissing</span>
+<span class="line-num">173</span>   { <span class="ruby-value">template_id:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-value">due_date:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-value">turma_ids:</span> [] }
+<span class="line-num">174</span> <span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-build_form_object" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-build_form_object" title="Link to this method">
+                <span class="method-name">build_form_object</span>
+                <span class="method-args">()</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="build_form_object-source">
+            <pre>    <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">183</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_form_object</span>
+<span class="line-num">184</span>   <span class="ruby-ivar">@avaliacao_batch</span> = <span class="ruby-constant">OpenStruct</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">template_id:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-value">due_date:</span> <span class="ruby-identifier">default_due_date</span>)
+<span class="line-num">185</span> <span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-current_semester" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-current_semester" title="Link to this method">
+                <span class="method-name">current_semester</span>
+                <span class="method-args">()</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="current_semester-source">
+            <pre>    <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">191</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">current_semester</span>
+<span class="line-num">192</span>   <span class="ruby-identifier">date</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">zone</span>.<span class="ruby-identifier">today</span>
+<span class="line-num">193</span>   <span class="ruby-identifier">term</span> = <span class="ruby-identifier">date</span>.<span class="ruby-identifier">month</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-value">6</span> <span class="ruby-operator">?</span> <span class="ruby-value">1</span> <span class="ruby-operator">:</span> <span class="ruby-value">2</span>
+<span class="line-num">194</span>   <span class="ruby-identifier">format</span>(<span class="ruby-string">&#39;%&lt;year&gt;d.%&lt;term&gt;d&#39;</span>, <span class="ruby-value">year:</span> <span class="ruby-identifier">date</span>.<span class="ruby-identifier">year</span>, <span class="ruby-value">term:</span> <span class="ruby-identifier">term</span>)
+<span class="line-num">195</span> <span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-default_due_date" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-default_due_date" title="Link to this method">
+                <span class="method-name">default_due_date</span>
+                <span class="method-args">()</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="default_due_date-source">
+            <pre>    <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">187</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">default_due_date</span>
+<span class="line-num">188</span>   <span class="ruby-constant">Time</span>.<span class="ruby-identifier">zone</span>.<span class="ruby-identifier">today</span>.<span class="ruby-identifier">end_of_month</span>
+<span class="line-num">189</span> <span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-load_collections" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-load_collections" title="Link to this method">
+                <span class="method-name">load_collections</span>
+                <span class="method-args">()</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="load_collections-source">
+            <pre>    <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">176</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">load_collections</span>
+<span class="line-num">177</span>   <span class="ruby-ivar">@current_semester</span> = <span class="ruby-identifier">current_semester</span>
+<span class="line-num">178</span>   <span class="ruby-ivar">@templates</span> = <span class="ruby-constant">Template</span>.<span class="ruby-identifier">includes</span>(<span class="ruby-value">:docente</span>).<span class="ruby-identifier">order</span>(<span class="ruby-value">:name</span>)
+<span class="line-num">179</span>   <span class="ruby-ivar">@turmas</span> = <span class="ruby-constant">Turma</span>.<span class="ruby-identifier">includes</span>(<span class="ruby-value">:materia</span>, <span class="ruby-value">:docente</span>).<span class="ruby-identifier">where</span>(<span class="ruby-value">semester:</span> <span class="ruby-ivar">@current_semester</span>).<span class="ruby-identifier">order</span>(<span class="ruby-value">:class_code</span>)
+<span class="line-num">180</span>   <span class="ruby-ivar">@avaliacoes</span> = <span class="ruby-constant">Avaliacao</span>.<span class="ruby-identifier">includes</span>(<span class="ruby-value">:turma</span>, <span class="ruby-value">:docente</span>, <span class="ruby-value">:template</span>).<span class="ruby-identifier">order</span>(<span class="ruby-value">created_at:</span> <span class="ruby-value">:desc</span>)
+<span class="line-num">181</span> <span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-processar_respostas" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-processar_respostas" title="Link to this method">
+                <span class="method-name">processar_respostas</span>
+                <span class="method-args">(resposta)</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="processar_respostas-source">
+            <pre>    <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">203</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">processar_respostas</span>(<span class="ruby-identifier">resposta</span>)
+<span class="line-num">204</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:respostas</span>].<span class="ruby-identifier">present?</span>
+<span class="line-num">205</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">validate_mandatory_questions</span>(<span class="ruby-identifier">resposta</span>)
+<span class="line-num">206</span> 
+<span class="line-num">207</span>   <span class="ruby-identifier">save_all_resposta_items</span>(<span class="ruby-identifier">resposta</span>)
+<span class="line-num">208</span> <span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-save_all_resposta_items" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-save_all_resposta_items" title="Link to this method">
+                <span class="method-name">save_all_resposta_items</span>
+                <span class="method-args">(resposta)</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="save_all_resposta_items-source">
+            <pre>    <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">224</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">save_all_resposta_items</span>(<span class="ruby-identifier">resposta</span>)
+<span class="line-num">225</span>   <span class="ruby-identifier">params</span>[<span class="ruby-value">:respostas</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">questao_id</span>, <span class="ruby-identifier">valor</span><span class="ruby-operator">|</span>
+<span class="line-num">226</span>     <span class="ruby-identifier">questao</span> = <span class="ruby-constant">Questao</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">id:</span> <span class="ruby-identifier">questao_id</span>)
+<span class="line-num">227</span>     <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">valid_questao_for_avaliacao?</span>(<span class="ruby-identifier">questao</span>)
+<span class="line-num">228</span>     <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">skip_blank_optional_questao?</span>(<span class="ruby-identifier">questao</span>, <span class="ruby-identifier">valor</span>)
+<span class="line-num">229</span> 
+<span class="line-num">230</span>     <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">save_resposta_item</span>(<span class="ruby-identifier">resposta</span>, <span class="ruby-identifier">questao</span>, <span class="ruby-identifier">valor</span>)
+<span class="line-num">231</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">232</span> 
+<span class="line-num">233</span>   <span class="ruby-keyword">true</span>
+<span class="line-num">234</span> <span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-save_resposta_item" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-save_resposta_item" title="Link to this method">
+                <span class="method-name">save_resposta_item</span>
+                <span class="method-args">(resposta, questao, valor)</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="save_resposta_item-source">
+            <pre>    <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">244</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">save_resposta_item</span>(<span class="ruby-identifier">resposta</span>, <span class="ruby-identifier">questao</span>, <span class="ruby-identifier">valor</span>)
+<span class="line-num">245</span>   <span class="ruby-identifier">resposta_item</span> = <span class="ruby-identifier">resposta</span>.<span class="ruby-identifier">resposta_items</span>.<span class="ruby-identifier">find_or_initialize_by</span>(<span class="ruby-value">questao:</span> <span class="ruby-identifier">questao</span>)
+<span class="line-num">246</span>   <span class="ruby-identifier">resposta_item</span>.<span class="ruby-identifier">valor</span> = <span class="ruby-identifier">valor</span>.<span class="ruby-identifier">to_s</span>
+<span class="line-num">247</span> 
+<span class="line-num">248</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">resposta_item</span>.<span class="ruby-identifier">save</span>
+<span class="line-num">249</span>     <span class="ruby-identifier">resposta</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-value">:base</span>, <span class="ruby-node">&quot;Erro ao salvar resposta para &#39;#{questao.prompt}&#39;&quot;</span>)
+<span class="line-num">250</span>     <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+<span class="line-num">251</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">252</span> 
+<span class="line-num">253</span>   <span class="ruby-keyword">true</span>
+<span class="line-num">254</span> <span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-skip_blank_optional_questao-3F" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-skip_blank_optional_questao-3F" title="Link to this method">
+                <span class="method-name">skip_blank_optional_questao?</span>
+                <span class="method-args">(questao, valor)</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="skip_blank_optional_questao-3F-source">
+            <pre>    <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">240</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">skip_blank_optional_questao?</span>(<span class="ruby-identifier">questao</span>, <span class="ruby-identifier">valor</span>)
+<span class="line-num">241</span>   <span class="ruby-identifier">valor</span>.<span class="ruby-identifier">blank?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">questao</span>.<span class="ruby-identifier">mandatory</span>
+<span class="line-num">242</span> <span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-success_message" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-success_message" title="Link to this method">
+                <span class="method-name">success_message</span>
+                <span class="method-args">(result)</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="success_message-source">
+            <pre>    <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">197</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">success_message</span>(<span class="ruby-identifier">result</span>)
+<span class="line-num">198</span>   <span class="ruby-identifier">created</span> = <span class="ruby-identifier">result</span>.<span class="ruby-identifier">created</span>.<span class="ruby-identifier">size</span>
+<span class="line-num">199</span>   <span class="ruby-identifier">skipped</span> = <span class="ruby-identifier">result</span>.<span class="ruby-identifier">skipped</span>.<span class="ruby-identifier">size</span>
+<span class="line-num">200</span>   <span class="ruby-node">&quot;#{created} formulário(s) criado(s) e #{skipped} turma(s) ignoradas por já possuírem o formulário.&quot;</span>
+<span class="line-num">201</span> <span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-valid_questao_for_avaliacao-3F" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-valid_questao_for_avaliacao-3F" title="Link to this method">
+                <span class="method-name">valid_questao_for_avaliacao?</span>
+                <span class="method-args">(questao)</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="valid_questao_for_avaliacao-3F-source">
+            <pre>    <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">236</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">valid_questao_for_avaliacao?</span>(<span class="ruby-identifier">questao</span>)
+<span class="line-num">237</span>   <span class="ruby-identifier">questao</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">questao</span>.<span class="ruby-identifier">avaliacao</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@avaliacao</span>
+<span class="line-num">238</span> <span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-validate_mandatory_questions" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-validate_mandatory_questions" title="Link to this method">
+                <span class="method-name">validate_mandatory_questions</span>
+                <span class="method-args">(resposta)</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="validate_mandatory_questions-source">
+            <pre>    <span class="ruby-comment"># File app/controllers/avaliacoes_controller.rb</span>
+<span class="line-num">210</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">validate_mandatory_questions</span>(<span class="ruby-identifier">resposta</span>)
+<span class="line-num">211</span>   <span class="ruby-identifier">questoes_obrigatorias</span> = <span class="ruby-ivar">@avaliacao</span>.<span class="ruby-identifier">questoes</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">mandatory:</span> <span class="ruby-keyword">true</span>)
+<span class="line-num">212</span> 
+<span class="line-num">213</span>   <span class="ruby-identifier">questoes_obrigatorias</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">questao</span><span class="ruby-operator">|</span>
+<span class="line-num">214</span>     <span class="ruby-identifier">valor</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:respostas</span>][<span class="ruby-identifier">questao</span>.<span class="ruby-identifier">id</span>.<span class="ruby-identifier">to_s</span>]
+<span class="line-num">215</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">valor</span>.<span class="ruby-identifier">blank?</span>
+<span class="line-num">216</span>       <span class="ruby-identifier">resposta</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-value">:base</span>, <span class="ruby-node">&quot;A pergunta &#39;#{questao.prompt}&#39; é obrigatória&quot;</span>)
+<span class="line-num">217</span>       <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+<span class="line-num">218</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">219</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">220</span> 
+<span class="line-num">221</span>   <span class="ruby-keyword">true</span>
+<span class="line-num">222</span> <span class="ruby-keyword">end</span></pre>
+>>>>>>> sprint-3-documentacao
           </div>
 
 

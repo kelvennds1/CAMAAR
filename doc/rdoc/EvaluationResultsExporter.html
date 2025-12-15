@@ -5,13 +5,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>class EvaluationResultsExporter - RDoc Documentation</title>
+<title>class EvaluationResultsExporter - CAMAAR - Documentação</title>
 
 
   <meta name="keywords" content="ruby,class,EvaluationResultsExporter">
 
 
+<<<<<<< HEAD
     <meta name="description" content="class EvaluationResultsExporter: Service for exporting evaluation results to CSV format. Generates a downloadable report with all responses.">
+=======
+    <meta name="description" content="class EvaluationResultsExporter: Service for exporting evaluation results to CSV format. Generates a CSV file containing all responses to an evaluation.">
+>>>>>>> sprint-3-documentacao
 
 
 
@@ -130,9 +134,21 @@
     <h3>Instance Methods</h3>
     <ul class="link-list" role="directory">
 
+      <li ><a href="#method-i-add_csv_header">add_csv_header</a></li>
+
+      <li ><a href="#method-i-add_csv_rows">add_csv_rows</a></li>
+
+      <li ><a href="#method-i-add_questao_rows">add_questao_rows</a></li>
+
+      <li ><a href="#method-i-build_csv_row">build_csv_row</a></li>
+
       <li ><a href="#method-i-call">call</a></li>
 
       <li ><a href="#method-i-filename">filename</a></li>
+
+      <li ><a href="#method-i-generate_csv_report">generate_csv_report</a></li>
+
+      <li ><a href="#method-i-validate_export_conditions">validate_export_conditions</a></li>
 
     </ul>
   </div>
@@ -157,6 +173,7 @@
 
   <section class="description">
     
+<<<<<<< HEAD
 <p>Service for exporting evaluation results to CSV format. Generates a downloadable report with all responses.</p>
 
 <h4 id="class-EvaluationResultsExporter-label-Usage">Usage<span><a href="#class-EvaluationResultsExporter-label-Usage">&para;</a> <a href="#top">&uarr;</a></span></h4>
@@ -170,6 +187,9 @@
 <ul><li>
 <p><a href="EvaluationResultsExporter/ExportError.html"><code>ExportError</code></a> - When there are no responses or export fails</p>
 </li></ul>
+=======
+<p>Service for exporting evaluation results to CSV format. Generates a CSV file containing all responses to an evaluation.</p>
+>>>>>>> sprint-3-documentacao
 
   </section>
 
@@ -238,19 +258,34 @@
         <div class="method-description">
 
           <div class="method-source-code" id="new-source">
+<<<<<<< HEAD
             <pre><span class="ruby-comment"># File app/services/evaluation_results_exporter.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">avaliacao</span>)
   <span class="ruby-ivar">@avaliacao</span> = <span class="ruby-identifier">avaliacao</span>
 <span class="ruby-keyword">end</span></pre>
+=======
+            <pre>   <span class="ruby-comment"># File app/services/evaluation_results_exporter.rb</span>
+<span class="line-num">23</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">avaliacao</span>)
+<span class="line-num">24</span>   <span class="ruby-ivar">@avaliacao</span> = <span class="ruby-identifier">avaliacao</span>
+<span class="line-num">25</span> <span class="ruby-keyword">end</span></pre>
+>>>>>>> sprint-3-documentacao
           </div>
 
 
 
+<<<<<<< HEAD
           <p>Initializes exporter with an evaluation.</p>
 
 <h4 id="method-c-new-label-Parameters">Parameters<span><a href="#method-c-new-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
 <ul><li>
 <p><code>avaliacao</code> - <a href="Avaliacao.html"><code>Avaliacao</code></a> instance to export results from</p>
+=======
+          <p>Initializes a new exporter for the given evaluation.</p>
+
+<h4 id="method-c-new-label-Parameters">Parameters<span><a href="#method-c-new-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>avaliacao</code> - <a href="Avaliacao.html"><code>Avaliacao</code></a> object to export results for</p>
+>>>>>>> sprint-3-documentacao
 </li></ul>
 
 
@@ -295,6 +330,7 @@
         <div class="method-description">
 
           <div class="method-source-code" id="call-source">
+<<<<<<< HEAD
             <pre><span class="ruby-comment"># File app/services/evaluation_results_exporter.rb, line 44</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">call</span>
   <span class="ruby-identifier">validate_export_conditions</span>
@@ -306,20 +342,50 @@
 <span class="ruby-keyword">ensure</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">force_failure</span> = <span class="ruby-keyword">false</span>
 <span class="ruby-keyword">end</span></pre>
+=======
+            <pre>   <span class="ruby-comment"># File app/services/evaluation_results_exporter.rb</span>
+<span class="line-num">39</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">call</span>
+<span class="line-num">40</span>   <span class="ruby-identifier">validate_export_conditions</span>
+<span class="line-num">41</span>   <span class="ruby-identifier">generate_csv_report</span>
+<span class="line-num">42</span> <span class="ruby-keyword">rescue</span> <span class="ruby-constant">ExportError</span>
+<span class="line-num">43</span>   <span class="ruby-identifier">raise</span>
+<span class="line-num">44</span> <span class="ruby-keyword">rescue</span> <span class="ruby-constant">StandardError</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">e</span>
+<span class="line-num">45</span>   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ExportError</span>, <span class="ruby-identifier">e</span>.<span class="ruby-identifier">message</span>
+<span class="line-num">46</span> <span class="ruby-keyword">ensure</span>
+<span class="line-num">47</span>   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">force_failure</span> = <span class="ruby-keyword">false</span>
+<span class="line-num">48</span> <span class="ruby-keyword">end</span></pre>
+>>>>>>> sprint-3-documentacao
           </div>
 
 
 
+<<<<<<< HEAD
           <p>Executes the CSV export.</p>
 
 <h4 id="method-i-call-label-Returns">Returns<span><a href="#method-i-call-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
 <ul><li>
 <p>String - CSV formatted content</p>
+=======
+          <p>Generates CSV content with evaluation results.</p>
+
+<h4 id="method-i-call-label-Returns">Returns<span><a href="#method-i-call-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>String - CSV content with headers and all response data</p>
+>>>>>>> sprint-3-documentacao
 </li></ul>
 
 <h4 id="method-i-call-label-Raises">Raises<span><a href="#method-i-call-label-Raises">&para;</a> <a href="#top">&uarr;</a></span></h4>
 <ul><li>
+<<<<<<< HEAD
 <p><a href="EvaluationResultsExporter/ExportError.html"><code>ExportError</code></a> - If no responses or export fails</p>
+=======
+<p><a href="EvaluationResultsExporter/ExportError.html"><code>ExportError</code></a> - If export conditions are not met or an error occurs</p>
+</li></ul>
+
+<h4 id="method-i-call-label-Side+Effects">Side Effects<span><a href="#method-i-call-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Queries database for responses and questions</p>
+>>>>>>> sprint-3-documentacao
 </li></ul>
 
 
@@ -356,20 +422,372 @@
         <div class="method-description">
 
           <div class="method-source-code" id="filename-source">
+<<<<<<< HEAD
             <pre><span class="ruby-comment"># File app/services/evaluation_results_exporter.rb, line 115</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">filename</span>
   <span class="ruby-identifier">parameterized</span> = <span class="ruby-ivar">@avaliacao</span>.<span class="ruby-identifier">title</span>.<span class="ruby-identifier">parameterize</span>
   <span class="ruby-node">&quot;#{parameterized}-resultados.csv&quot;</span>
 <span class="ruby-keyword">end</span></pre>
+=======
+            <pre>   <span class="ruby-comment"># File app/services/evaluation_results_exporter.rb</span>
+<span class="line-num">56</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">filename</span>
+<span class="line-num">57</span>   <span class="ruby-identifier">parameterized</span> = <span class="ruby-ivar">@avaliacao</span>.<span class="ruby-identifier">title</span>.<span class="ruby-identifier">parameterize</span>
+<span class="line-num">58</span>   <span class="ruby-node">&quot;#{parameterized}-resultados.csv&quot;</span>
+<span class="line-num">59</span> <span class="ruby-keyword">end</span></pre>
+>>>>>>> sprint-3-documentacao
           </div>
 
 
 
+<<<<<<< HEAD
           <p>Generates the filename for the CSV download.</p>
 
 <h4 id="method-i-filename-label-Returns">Returns<span><a href="#method-i-filename-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
 <ul><li>
 <p>String - Parameterized filename with .csv extension</p>
+=======
+          <p>Generates filename for the exported CSV file.</p>
+
+<h4 id="method-i-filename-label-Returns">Returns<span><a href="#method-i-filename-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>String - Filename based on evaluation title (e.g., “avaliacao-titulo-resultados.csv”)</p>
+</li></ul>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+    </section>
+
+     <section id="private-instance-5Buntitled-5D-method-details" class="method-section anchor-link">
+       <header>
+         <h3>Private Instance Methods</h3>
+       </header>
+
+
+      <div id="method-i-add_csv_header" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-add_csv_header" title="Link to this method">
+                <span class="method-name">add_csv_header</span>
+                <span class="method-args">(csv)</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="add_csv_header-source">
+            <pre>   <span class="ruby-comment"># File app/services/evaluation_results_exporter.rb</span>
+<span class="line-num">97</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add_csv_header</span>(<span class="ruby-identifier">csv</span>)
+<span class="line-num">98</span>   <span class="ruby-identifier">csv</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-string">&quot;Questão&quot;</span>, <span class="ruby-string">&quot;Aluno&quot;</span>, <span class="ruby-string">&quot;Resposta&quot;</span>, <span class="ruby-string">&quot;Enviado em&quot;</span>]
+<span class="line-num">99</span> <span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+          <p>Adds CSV header row.</p>
+
+<h4 id="method-i-add_csv_header-label-Parameters">Parameters<span><a href="#method-i-add_csv_header-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>csv</code> - CSV object to write to</p>
+</li></ul>
+
+<h4 id="method-i-add_csv_header-label-Side+Effects">Side Effects<span><a href="#method-i-add_csv_header-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Writes header row to CSV</p>
+</li></ul>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-add_csv_rows" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-add_csv_rows" title="Link to this method">
+                <span class="method-name">add_csv_rows</span>
+                <span class="method-args">(csv)</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="add_csv_rows-source">
+            <pre>    <span class="ruby-comment"># File app/services/evaluation_results_exporter.rb</span>
+<span class="line-num">110</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add_csv_rows</span>(<span class="ruby-identifier">csv</span>)
+<span class="line-num">111</span>   <span class="ruby-ivar">@avaliacao</span>.<span class="ruby-identifier">questoes</span>.<span class="ruby-identifier">includes</span>(<span class="ruby-value">resposta_items:</span> <span class="ruby-value">:resposta</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">questao</span><span class="ruby-operator">|</span>
+<span class="line-num">112</span>     <span class="ruby-identifier">add_questao_rows</span>(<span class="ruby-identifier">csv</span>, <span class="ruby-identifier">questao</span>)
+<span class="line-num">113</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">114</span> <span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+          <p>Adds all data rows to CSV.</p>
+
+<h4 id="method-i-add_csv_rows-label-Parameters">Parameters<span><a href="#method-i-add_csv_rows-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>csv</code> - CSV object to write to</p>
+</li></ul>
+
+<h4 id="method-i-add_csv_rows-label-Side+Effects">Side Effects<span><a href="#method-i-add_csv_rows-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Writes data rows to CSV</p>
+</li></ul>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-add_questao_rows" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-add_questao_rows" title="Link to this method">
+                <span class="method-name">add_questao_rows</span>
+                <span class="method-args">(csv, questao)</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="add_questao_rows-source">
+            <pre>    <span class="ruby-comment"># File app/services/evaluation_results_exporter.rb</span>
+<span class="line-num">126</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add_questao_rows</span>(<span class="ruby-identifier">csv</span>, <span class="ruby-identifier">questao</span>)
+<span class="line-num">127</span>   <span class="ruby-identifier">questao</span>.<span class="ruby-identifier">resposta_items</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">item</span><span class="ruby-operator">|</span>
+<span class="line-num">128</span>     <span class="ruby-identifier">csv</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">build_csv_row</span>(<span class="ruby-identifier">questao</span>, <span class="ruby-identifier">item</span>)
+<span class="line-num">129</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">130</span> <span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+          <p>Adds rows for a specific question.</p>
+
+<h4 id="method-i-add_questao_rows-label-Parameters">Parameters<span><a href="#method-i-add_questao_rows-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>csv</code> - CSV object to write to</p>
+</li><li>
+<p><code>questao</code> - <a href="Questao.html"><code>Questao</code></a> object</p>
+</li></ul>
+
+<h4 id="method-i-add_questao_rows-label-Side+Effects">Side Effects<span><a href="#method-i-add_questao_rows-label-Side+Effects">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Writes rows for each response to the question</p>
+</li></ul>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-build_csv_row" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-build_csv_row" title="Link to this method">
+                <span class="method-name">build_csv_row</span>
+                <span class="method-args">(questao, item)</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="build_csv_row-source">
+            <pre>    <span class="ruby-comment"># File app/services/evaluation_results_exporter.rb</span>
+<span class="line-num">142</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_csv_row</span>(<span class="ruby-identifier">questao</span>, <span class="ruby-identifier">item</span>)
+<span class="line-num">143</span>   [<span class="ruby-identifier">questao</span>.<span class="ruby-identifier">prompt</span>, <span class="ruby-identifier">item</span>.<span class="ruby-identifier">resposta</span>.<span class="ruby-identifier">dicente</span>.<span class="ruby-identifier">nome</span>, <span class="ruby-identifier">item</span>.<span class="ruby-identifier">valor</span>, <span class="ruby-identifier">item</span>.<span class="ruby-identifier">resposta</span>.<span class="ruby-identifier">submitted_at</span>]
+<span class="line-num">144</span> <span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+          <p>Builds a CSV row from question and response item.</p>
+
+<h4 id="method-i-build_csv_row-label-Parameters">Parameters<span><a href="#method-i-build_csv_row-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>questao</code> - <a href="Questao.html"><code>Questao</code></a> object</p>
+</li><li>
+<p><code>item</code> - <a href="RespostaItem.html"><code>RespostaItem</code></a> object</p>
+</li></ul>
+
+<h4 id="method-i-build_csv_row-label-Returns">Returns<span><a href="#method-i-build_csv_row-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Array - CSV row data [question prompt, student name, response value, submitted_at]</p>
+</li></ul>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-generate_csv_report" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-generate_csv_report" title="Link to this method">
+                <span class="method-name">generate_csv_report</span>
+                <span class="method-args">()</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="generate_csv_report-source">
+            <pre>   <span class="ruby-comment"># File app/services/evaluation_results_exporter.rb</span>
+<span class="line-num">81</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">generate_csv_report</span>
+<span class="line-num">82</span>   <span class="ruby-constant">CSV</span>.<span class="ruby-identifier">generate</span>(<span class="ruby-value">headers:</span> <span class="ruby-keyword">true</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">csv</span><span class="ruby-operator">|</span>
+<span class="line-num">83</span>     <span class="ruby-identifier">add_csv_header</span>(<span class="ruby-identifier">csv</span>)
+<span class="line-num">84</span>     <span class="ruby-identifier">add_csv_rows</span>(<span class="ruby-identifier">csv</span>)
+<span class="line-num">85</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">86</span> <span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+          <p>Generates CSV content with headers and rows.</p>
+
+<h4 id="method-i-generate_csv_report-label-Returns">Returns<span><a href="#method-i-generate_csv_report-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>String - Complete CSV content</p>
+</li></ul>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-validate_export_conditions" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-validate_export_conditions" title="Link to this method">
+                <span class="method-name">validate_export_conditions</span>
+                <span class="method-args">()</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="validate_export_conditions-source">
+            <pre>   <span class="ruby-comment"># File app/services/evaluation_results_exporter.rb</span>
+<span class="line-num">70</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">validate_export_conditions</span>
+<span class="line-num">71</span>   <span class="ruby-identifier">raise</span> <span class="ruby-constant">StandardError</span>, <span class="ruby-string">&quot;Serviço de exportação indisponível&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">force_failure</span>
+<span class="line-num">72</span>   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ExportError</span>, <span class="ruby-string">&quot;Ainda não há respostas disponíveis&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@avaliacao</span>.<span class="ruby-identifier">respostas</span>.<span class="ruby-identifier">none?</span>
+<span class="line-num">73</span> <span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+          <p>Validates that export can proceed.</p>
+
+<h4 id="method-i-validate_export_conditions-label-Raises">Raises<span><a href="#method-i-validate_export_conditions-label-Raises">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>StandardError - If service is forced to fail (testing)</p>
+</li><li>
+<p><a href="EvaluationResultsExporter/ExportError.html"><code>ExportError</code></a> - If no responses are available</p>
+>>>>>>> sprint-3-documentacao
 </li></ul>
 
 

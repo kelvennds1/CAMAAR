@@ -1,15 +1,53 @@
 # app/controllers/sigaa_imports_controller.rb
+##
+# Controller for importing data from SIGAA JSON files.
+# Handles file uploads and database updates from SIGAA system.
+#
 class SigaaImportsController < ApplicationController
     before_action :require_admin
   
+    ##
+    # Displays the form for uploading SIGAA import files.
+    #
+    # ==== Returns
+    # * Renders new view with import form
+    #
+    # ==== Side Effects
+    # * None
+    #
     def new
       # Renderiza formulário de importação
     end
 
+    ##
+    # Lists import history and status.
+    #
+    # ==== Returns
+    # * Renders index view with import history
+    #
+    # ==== Side Effects
+    # * None
+    #
     def index
       # Renderiza página de listagem/histórico de importações
     end
   
+  ##
+  # Processes uploaded SIGAA files and imports data into the database.
+  #
+  # ==== Parameters
+  # * +params[:classes_file]+ - UploadedFile with classes JSON data
+  # * +params[:class_members_file]+ - UploadedFile with class members JSON data
+  #
+  # ==== Returns
+  # * Redirects to sigaa_imports_path on success
+  # * Renders new view with errors on failure
+  #
+  # ==== Side Effects
+  # * Creates/updates records in database (Materia, Turma, Docente, Dicente, Matricula)
+  # * Sends password setup emails to newly created users
+  # * Sets flash[:notice] on success or flash[:alert] on failure
+  #
   def create
     result = SigaaImporter.call(
       classes_file: params[:classes_file],
@@ -27,11 +65,23 @@ class SigaaImportsController < ApplicationController
     end
 
     ##
+<<<<<<< HEAD
     # Updates database from JSON files in repository.
     #
     # ==== Side Effects
     # * Imports data from classes.json and class_members.json
     # * Redirects with success or error message
+=======
+    # Updates database using JSON files from the repository root.
+    #
+    # ==== Returns
+    # * Redirects to sigaa_imports_path
+    #
+    # ==== Side Effects
+    # * Reads classes.json and class_members.json from repository root
+    # * Creates/updates records in database
+    # * Sets flash[:notice] on success or flash[:alert] on failure
+>>>>>>> sprint-3-documentacao
     #
     def update_database
       return unless validate_json_files_exist
@@ -97,6 +147,21 @@ class SigaaImportsController < ApplicationController
       end
     end
   
+<<<<<<< HEAD
+=======
+    private
+  
+    ##
+    # Requires current user to be an admin.
+    #
+    # ==== Returns
+    # * Redirects to root_path if user is not admin
+    #
+    # ==== Side Effects
+    # * Sets flash[:alert] with access denied message
+    # * Redirects to root_path if user is not admin
+    #
+>>>>>>> sprint-3-documentacao
     def require_admin
       unless current_user&.admin?
         flash[:alert] = "Acesso negado"

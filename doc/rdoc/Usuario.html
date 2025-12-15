@@ -5,13 +5,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>class Usuario - RDoc Documentation</title>
+<title>class Usuario - CAMAAR - Documentação</title>
 
 
   <meta name="keywords" content="ruby,class,Usuario">
 
 
+<<<<<<< HEAD
     <meta name="description" content="class Usuario: Base model for all system users (STI parent class). Uses Single Table Inheritance (STI) with Docente and Dicente subclasses.">
+=======
+    <meta name="description" content="class Usuario: Base model for all users in the system. Uses Single Table Inheritance (STI) to represent different user types (Docente, Dicente).">
+>>>>>>> sprint-3-documentacao
 
 
 
@@ -94,7 +98,11 @@
 
       <li ><a href="#method-i-dicente-3F">dicente?</a></li>
 
+      <li ><a href="#method-i-dicentes">dicentes</a></li>
+
       <li ><a href="#method-i-docente-3F">docente?</a></li>
+
+      <li ><a href="#method-i-docentes">docentes</a></li>
 
     </ul>
   </div>
@@ -119,6 +127,7 @@
 
   <section class="description">
     
+<<<<<<< HEAD
 <p>Base model for all system users (STI parent class). Uses Single Table Inheritance (STI) with <a href="Docente.html"><code>Docente</code></a> and <a href="Dicente.html"><code>Dicente</code></a> subclasses.</p>
 
 <h4 id="class-Usuario-label-Attributes">Attributes<span><a href="#class-Usuario-label-Attributes">&para;</a> <a href="#top">&uarr;</a></span></h4>
@@ -141,6 +150,9 @@
 </li><li>
 <p><code>activation_token_expires_at</code> - Token expiration datetime</p>
 </li></ul>
+=======
+<p>Base model for all users in the system. Uses Single Table Inheritance (STI) to represent different user types (<a href="Docente.html"><code>Docente</code></a>, <a href="Dicente.html"><code>Dicente</code></a>).</p>
+>>>>>>> sprint-3-documentacao
 
   </section>
 
@@ -185,19 +197,82 @@
         <div class="method-description">
 
           <div class="method-source-code" id="dicente-3F-source">
+<<<<<<< HEAD
             <pre><span class="ruby-comment"># File app/models/usuario.rb, line 45</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">dicente?</span>
         <span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Dicente</span>)
 <span class="ruby-keyword">end</span></pre>
+=======
+            <pre>   <span class="ruby-comment"># File app/models/usuario.rb</span>
+<span class="line-num">47</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">dicente?</span>
+<span class="line-num">48</span>         <span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Dicente</span>)
+<span class="line-num">49</span> <span class="ruby-keyword">end</span></pre>
+>>>>>>> sprint-3-documentacao
           </div>
 
 
 
+<<<<<<< HEAD
           <p>Checks if user is a student.</p>
 
 <h4 id="method-i-dicente-3F-label-Returns">Returns<span><a href="#method-i-dicente-3F-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
 <ul><li>
 <p>Boolean - true if user is a <a href="Dicente.html"><code>Dicente</code></a> instance</p>
+=======
+          <p>Checks if user is a student (dicente).</p>
+
+<h4 id="method-i-dicente-3F-label-Returns">Returns<span><a href="#method-i-dicente-3F-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Boolean - true if user is a <a href="Dicente.html"><code>Dicente</code></a>, false otherwise</p>
+</li></ul>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-dicentes" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-dicentes" title="Link to this method">
+                <span class="method-name">dicentes</span>
+                <span class="method-args">()</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="dicentes-source">
+            <pre>   <span class="ruby-comment"># File app/models/usuario.rb</span>
+<span class="line-num">29</span> <span class="ruby-identifier">scope</span> <span class="ruby-value">:dicentes</span>, <span class="ruby-operator">-&gt;</span> { <span class="ruby-identifier">where</span>(<span class="ruby-value">type:</span> <span class="ruby-string">&quot;Dicente&quot;</span>) }
+</pre>
+          </div>
+
+
+
+          <p>Finds all students (dicentes).</p>
+
+<h4 id="method-i-dicentes-label-Returns">Returns<span><a href="#method-i-dicentes-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>ActiveRecord::Relation - Collection of <a href="Dicente.html"><code>Dicente</code></a> records</p>
+>>>>>>> sprint-3-documentacao
 </li></ul>
 
 
@@ -234,19 +309,82 @@
         <div class="method-description">
 
           <div class="method-source-code" id="docente-3F-source">
+<<<<<<< HEAD
             <pre><span class="ruby-comment"># File app/models/usuario.rb, line 35</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">docente?</span>
         <span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Docente</span>)
 <span class="ruby-keyword">end</span></pre>
+=======
+            <pre>   <span class="ruby-comment"># File app/models/usuario.rb</span>
+<span class="line-num">37</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">docente?</span>
+<span class="line-num">38</span>         <span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Docente</span>)
+<span class="line-num">39</span> <span class="ruby-keyword">end</span></pre>
+>>>>>>> sprint-3-documentacao
           </div>
 
 
 
+<<<<<<< HEAD
           <p>Checks if user is a teacher.</p>
 
 <h4 id="method-i-docente-3F-label-Returns">Returns<span><a href="#method-i-docente-3F-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
 <ul><li>
 <p>Boolean - true if user is a <a href="Docente.html"><code>Docente</code></a> instance</p>
+=======
+          <p>Checks if user is a teacher (docente).</p>
+
+<h4 id="method-i-docente-3F-label-Returns">Returns<span><a href="#method-i-docente-3F-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Boolean - true if user is a <a href="Docente.html"><code>Docente</code></a>, false otherwise</p>
+</li></ul>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-docentes" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-docentes" title="Link to this method">
+                <span class="method-name">docentes</span>
+                <span class="method-args">()</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+
+
+
+        <div class="method-description">
+
+          <div class="method-source-code" id="docentes-source">
+            <pre>   <span class="ruby-comment"># File app/models/usuario.rb</span>
+<span class="line-num">21</span> <span class="ruby-identifier">scope</span> <span class="ruby-value">:docentes</span>, <span class="ruby-operator">-&gt;</span> { <span class="ruby-identifier">where</span>(<span class="ruby-value">type:</span> <span class="ruby-string">&quot;Docente&quot;</span>) }
+</pre>
+          </div>
+
+
+
+          <p>Finds all teachers (docentes).</p>
+
+<h4 id="method-i-docentes-label-Returns">Returns<span><a href="#method-i-docentes-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>ActiveRecord::Relation - Collection of <a href="Docente.html"><code>Docente</code></a> records</p>
+>>>>>>> sprint-3-documentacao
 </li></ul>
 
 

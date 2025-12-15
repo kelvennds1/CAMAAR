@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Mon, 15 Dec 2025 13:58:36 +0000
 app/assets/stylesheets/application.css	Mon, 08 Dec 2025 22:19:55 +0000
 app/controllers/application_controller.rb	Mon, 08 Dec 2025 22:19:55 +0000
@@ -34,3 +35,31 @@ app/services/evaluation_results_exporter.rb	Mon, 15 Dec 2025 13:57:55 +0000
 app/services/report_generator.rb	Mon, 15 Dec 2025 13:57:56 +0000
 app/services/sigaa_importer.rb	Mon, 15 Dec 2025 13:51:29 +0000
 app/views/pwa/service-worker.js	Sun, 16 Nov 2025 23:15:07 +0000
+=======
+Mon, 15 Dec 2025 10:49:29 -0300
+app/controllers/application_controller.rb	Mon, 15 Dec 2025 10:41:59 -0300
+app/controllers/avaliacoes_controller.rb	Mon, 15 Dec 2025 10:12:10 -0300
+app/controllers/passwords_controller.rb	Mon, 15 Dec 2025 10:44:21 -0300
+app/controllers/resultados_controller.rb	Mon, 15 Dec 2025 10:42:49 -0300
+app/controllers/sessions_controller.rb	Mon, 15 Dec 2025 10:42:17 -0300
+app/controllers/sigaa_imports_controller.rb	Mon, 15 Dec 2025 10:43:18 -0300
+app/controllers/templates_controller.rb	Mon, 15 Dec 2025 10:45:05 -0300
+app/models/application_record.rb	Sun, 16 Nov 2025 20:28:41 -0300
+app/models/avaliacao.rb	Mon, 15 Dec 2025 10:45:27 -0300
+app/models/dicente.rb	Sat, 06 Dec 2025 22:51:27 -0300
+app/models/docente.rb	Sat, 06 Dec 2025 22:51:27 -0300
+app/models/materia.rb	Sat, 06 Dec 2025 22:51:27 -0300
+app/models/matricula.rb	Sat, 06 Dec 2025 22:51:27 -0300
+app/models/questao.rb	Mon, 15 Dec 2025 10:46:00 -0300
+app/models/resposta.rb	Mon, 15 Dec 2025 10:46:07 -0300
+app/models/resposta_item.rb	Sat, 06 Dec 2025 22:51:27 -0300
+app/models/template.rb	Mon, 15 Dec 2025 10:45:41 -0300
+app/models/template_question.rb	Sat, 06 Dec 2025 22:51:27 -0300
+app/models/turma.rb	Sat, 06 Dec 2025 22:51:27 -0300
+app/models/usuario.rb	Mon, 15 Dec 2025 10:45:52 -0300
+app/services/evaluation_batch_creator.rb	Mon, 15 Dec 2025 10:48:47 -0300
+app/services/evaluation_result_aggregator.rb	Mon, 15 Dec 2025 10:46:38 -0300
+app/services/evaluation_results_exporter.rb	Mon, 15 Dec 2025 10:47:32 -0300
+app/services/report_generator.rb	Mon, 15 Dec 2025 10:47:02 -0300
+app/services/sigaa_importer.rb	Mon, 15 Dec 2025 10:12:10 -0300
+>>>>>>> sprint-3-documentacao
