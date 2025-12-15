@@ -4,10 +4,10 @@
 # are locale specific, and you may define rules for as many different
 # locales as you wish. All of these examples are active by default:
 ActiveSupport::Inflector.inflections(:en) do |inflect|
-	inflect.irregular "materia", "materias"
-	inflect.irregular "avaliacao", "avaliacoes"
-	inflect.irregular "questao", "questoes"
-	inflect.irregular "resposta", "respostas"
+  inflect.irregular "materia", "materias"
+  inflect.irregular "avaliacao", "avaliacoes"
+  inflect.irregular "questao", "questoes"
+  inflect.irregular "resposta", "respostas"
 end
 
 # These inflection rules are supported but not enabled by default:

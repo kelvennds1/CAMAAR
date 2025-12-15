@@ -19,17 +19,17 @@ Given('que estou autenticado como administrador') do
     # Mantém compatibilidade com cenários que esperam @admin
     @admin = @admin_docente
   end
-  
+
   # Fazer login apenas se não estiver logado
   unless @admin_logged_in
     begin
       # Tentar verificar se já está logado
       current_path = page.current_path rescue nil
-      is_logged_in = current_path && current_path != login_path && 
-                     (page.has_content?("Templates") rescue false) || 
-                     (page.has_content?("Avaliações") rescue false) || 
+      is_logged_in = current_path && current_path != login_path &&
+                     (page.has_content?("Templates") rescue false) ||
+                     (page.has_content?("Avaliações") rescue false) ||
                      (page.has_content?("Resultados") rescue false)
-      
+
       unless is_logged_in
         visit login_path
         fill_in "email", with: @admin_docente.email

@@ -1,3 +1,19 @@
+##
+# Model representing a student's response to an evaluation.
+# Contains the submission metadata and links to individual answer items.
+#
+# ==== Attributes
+# * +status+ - Response status (pending, submitted, reviewed)
+# * +submitted_at+ - Timestamp when response was submitted
+#
+# ==== Associations
+# * belongs_to :avaliacao - The evaluation being responded to
+# * belongs_to :dicente - The student who submitted this response
+# * has_many :resposta_items - Individual answers to each question
+#
+# ==== Validations
+# * One response per student per evaluation (unique dicente_id + avaliacao_id)
+#
 class Resposta < ApplicationRecord
   self.table_name = "respostas"
 

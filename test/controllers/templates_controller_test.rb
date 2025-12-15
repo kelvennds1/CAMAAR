@@ -3,6 +3,7 @@ require "test_helper"
 class TemplatesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @docente = create_docente(nome: "Prof. Controller")
+    sign_in @docente
   end
 
   test "should get index" do
@@ -47,6 +48,6 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :unprocessable_entity
-    assert_match "Corrija os erros", response.body
+    assert_match "Corrija os campos destacados", response.body
   end
 end

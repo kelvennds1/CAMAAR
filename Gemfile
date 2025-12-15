@@ -58,6 +58,10 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "faker"
   gem "shoulda-matchers", "~> 6.0"
+  gem "rubycritic", require: false
+  gem "simplecov", require: false
+  gem "rdoc"
+  gem "metric_fu-Saikuro", require: false
 end
 
 group :development do

@@ -19,7 +19,7 @@ RSpec.describe EvaluationResultsExporter do
         csv_payload = exporter.call
         table = CSV.parse(csv_payload, headers: true)
 
-        expect(table.headers).to eq(["Questão", "Aluno", "Resposta", "Enviado em"])
+        expect(table.headers).to eq([ "Questão", "Aluno", "Resposta", "Enviado em" ])
         expect(table.first["Questão"]).to eq("Clareza")
         expect(table.first["Aluno"]).to eq("Aluno QA")
         expect(table.first["Resposta"]).to eq("5")

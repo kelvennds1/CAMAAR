@@ -1,6 +1,26 @@
+##
+# Model representing a question in an evaluation.
+# Questions are created from template questions when an evaluation is generated.
+#
+# ==== Attributes
+# * +prompt+ - Question text/statement
+# * +question_type+ - Type of question (likert, multiple_choice, text)
+# * +position+ - Order position in the evaluation
+# * +weight+ - Score weight for this question
+# * +mandatory+ - Whether the question must be answered
+# * +options+ - JSON array of options (for multiple_choice)
+# * +min_value+ / +max_value+ - Scale range (for likert)
+#
+# ==== Associations
+# * belongs_to :avaliacao - The evaluation this question belongs to
+# * belongs_to :template_question - The template question this was created from (optional)
+# * has_many :resposta_items - Student responses to this question
+#
 class Questao < ApplicationRecord
   self.table_name = "questoes"
 
+  # Constante com os tipos de questão suportados.
+  # Referencia TemplateQuestion::QUESTION_TYPES para manter consistência.
   QUESTION_TYPES = TemplateQuestion::QUESTION_TYPES
 
   belongs_to :avaliacao
@@ -12,6 +32,12 @@ class Questao < ApplicationRecord
   validates :question_type, inclusion: { in: QUESTION_TYPES.values }
   validates :position, numericality: { greater_than: 0 }
 
+  ##
+  # Checks if this question accepts numeric responses (Likert scale).
+  #
+  # ==== Returns
+  # * Boolean - true if question_type is likert, false otherwise
+  #
   def numeric?
     question_type == QUESTION_TYPES[:likert]
   end

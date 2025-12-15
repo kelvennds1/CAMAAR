@@ -95,7 +95,7 @@ RSpec.describe "Passwords", type: :request do
         }
 
         # Password validation will fail and redirect to appropriate page
-        expect(response.status).to be_in([302, 422])
+        expect(response.status).to be_in([ 302, 422 ])
       end
 
       it "does not activate the user" do

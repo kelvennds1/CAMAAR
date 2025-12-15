@@ -14,6 +14,6 @@ class CreateAvaliacaos < ActiveRecord::Migration[8.1]
       t.timestamps
     end
 
-    add_index :avaliacoes, [:turma_id, :title], unique: true
+    add_index :avaliacoes, [ :turma_id, :title ], unique: true
   end
 end

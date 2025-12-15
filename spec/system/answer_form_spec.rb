@@ -9,7 +9,7 @@ RSpec.describe "Answer Form Journey", type: :system do
   before do
     # Create questions
     create(:questao, :likert, avaliacao: avaliacao, position: 1, mandatory: true, prompt: "Satisfação geral")
-    create(:questao, :multiple_choice, avaliacao: avaliacao, position: 2, mandatory: true, prompt: "Escolha uma opção", options: ["Opção 1", "Opção 2", "Opção 3"].to_json)
+    create(:questao, :multiple_choice, avaliacao: avaliacao, position: 2, mandatory: true, prompt: "Escolha uma opção", options: [ "Opção 1", "Opção 2", "Opção 3" ].to_json)
     create(:questao, :text, avaliacao: avaliacao, position: 3, mandatory: false, prompt: "Comentário opcional")
 
     login_as_system_user(dicente)
@@ -187,7 +187,7 @@ RSpec.describe "Answer Form Journey", type: :system do
     before do
       create(:questao, :likert, avaliacao: complex_avaliacao, position: 1, min_value: 1, max_value: 10)
       create(:questao, :text, avaliacao: complex_avaliacao, position: 2)
-      create(:questao, :multiple_choice, avaliacao: complex_avaliacao, position: 3, options: ["A", "B", "C", "D"].to_json)
+      create(:questao, :multiple_choice, avaliacao: complex_avaliacao, position: 3, options: [ "A", "B", "C", "D" ].to_json)
     end
 
     it "handles likert scale with custom range" do
@@ -200,7 +200,7 @@ RSpec.describe "Answer Form Journey", type: :system do
     it "handles multiple choice with many options" do
       visit responder_avaliacao_path(complex_avaliacao)
 
-      ["A", "B", "C", "D"].each do |option|
+      [ "A", "B", "C", "D" ].each do |option|
         expect(page).to have_content(option)
       end
     end

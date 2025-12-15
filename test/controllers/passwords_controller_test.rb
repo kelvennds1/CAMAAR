@@ -24,7 +24,7 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
   test "should redirect with invalid token" do
     get password_setup_url(token: "invalid-token")
     assert_redirected_to request_new_password_path
-    assert_equal "Password setup link is invalid or expired", flash[:alert]
+    assert_equal "Link de configuração de senha é inválido ou expirado", flash[:alert]
   end
 
   test "should redirect with expired token" do
@@ -55,7 +55,7 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     }
 
     assert_response :unprocessable_entity
-    assert_select "div.alert-error", text: /Password confirmation doesn't match/
+    assert_select "div.alert-error", text: /confirmação de senha não corresponde/i
   end
 
   test "should not set password with invalid token" do

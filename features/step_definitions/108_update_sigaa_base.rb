@@ -65,7 +65,7 @@ Dado('os arquivos JSON refletem essas alterações') do
     }
   ].to_json
 
-  @modified_classes_file = Tempfile.new(['modified_classes', '.json'])
+  @modified_classes_file = Tempfile.new([ 'modified_classes', '.json' ])
   @modified_classes_file.write(@modified_classes_data)
   @modified_classes_file.rewind
 end
@@ -138,7 +138,7 @@ Dado('os arquivos JSON contêm esses novos alunos') do
     }
   ].to_json
 
-  @modified_members_file = Tempfile.new(['modified_members', '.json'])
+  @modified_members_file = Tempfile.new([ 'modified_members', '.json' ])
   @modified_members_file.write(@modified_members_data)
   @modified_members_file.rewind
 end
@@ -193,7 +193,7 @@ Dado('o arquivo JSON reflete essas alterações') do
     }
   ].to_json
 
-  @modified_members_file = Tempfile.new(['modified_members', '.json'])
+  @modified_members_file = Tempfile.new([ 'modified_members', '.json' ])
   @modified_members_file.write(@modified_members_data)
   @modified_members_file.rewind
 end
@@ -228,7 +228,7 @@ Dado('o arquivo JSON reflete essa alteração') do
     }
   ].to_json
 
-  @modified_classes_file = Tempfile.new(['modified_classes', '.json'])
+  @modified_classes_file = Tempfile.new([ 'modified_classes', '.json' ])
   @modified_classes_file.write(@modified_classes_data)
   @modified_classes_file.rewind
 end
@@ -247,7 +247,7 @@ end
 Dado('que existe uma tarefa agendada para atualização periódica') do
   # Carregar as rake tasks
   Rails.application.load_tasks
-  
+
   # Verificar se a rake task existe
   rake_task_exists = Rake::Task.task_defined?('sigaa:update_database')
   expect(rake_task_exists).to be true
@@ -256,7 +256,7 @@ end
 Dado('os arquivos JSON estão disponíveis no repositório') do
   @classes_file_path = Rails.root.join('classes.json')
   @members_file_path = Rails.root.join('class_members.json')
-  
+
   expect(File.exist?(@classes_file_path)).to be true
   expect(File.exist?(@members_file_path)).to be true
 end
@@ -264,7 +264,7 @@ end
 Quando('a tarefa agendada é executada') do
   # Carregar as rake tasks
   Rails.application.load_tasks
-  
+
   # Executar a rake task
   begin
     # Limpar a task para permitir múltiplas execuções
@@ -296,7 +296,7 @@ end
 # Cenário: Tratar erros durante atualização
 Dado('que ocorre um erro durante a atualização dos dados') do
   # Criar arquivo JSON inválido para forçar erro
-  @invalid_json_file = Tempfile.new(['invalid', '.json'])
+  @invalid_json_file = Tempfile.new([ 'invalid', '.json' ])
   @invalid_json_file.write('{ invalid json content }')
   @invalid_json_file.rewind
   @modified_classes_file = @invalid_json_file
@@ -319,7 +319,7 @@ Então('nenhum dado é corrompido no processo') do
   @turma_inicial.reload
   expect(@turma_inicial.materia).not_to be_nil
   expect(@turma_inicial.docente).not_to be_nil
-  
+
   @matricula_inicial.reload
   expect(@matricula_inicial.dicente).not_to be_nil
   expect(@matricula_inicial.turma).not_to be_nil
@@ -341,11 +341,11 @@ end
 
 # Limpeza após os testes
 After do
-  files_to_clean = [@modified_classes_file, @modified_members_file, @temp_classes_file, @temp_members_file, @invalid_json_file].compact
-  
+  files_to_clean = [ @modified_classes_file, @modified_members_file, @temp_classes_file, @temp_members_file, @invalid_json_file ].compact
+
   files_to_clean.each do |file|
     next if file.nil?
-    
+
     begin
       if file.respond_to?(:path)
         file_path = file.path
@@ -360,4 +360,3 @@ After do
     end
   end
 end
-

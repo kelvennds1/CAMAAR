@@ -40,7 +40,7 @@ class EvaluationBatchCreatorTest < ActiveSupport::TestCase
 
     assert_predicate result, :success?
     assert_equal 1, result.created.size
-    assert_equal [@turmas.first], result.skipped
+    assert_equal [ @turmas.first ], result.skipped
   end
 
   test "returns validation error when parameters are missing" do
@@ -83,6 +83,6 @@ class EvaluationBatchCreatorTest < ActiveSupport::TestCase
   def current_semester_label
     date = Time.zone.today
     term = date.month <= 6 ? 1 : 2
-    format('%<year>d.%<term>d', year: date.year, term: term)
+    format("%<year>d.%<term>d", year: date.year, term: term)
   end
 end

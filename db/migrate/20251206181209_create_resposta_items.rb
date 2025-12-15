@@ -8,6 +8,6 @@ class CreateRespostaItems < ActiveRecord::Migration[8.1]
       t.timestamps
     end
 
-    add_index :resposta_items, [:resposta_id, :questao_id], unique: true
+    add_index :resposta_items, [ :resposta_id, :questao_id ], unique: true
   end
 end
